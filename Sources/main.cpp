@@ -7,32 +7,40 @@ and may not be redistributed without written permission.*/
 #include "Window.h"
 #include "Input.h"
 #include "SDL.h"
-#include "Texture.h"
+#include "Sprite.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-int main( int argc, char* args[] )
+int main(int argc, char* args[])
 {
-	
 	SDL::init();
 
 	Window window(SCREEN_WIDTH, SCREEN_HEIGHT);
 	
-	Texture kuva(&window, "testi.png");
-		kuva.render();
+	SDL_Rect sama = 
+	{
+		16,16,160,160
+	};
 
+
+
+
+	Sprite kuva(&window, "testi.png", 16, 16);
+	kuva.crop(sama);
+	kuva.render(0,0);
+		
 	bool gameover = false;
 
 	while (!gameover) {
 		if (Input::keyState(SDL_SCANCODE_ESCAPE)) {
 			gameover = true;
 		}
+
 		Input::update();
 		window.refresh();
 	}
-
 
 	return 0;
 }

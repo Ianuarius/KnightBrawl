@@ -9,7 +9,8 @@
 #define KEYBOARD_SIZE 282
 #include "SDL.h"
 
-class Input {
+class Input
+{
 
 public:
 	Input();

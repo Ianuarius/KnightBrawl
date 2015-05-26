@@ -9,7 +9,8 @@
 #include <stdio.h>
 #include "Input.h"
 
-class Window {
+class Window 
+{
 public:
 	Window(int window_width, int window_height);
 	void refresh();

@@ -4,13 +4,17 @@
  */
 #include "Texture.h"
 
-Texture::Texture(Window *window, std::string filename) {
+Texture::Texture(Window *window, std::string filename):
+	clipRect()
+{
 	renderer = window->getRenderer();
 	texture = loadImage(filename);
 
+	SDL_QueryTexture(texture, NULL, NULL, &width, &height);
 }
 
-SDL_Texture *Texture::loadImage(std::string path) {
+SDL_Texture *Texture::loadImage(std::string path)
+{
 
 	SDL_Surface* surface = IMG_Load(path.c_str());
 	
@@ -21,12 +25,13 @@ SDL_Texture *Texture::loadImage(std::string path) {
 	return newTexture;
 }
 
-void Texture::render() {
+void Texture::render(int x, int y)
+{
 	int width, height;
 	SDL_QueryTexture(texture, NULL, NULL, &width, &height);
 
-	SDL_Rect clip = {0, 0, width, height};
-	clipRect = clip;
+	//SDL_Rect clip = {0, 0, width, height};
+	//clipRect = clip;
 	
 	SDL_Rect destination = {0, 0, clipRect.w, clipRect.h};
 	SDL_RendererFlip flag = SDL_FLIP_NONE;
@@ -38,4 +43,24 @@ void Texture::render() {
 void Texture::free()
 {
 	SDL_DestroyTexture(texture);
+}
+
+void Texture::crop(SDL_Rect rect)
+{
+	clipRect.x = rect.x;
+	clipRect.y = rect.y;
+	clipRect.w = rect.w;
+	clipRect.h = rect.h;
+
+
+}
+
+int Texture::getWidth()
+{
+	return width;
+}
+
+int Texture::getHeight()
+{
+	return height;
 }

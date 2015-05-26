@@ -26,12 +26,14 @@ Window::Window(int window_width, int window_height):
 
 }
 
-void Window::refresh() {
+void Window::refresh()
+{
 
 	SDL_RenderPresent(renderer);
 
 }
 
-SDL_Renderer *Window::getRenderer() {
+SDL_Renderer *Window::getRenderer()
+{
 	return renderer;
 }

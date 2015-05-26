@@ -9,18 +9,24 @@
 #include "Window.h"
 
 
-class Texture {
+class Texture 
+{
 
 public:
 	Texture(Window *window, std::string filename);
-	void render();
+	void render(int x, int y);
 	void free();
+	void crop(SDL_Rect rect);
+	int getWidth();
+	int getHeight();
 	
 private:
 	SDL_Texture *loadImage(std::string path);
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
 	SDL_Rect clipRect;
+	int height;
+	int width;
 };
 
 

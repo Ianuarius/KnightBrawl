@@ -8,7 +8,8 @@
 bool Input::key[KEYBOARD_SIZE] = {0};
 const Uint8* Input::keyboard = NULL;
 
-Input::Input() {
+Input::Input()
+{
 
 }
 
@@ -39,7 +40,8 @@ void Input::update() {
 	}
 }
 
-bool Input::keyState(int k) {
+bool Input::keyState(int k)
+{
 	/*
 	if(isLocked) {
 		return false;
