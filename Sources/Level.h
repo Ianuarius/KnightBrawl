@@ -28,10 +28,10 @@ class Level
 public:
 	
 	Level(Window *window);
-		~Level();
 	void load(std::string level_name);
 	int getLevelWidth();
 	int getLevelHeight();
+	void render(int layer);
 
 
 
@@ -54,6 +54,7 @@ private:
 
 	Sprite *levelTileSheet;
 	
+	std::vector<std::vector<int> > SilhouetteData, BackgroundData, GameData, ForegroundData;
 
 	SDL_Point leftSpawn, rightSpawn, startSpawn;
 
