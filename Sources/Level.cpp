@@ -5,11 +5,17 @@
 
 #include "Level.h"
 
-Level::Level(Window *window):
-	window(window)
+Level::Level(Window *window, Camera *camera):
+	window(window),
+	camera(camera)
 {
 
 
+}
+
+Level::~Level()
+{
+	delete levelTileSheet;
 }
 
 void Level::load(std::string level_name)
@@ -58,8 +64,8 @@ void Level::render()
 	std::vector<std::vector<int>>::iterator row_begin;
 	std::vector<std::vector<int>>::iterator row_end;
 	std::vector<std::vector<int>> *data;
-
 	data = &tileData;
+	float lerp = 0.1f;
 
 	row_begin = data->begin();
 	row_end = data->end();
@@ -69,12 +75,15 @@ void Level::render()
 		std::vector<int>::iterator col_end = row->end();
 
 		for (col = col_begin; col != col_end; ++col) {
-			int X = col - row->begin();
-			int Y = row - data->begin();
+			float X = col - row->begin();
+			float Y = row - data->begin();
 			
+			float renderPosX = X*tileSize + camera->frame.x;
+			float renderPosY = Y*tileSize + camera->frame.y;
+
 			if ((*col) != 0) {
 				levelTileSheet->setIndex(*col-1);
-				levelTileSheet->render(X*tileSize, Y*tileSize);
+				levelTileSheet->render(renderPosX, renderPosY);
 			}
 			
 		}
