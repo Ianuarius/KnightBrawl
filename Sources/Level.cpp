@@ -20,9 +20,11 @@ void Level::load(std::string level_name)
 		printf("Failed to load level %s.\n", level_name.c_str());
 		return;
 	}
-	
-	int gid = atoi(levelDocument.child("map").child("layer").child("data").child("tile").attribute("gid").value());
 		
+	tileSize = atoi(levelDocument.child("map").attribute("tilewidth").value());
+	levelWidth = atoi(levelDocument.child("map").attribute("width").value());
+	levelHeight = atoi(levelDocument.child("map").attribute("height").value());
+
 	int iteratorCount = 0;
 	std::vector<int> levelRow;
 	pugi::xml_node Layer = levelDocument.child("map").child("layer").child("data");
@@ -32,18 +34,15 @@ void Level::load(std::string level_name)
 				++iterator)
 	{
 		iteratorCount++;
+		int gid = atoi(iterator->attribute("gid").value());
 		levelRow.push_back(gid);
 		
-		if (iteratorCount >= levelWidth )
+		if (iteratorCount % levelWidth == 0)
 		{
 			tileData.push_back(levelRow);
 			levelRow.clear();
 		}
 	}
-
-	tileSize = atoi(levelDocument.child("map").attribute("tilewidth").value());
-	levelWidth = atoi(levelDocument.child("map").attribute("width").value());
-	levelHeight = atoi(levelDocument.child("map").attribute("height").value());
 
 	//std::string tileSet = levelDocument.child("map").child("tileset").child("image").attribute("source").value();
 	std::string tileSet = "testi.png";
