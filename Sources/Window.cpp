@@ -37,3 +37,9 @@ SDL_Renderer *Window::getRenderer()
 {
 	return renderer;
 }
+
+
+Uint32 Window::getDelta()
+{
+	return current_delta;
+}

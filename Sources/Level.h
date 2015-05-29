@@ -31,8 +31,8 @@ public:
 	void load(std::string level_name);
 	int getLevelWidth();
 	int getLevelHeight();
-	void render(int layer);
-
+	void render();
+	pugi::xml_node Layer;
 
 
 
@@ -47,14 +47,14 @@ private:
 	pugi::xml_parse_result result;
 	pugi::xml_node SilhouetteLayer, BackgroundLayer, GameLayer, ForegroundLayer;
 	pugi::xml_node triggerNode, actorNode;
-	
+
+
 	int levelWidth, levelHeight;
 	int tileSize;
 	
 
 	Sprite *levelTileSheet;
-	
-	std::vector<std::vector<int> > SilhouetteData, BackgroundData, GameData, ForegroundData;
+	std::vector<std::vector<int> > tileData;
 
 	SDL_Point leftSpawn, rightSpawn, startSpawn;
 

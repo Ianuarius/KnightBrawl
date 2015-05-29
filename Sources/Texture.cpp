@@ -33,7 +33,7 @@ void Texture::render(int x, int y)
 	//SDL_Rect clip = {0, 0, width, height};
 	//clipRect = clip;
 	
-	SDL_Rect destination = {0, 0, clipRect.w, clipRect.h};
+	SDL_Rect destination = {x, y, clipRect.w, clipRect.h};
 	SDL_RendererFlip flag = SDL_FLIP_NONE;
 
 	SDL_RenderCopyEx(renderer, texture, &clipRect, &destination, 0, NULL, flag);

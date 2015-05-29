@@ -8,6 +8,7 @@ and may not be redistributed without written permission.*/
 #include "Input.h"
 #include "SDL.h"
 #include "Sprite.h"
+#include "Level.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -26,11 +27,14 @@ int main(int argc, char* args[])
 
 
 
-
+	/*
 	Sprite kuva(&window, "testi.png", 16, 16);
 	kuva.crop(sama);
 	kuva.render(0,0);
-		
+	*/	
+	Level testi(&window);
+	testi.load("test.tmx");
+	testi.render();
 	bool gameover = false;
 
 	while (!gameover) {

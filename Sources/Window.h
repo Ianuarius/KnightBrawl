@@ -15,6 +15,7 @@ public:
 	Window(int window_width, int window_height);
 	void refresh();
 	SDL_Renderer *getRenderer();
+	Uint32 getDelta();
 private:
 
 	SDL_Surface* gScreenSurface;
@@ -23,6 +24,8 @@ private:
 
 	SDL_Window *window;
 	SDL_Renderer *renderer;
+
+	Uint32 framerate, frame_delay, current_delta;
 
 };
 
