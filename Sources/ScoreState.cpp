@@ -14,7 +14,7 @@ playername(new Text(font, Color("white")))
 
 }
 
-ScoreState::ScoreState()
+ScoreState::~ScoreState()
 {
 	delete window;
 }
