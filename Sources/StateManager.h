@@ -16,6 +16,7 @@
 #include "GameState.h"
 #include "ScoreState.h"
 #include "MenuState.h"
+#include "VictoryState.h"
 
 
 
