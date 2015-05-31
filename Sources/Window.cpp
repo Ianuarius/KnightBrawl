@@ -38,6 +38,11 @@ SDL_Renderer *Window::getRenderer()
 	return renderer;
 }
 
+void Window::clear()
+{
+	fill(Color("black"));
+}
+
 
 Uint32 Window::getDelta()
 {

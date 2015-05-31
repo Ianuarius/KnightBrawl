@@ -16,6 +16,8 @@ public:
 	void refresh();
 	SDL_Renderer *getRenderer();
 	Uint32 getDelta();
+
+	void clear();
 private:
 
 	SDL_Surface* gScreenSurface;
