@@ -14,6 +14,7 @@
 #include "Texture.h"
 #include "Animation.h"
 #include "Level.h"
+#include "Camera.h"
 
 class GameState : public BaseState
 {
@@ -24,7 +25,6 @@ public:
 	stateStatus update();
 	void render();
 
-
 private:
 	Animation *test;
 	Window *window;
@@ -32,10 +32,9 @@ private:
 	Texture *background;
 	Font *font;
 	Text *tooltip, signText;
+	Camera *camera;
 	std::string tooltip_s, signText_s;
-
 	SDL_Rect hilight;
-
 };
 
 #endif // __GAMESTATE_H_DEFINED__

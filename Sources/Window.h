@@ -5,9 +5,15 @@
 
 #ifndef __WINDOW_H_DEFINED__
 #define __WINDOW_H_DEFINED__
+
+#include <string>
 #include "SDL.h"
 #include <stdio.h>
 #include "Input.h"
+#include "Timer.h"
+
+#define FRAMERATE 60
+#define FPS_INTERVAL 1000
 
 class Window 
 {
@@ -16,12 +22,14 @@ public:
 	void refresh();
 	SDL_Renderer *getRenderer();
 	Uint32 getDelta();
+
+	/*void clear();
+	void fill(Color color);
+	*/
 private:
 
 	SDL_Surface* gScreenSurface;
-
 	SDL_Surface* gHelloWorld;
-
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 

@@ -20,6 +20,7 @@ public:
 	void load(std::string level_name);
 	void render();
 	pugi::xml_node Layer;
+	SDL_Point start_position;
 
 private:
 	Window *window;

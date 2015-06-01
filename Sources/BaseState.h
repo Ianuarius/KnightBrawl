@@ -8,20 +8,12 @@
 
 #include "Window.h"
 
-#define STATE_QUIT		1
+#define STATE_GAME		0
+#define STATE_MENU		1
+#define STATE_VICTORY	2
 
-#define STATE_MENU		2
-
-#define STATE_GAME		4
-
-
-#define STATE_VICTORY	6
-#define STATE_GAMEOVER  7
-#define STATE_SCORE		8
-
-#define STATE_CREDITS	666
-
-struct stateStatus {
+struct stateStatus 
+{
 	int status;
 	bool prepend;
 };
