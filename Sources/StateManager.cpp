@@ -5,64 +5,50 @@
  */
 #include "StateManager.h"
 
-StateManager::StateManager(Window *window) :
-window(window),
-glove(true),
-music(nullptr) {
+StateManager::StateManager(Window *window):
+	window(window),
+	glove(true)
+{
 	pushState(new MenuState(window));
 }
 
-StateManager::~StateManager() {
+StateManager::~StateManager() 
+{
 
 }
 
-void StateManager::pushState(BaseState *state) {
+void StateManager::pushState(BaseState *state) 
+{
 	states.push_back(state);
 }
 
-void StateManager::popState() {
+void StateManager::popState() 
+{
 	states.pop_back();
 }
 
-void StateManager::run() {
-	music = new Music("");
-	//music->play();
-
+void StateManager::run() 
+{
+	/*
 	while (glove) {
 		BaseState *currentState = states.back();
 		stateStatus new_status;
-
 		Input::update();
-
 		new_status = currentState->update();
-
-		if (new_status.status != !new_status.prepend) {
-			popState();
-		}
 
 		switch (new_status.status)
 		{
-	
-		
 		case STATE_GAME:
 			pushState(new GameState(window));
 			break;
-
 
 		case STATE_MENU:
 			pushState(new MenuState(window));
 			break;
 
-		
-
-	
-		
-
 		case STATE_VICTORY:
 			pushState(new VictoryState(window));
 			break;
-
-	
 
 		default:
 			break;
@@ -71,14 +57,14 @@ void StateManager::run() {
 		if (Input::keyPressed(SDL_SCANCODE_ESCAPE)) {
 			if (states.size() > 1) {
 				popState();
-			}
-			else {
+			} else {
 				glove = false;
 			}
 		}
 
-		window->clear();
+		//window->clear();
 		currentState->render();
 		window->refresh();
 	}
+	*/
 }

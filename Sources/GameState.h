@@ -25,7 +25,6 @@ public:
 	stateStatus update();
 	void render();
 
-
 private:
 	Animation *test;
 	Window *window;
@@ -35,9 +34,7 @@ private:
 	Text *tooltip, signText;
 	Camera *camera;
 	std::string tooltip_s, signText_s;
-
 	SDL_Rect hilight;
-
 };
 
 #endif // __GAMESTATE_H_DEFINED__

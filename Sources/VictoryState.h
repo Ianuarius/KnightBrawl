@@ -20,12 +20,10 @@ public:
 	VictoryState(Window *window);
 	~VictoryState();
 
-	stateStatus update();
 	void render();
 
 private:
 	Window *window;
-
 	Text slideShowText;
 	int slide_index;
 	std::vector<Texture *> backgrounds;
