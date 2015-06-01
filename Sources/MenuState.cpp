@@ -28,19 +28,22 @@ stateStatus MenuState::update()
 
 	stateStatus status;
 
-	if (Input::keyPressed(SDL_SCANCODE_UP) || Input::keyPressed(SDL_SCANCODE_W)) {
+	if (Input::keyPressed(SDL_SCANCODE_UP) || Input::keyPressed(SDL_SCANCODE_W)) 
+	{
 		if (menu_index > 0) {
 			menu_index--;
 		}
 	}
 
-	if (Input::keyPressed(SDL_SCANCODE_DOWN) || Input::keyPressed(SDL_SCANCODE_S)) {
+	if (Input::keyPressed(SDL_SCANCODE_DOWN) || Input::keyPressed(SDL_SCANCODE_S)) 
+	{
 		if (menu_index < menu_items.size() - 1) {
 			menu_index++;
 		}
 	}
 
-	if (Input::keyPressed(SDL_SCANCODE_RETURN) || Input::keyPressed(SDL_SCANCODE_SPACE)) {
+	if (Input::keyPressed(SDL_SCANCODE_RETURN) || Input::keyPressed(SDL_SCANCODE_SPACE)) 
+	{
 		switch (menu_index)
 		{
 		case 0:
