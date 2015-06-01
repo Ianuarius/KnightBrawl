@@ -7,21 +7,11 @@
 
 Window::Window(int window_width, int window_height):
 	window(nullptr),
-	renderer(nullptr),
-	gScreenSurface(NULL),
-	gHelloWorld(NULL)
+	renderer(nullptr)
 {
-	//Load splash image
-	gHelloWorld = SDL_LoadBMP("testi.png");
-
 	window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_SHOWN );
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	
-	gScreenSurface = SDL_GetWindowSurface(window);
-
-	SDL_BlitSurface(gHelloWorld, NULL, gScreenSurface, NULL);
-			
-	//Update the surface
 	SDL_UpdateWindowSurface(window);
 
 }
@@ -37,12 +27,11 @@ SDL_Renderer *Window::getRenderer()
 {
 	return renderer;
 }
-
+/*
 void Window::clear()
 {
 	fill(Color("black"));
-}
-
+}*/
 
 Uint32 Window::getDelta()
 {
