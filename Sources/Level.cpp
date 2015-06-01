@@ -9,7 +9,8 @@ Level::Level(Window *window, Camera *camera):
 	window(window),
 	camera(camera)
 {
-
+	start_position.x = 640;
+	start_position.y = 480;
 
 }
 
@@ -65,7 +66,6 @@ void Level::render()
 	std::vector<std::vector<int>>::iterator row_end;
 	std::vector<std::vector<int>> *data;
 	data = &tileData;
-	float lerp = 0.1f;
 
 	row_begin = data->begin();
 	row_end = data->end();
@@ -75,11 +75,11 @@ void Level::render()
 		std::vector<int>::iterator col_end = row->end();
 
 		for (col = col_begin; col != col_end; ++col) {
-			float X = col - row->begin();
-			float Y = row - data->begin();
+			int X = col - row->begin();
+			int Y = row - data->begin();
 			
-			float renderPosX = X*tileSize + camera->frame.x;
-			float renderPosY = Y*tileSize + camera->frame.y;
+			int renderPosX = X*tileSize - camera->frame.x;
+			int renderPosY = Y*tileSize - camera->frame.y;
 
 			if ((*col) != 0) {
 				levelTileSheet->setIndex(*col-1);

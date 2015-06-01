@@ -7,16 +7,17 @@
 #define __PLAYERCONTROLLER_H_DEFINED__
 
 #include "Input.h"
-#include "PlayerActor.h"
+#include "SDL.h"
 
 class PlayerController
 {
 public:
-	PlayerController(PlayerActor *player);
+	PlayerController();
+	SDL_Point getLocation();
 	void update();
-
+	
 private:
-	PlayerActor *player;
+	SDL_Point location;
 };
 
 #endif //__PLAYERCONTROLLER_H_DEFINED__

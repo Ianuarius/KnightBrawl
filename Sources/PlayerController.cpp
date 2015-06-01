@@ -5,8 +5,7 @@
 
 #include "PlayerController.h"
 
-PlayerController::PlayerController(PlayerActor *player):
-	player(player)
+PlayerController::PlayerController()
 {
 
 }
@@ -14,18 +13,25 @@ PlayerController::PlayerController(PlayerActor *player):
 void PlayerController::update()
 {
 	if (Input::keyState(SDL_SCANCODE_D)) {
-		player->position.x += 10;
+		location.x += 10;
+		//player->facing_position = 0.4f;
 	}
 		
 	if (Input::keyState(SDL_SCANCODE_A)) {
-		player->position.x -= 10;
+		location.x -= 10;
+		//player->facing_position = 0.6f;
 	}
 		
 	if (Input::keyState(SDL_SCANCODE_S)) {
-		player->position.y += 10;
+		location.y += 10;
 	}
 		
 	if (Input::keyState(SDL_SCANCODE_W)) {
-		player->position.y -= 10;
+		location.y -= 10;
 	}
+}
+
+SDL_Point PlayerController::getLocation()
+{
+	return location;
 }
