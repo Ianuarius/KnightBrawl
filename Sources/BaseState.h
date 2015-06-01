@@ -9,18 +9,10 @@
 #include "Window.h"
 
 #define STATE_GAME		0
-
-#define STATE_QUIT		1
-
-#define STATE_MENU		2
-
-#define STATE_GAME		3
-
-#define STATE_VICTORY	4
-#define STATE_GAMEOVER  5
-#define STATE_SCORE		6
-#define STATE_OPTIONS	7
-#define STATE_CREDITS	666
+#define STATE_MENU		1
+#define STATE_GAME		2
+#define STATE_VICTORY	3
+#define STATE_SCORE		4
 
 struct stateStatus {
 	int status;

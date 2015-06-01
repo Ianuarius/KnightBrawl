@@ -16,6 +16,7 @@ public:
 	Input();
 	static bool keyState(int key);
 	static void update();
+	static bool keyPressed(int key);
 
 private:
 	static bool key[KEYBOARD_SIZE];

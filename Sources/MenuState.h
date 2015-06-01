@@ -21,7 +21,6 @@ public:
 	~MenuState();
 	void render();
 
-
 private:
 	Texture selector;
 	int menu_index;

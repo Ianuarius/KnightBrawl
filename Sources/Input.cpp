@@ -53,3 +53,10 @@ bool Input::keyState(int k)
 
 	return key[k];
 }
+
+bool Input::keyPressed(int k) {
+	bool state = keyState(k);
+	key[k] = false;
+
+	return state;
+}
