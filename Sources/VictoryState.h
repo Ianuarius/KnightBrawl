@@ -13,6 +13,9 @@
 #include "Text.h"
 #include "Color.h"
 #include "Texture.h"
+#include "Timer.h"
+
+#define SLIDE_TIME 1000
 
 class VictoryState : public BaseState 
 {
@@ -29,9 +32,6 @@ private:
 	int slide_index;
 	std::vector<Texture *> backgrounds;
 	std::vector<std::string> texts;
-
-	
-
 };
 
 #endif // __VICTORYSTATE_H_DEFINED__
