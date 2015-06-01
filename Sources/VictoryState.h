@@ -14,7 +14,8 @@
 #include "Color.h"
 #include "Texture.h"
 
-class VictoryState : public BaseState {
+class VictoryState : public BaseState 
+{
 
 public:
 	VictoryState(Window *window);
@@ -24,7 +25,7 @@ public:
 
 private:
 	Window *window;
-	Text slideShowText;
+	Text slideShowText();
 	int slide_index;
 	std::vector<Texture *> backgrounds;
 	std::vector<std::string> texts;

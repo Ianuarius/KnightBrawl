@@ -13,13 +13,14 @@
 #include "Color.h"
 #include "Texture.h"
 
-class MenuState : public BaseState 
+class MenuState: public BaseState 
 {
 
 public:
 	MenuState(Window *window);
 	~MenuState();
 	void render();
+	stateStatus update();
 
 private:
 	Texture selector;

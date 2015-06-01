@@ -10,11 +10,10 @@
 
 #define STATE_GAME		0
 #define STATE_MENU		1
-#define STATE_GAME		2
-#define STATE_VICTORY	3
-#define STATE_SCORE		4
+#define STATE_VICTORY	2
 
-struct stateStatus {
+struct stateStatus 
+{
 	int status;
 	bool prepend;
 };

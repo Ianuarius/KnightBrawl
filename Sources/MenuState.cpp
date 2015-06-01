@@ -43,11 +43,6 @@ stateStatus MenuState::update() {
 			status.status = STATE_GAME;
 			break;
 
-
-		case 1:
-			status.status = STATE_QUIT;
-			break;
-
 		default:
 			break;
 		}
@@ -59,6 +54,4 @@ stateStatus MenuState::update() {
 void MenuState::render() {
 	selector.render(menu_x - 25, menu_y + menu_index * 20);
 	menu_items[0]->print(window, "Start", menu_x, menu_y + 0);
-	menu_items[1]->print(window, "Options", menu_x, menu_y + 20);
-	menu_items[2]->print(window, "Quit", menu_x, menu_y + 40);
 }
