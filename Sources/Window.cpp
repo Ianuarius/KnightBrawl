@@ -28,6 +28,18 @@ SDL_Renderer *Window::getRenderer()
 	return renderer;
 }
 /*
+void Window::fill(Color color)
+{
+	SDL_SetRenderDrawColor(renderer,
+						   color.r(),
+						   color.g(),
+						   color.b(),
+						   color.a());
+
+	SDL_RenderClear(renderer);
+}
+
+
 void Window::clear()
 {
 	fill(Color("black"));

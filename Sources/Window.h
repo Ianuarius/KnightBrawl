@@ -17,7 +17,9 @@ public:
 	SDL_Renderer *getRenderer();
 	Uint32 getDelta();
 
-	//void clear();
+	/*void clear();
+	void fill(Color color);
+	*/
 private:
 
 	SDL_Surface* gScreenSurface;
