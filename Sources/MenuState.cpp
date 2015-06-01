@@ -9,7 +9,8 @@ menu_x(170),
 menu_y(110),
 menu_index(0),
 selector(window, ""),
-font(nullptr) {
+font(nullptr) 
+{
 	font = new Font("fonts/AveriaSerif-Bold.ttf", 14);
 
 	menu_items.push_back(new Text(font, Color("white")));
@@ -17,11 +18,14 @@ font(nullptr) {
 	menu_items.push_back(new Text(font, Color("white")));
 }
 
-MenuState::~MenuState() {
+MenuState::~MenuState() 
+{
 	delete font;
 }
 
-stateStatus MenuState::update() {
+stateStatus MenuState::update() 
+{
+
 	stateStatus status;
 
 	if (Input::keyPressed(SDL_SCANCODE_UP) || Input::keyPressed(SDL_SCANCODE_W)) {
@@ -51,7 +55,8 @@ stateStatus MenuState::update() {
 	return status;
 }
 
-void MenuState::render() {
+void MenuState::render() 
+{
 	selector.render(menu_x - 25, menu_y + menu_index * 20);
 	menu_items[0]->print(window, "Start", menu_x, menu_y + 0);
 }
