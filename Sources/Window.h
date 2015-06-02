@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "Input.h"
 #include "Timer.h"
+#include "Color.h"
 
 #define FRAMERATE 60
 #define FPS_INTERVAL 1000
@@ -17,7 +18,7 @@
 class Window 
 {
 public:
-	Window(int window_width, int window_height);
+	Window(int window_width, int window_height, int resolution_width, int resolution_height);
 	
 	SDL_Renderer *getRenderer();
 	Uint32 getDelta();
@@ -25,11 +26,8 @@ public:
 	void destroy();
 	void resize(int window_width, int window_height, bool fullscreen);
 	void refresh();
-	/*void clear();
+	void clear();
 	void fill(Color color);
-	*/
-
-	
 
 	unsigned int window_width, logical_width;
 	unsigned int window_height, logical_height;

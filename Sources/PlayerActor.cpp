@@ -5,12 +5,12 @@
 
 #include "PlayerActor.h"
 
-PlayerActor::PlayerActor(Window *window, 
-						 Camera *camera, 
-						 PlayerController *playerController, 
-						 SDL_Point start_position):
-	position(start_position),
+PlayerActor::PlayerActor(Window *window,
+						 Camera *camera,
+						 PlayerController *playerController):
+	playerController(playerController),
 	window(window),
+	camera(camera),
 	texture(window, "rogue_knight_idle.png"),
 	facing(RIGHT)
 {
@@ -19,5 +19,6 @@ PlayerActor::PlayerActor(Window *window,
 
 void PlayerActor::render()
 {
-	texture.render(position.x, position.y);
+	texture.render((camera->getFrame().w / 2) + camera->getOffset() -25,
+				   (camera->getFrame().h) - 80);
 }

@@ -5,7 +5,8 @@
 
 #include "PlayerController.h"
 
-PlayerController::PlayerController()
+PlayerController::PlayerController(SDL_Point start_position):
+	location(start_position)
 {
 
 }
@@ -14,12 +15,12 @@ void PlayerController::update()
 {
 	if (Input::keyState(SDL_SCANCODE_D)) {
 		location.x += 10;
-		//player->facing_position = 0.4f;
+		facing = RIGHT;
 	}
 		
 	if (Input::keyState(SDL_SCANCODE_A)) {
 		location.x -= 10;
-		//player->facing_position = 0.6f;
+		facing = LEFT;
 	}
 		
 	if (Input::keyState(SDL_SCANCODE_S)) {
@@ -34,4 +35,9 @@ void PlayerController::update()
 SDL_Point PlayerController::getLocation()
 {
 	return location;
+}
+
+int PlayerController::getDirection()
+{
+	return facing;
 }

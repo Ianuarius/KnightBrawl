@@ -5,16 +5,13 @@
 
 #include "Window.h"
 
-Window::Window(int window_width, int window_height):
+Window::Window(int window_width, int window_height, int resolution_width, int resolution_height):
 	window(nullptr),
-	renderer(nullptr)
+	renderer(nullptr),
+	logical_width(resolution_width),
+	logical_height(resolution_height)
 {
-
-	window = SDL_CreateWindow("KnightBrawl", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_SHOWN);
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	
-	SDL_UpdateWindowSurface(window);
-
+	resize(window_width, window_height, false);
 }
 
 void Window::refresh()
@@ -29,7 +26,7 @@ void Window::destroy()
 	if (this->renderer)
 	{
 		SDL_DestroyRenderer(this->renderer);
-		this->renderer =nullptr;
+		this->renderer = nullptr;
 	}
 
 	if (this->window)
@@ -63,7 +60,6 @@ void Window::resize(int window_width, int window_height, bool fullscreen)
 
 	}
 	*/
-
 	window = SDL_CreateWindow("KnightBrawl", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, window_flag);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
@@ -73,7 +69,8 @@ void Window::resize(int window_width, int window_height, bool fullscreen)
 
 	this->window_width = window_width;
 	this->window_height = window_height;
-
+	
+	SDL_UpdateWindowSurface(window);
 }
 
 
@@ -81,7 +78,7 @@ SDL_Renderer *Window::getRenderer()
 {
 	return renderer;
 }
-/*
+
 void Window::fill(Color color)
 {
 	SDL_SetRenderDrawColor(renderer,
@@ -97,7 +94,7 @@ void Window::fill(Color color)
 void Window::clear()
 {
 	fill(Color("black"));
-}*/
+}
 
 Uint32 Window::getDelta()
 {

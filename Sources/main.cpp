@@ -15,28 +15,29 @@
 #include "PlayerActor.h"
 #include "PlayerController.h"
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1600;
+const int SCREEN_HEIGHT = 960;
+const int RESOLUTION_WIDTH = 400;
+const int RESOLUTION_HEIGHT = 240;
 
 int main(int argc, char* args[])
 {
 	SDL::init();
 
-	Window window(SCREEN_WIDTH, SCREEN_HEIGHT);
+	Window window(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
 	
 	SDL_Rect sama = {16, 16, 160, 160};
 	SDL_Rect player = {0, 0, 0, 0};
-	SDL_Point start_point = {340, 280};
+	SDL_Point start_point = {0, 0};
 
 	std::vector<PlayerActor> players;
 
-	PlayerController playerController1;
+	PlayerController playerController1(start_point);
 	
-	Camera camera(SCREEN_WIDTH, SCREEN_HEIGHT, &playerController1);
-	PlayerActor player1(&window, 
-						&camera, 
-						&playerController1, 
-						start_point);
+	Camera camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerController1);
+	PlayerActor player1(&window,
+						&camera,
+						&playerController1);
 	players.push_back(player1);
 
 	Level testi(&window, &camera);

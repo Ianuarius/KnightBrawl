@@ -18,6 +18,11 @@ SDL_Texture *Texture::loadImage(std::string path)
 
 	SDL_Surface* surface = IMG_Load(path.c_str());
 	
+	if (!surface) {
+		printf("Failed to load texture %s.\n", path.c_str());
+		return nullptr;
+	}
+		
 	SDL_Texture *newTexture = SDL_CreateTextureFromSurface(renderer, surface);
 
 	SDL_FreeSurface(surface);
@@ -26,13 +31,16 @@ SDL_Texture *Texture::loadImage(std::string path)
 }
 
 void Texture::render(int x, int y)
-{
-	int width, height;
-	SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+{	
+	if (clipRect.w <= 0 && clipRect.h <= 0)
+	{
+		int width, height;
+		SDL_QueryTexture(texture, NULL, NULL, &width, &height);
 
-	//SDL_Rect clip = {0, 0, width, height};
-	//clipRect = clip;
-	
+		SDL_Rect clip = {0, 0, width, height};
+		clipRect = clip;
+	}
+
 	SDL_Rect destination = {x, y, clipRect.w, clipRect.h};
 	SDL_RendererFlip flag = SDL_FLIP_NONE;
 

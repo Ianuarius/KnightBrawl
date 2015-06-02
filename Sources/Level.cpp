@@ -78,8 +78,8 @@ void Level::render()
 			int X = col - row->begin();
 			int Y = row - data->begin();
 			
-			int renderPosX = X*tileSize - camera->frame.x;
-			int renderPosY = Y*tileSize - camera->frame.y;
+			int renderPosX = X*tileSize - camera->getFrame().x + camera->getOffset();
+			int renderPosY = Y*tileSize - camera->getFrame().y;
 
 			if ((*col) != 0) {
 				levelTileSheet->setIndex(*col-1);

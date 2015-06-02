@@ -15,6 +15,10 @@ Camera::Camera(int width, int height, PlayerController *playerController):
 
 void Camera::update()
 {
+	facing = playerController->getDirection();
+
+	frame.x = playerController->getLocation().x;
+	frame.y = playerController->getLocation().y;
 	/*
 	if (lockedPlayer->position.x > (frame.w * FACING_L) &&
 	    lockedPlayer->position.x < (frame.w * FACING_R)) {
@@ -35,6 +39,20 @@ void Camera::update()
 	}
 
 	*/
+}
+
+int Camera::getOffset()
+{
+	if (facing == RIGHT) {
+		return -20;
+	} else {
+		return 20;
+	}
+}
+
+SDL_Rect Camera::getFrame()
+{
+	return frame;
 }
 
 

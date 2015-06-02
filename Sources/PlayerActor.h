@@ -15,12 +15,10 @@
 class PlayerActor
 {
 public:
-	PlayerActor(Window *window, 
-			    Camera *camera, 
-				PlayerController *playerController, 
-				SDL_Point start_position);
+	PlayerActor(Window *window,
+			    Camera *camera,
+				PlayerController *playerController);
 	void render();
-	SDL_Point position;
 	int facing;
 	float facing_position;
 	
@@ -29,7 +27,6 @@ private:
 	PlayerController *playerController;
 	Camera *camera;
 	Texture texture;
-	enum direction {RIGHT, LEFT};
 };
 
 #endif //__PLAYERACTOR_H_DEFINED__
