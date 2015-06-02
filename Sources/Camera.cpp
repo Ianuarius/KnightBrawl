@@ -7,17 +7,52 @@
 
 Camera::Camera(int width, int height, PlayerController *playerController):
 	facing(RIGHT),
-	playerController(playerController)
+	playerController(playerController),
+	offset(0)
 {
 	SDL_Rect realcamera = {0, 0, width, height};
 	frame = realcamera;
 }
 
+/*
+UPDATE CAMERA
+- If player is in area FL < X < FR
+- If player is in X < PL
+- If player is in X > PR
+
+DON'T UPDATE
+- If player is in area PL < X < FL
+- If player is in area FR < X < PR
+
+*/
+
 void Camera::update()
 {
 	facing = playerController->getDirection();
+	/*
+	if (facing == RIGHT) {
+		
+		if (playerController->getLocation().x > (frame.x + (frame.w * 0.75f))) {
+			offset = (frame.w * 0.4f) - (frame.w / 2);
+		}
 
-	frame.x = playerController->getLocation().x;
+	} else if (facing == LEFT) {
+		
+		if (playerController->getLocation().x < (frame.x + (frame.w * 0.25f))) {
+			offset = (frame.w * 0.6f) - (frame.w / 2);
+		}
+
+	}
+	*/
+
+	if (playerController->getLocation().x < (frame.x + (frame.w * 0.2f))) {
+		frame.x = playerController->getLocation().x - 0.2f;
+		offset = 10;
+	} else if (playerController->getLocation().x > (frame.x + (frame.w * 0.8f))) {
+		frame.x = playerController->getLocation().x - 0.8f;
+		offset = -10;
+	}
+
 	frame.y = playerController->getLocation().y;
 	/*
 	if (lockedPlayer->position.x > (frame.w * FACING_L) &&
@@ -43,11 +78,7 @@ void Camera::update()
 
 int Camera::getOffset()
 {
-	if (facing == RIGHT) {
-		return -20;
-	} else {
-		return 20;
-	}
+	return offset;
 }
 
 SDL_Rect Camera::getFrame()

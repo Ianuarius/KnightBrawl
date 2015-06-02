@@ -15,8 +15,8 @@
 #include "PlayerActor.h"
 #include "PlayerController.h"
 
-const int SCREEN_WIDTH = 1600;
-const int SCREEN_HEIGHT = 960;
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 480;
 const int RESOLUTION_WIDTH = 400;
 const int RESOLUTION_HEIGHT = 240;
 
@@ -28,7 +28,7 @@ int main(int argc, char* args[])
 	
 	SDL_Rect sama = {16, 16, 160, 160};
 	SDL_Rect player = {0, 0, 0, 0};
-	SDL_Point start_point = {0, 0};
+	SDL_Point start_point = {80, 0};
 
 	std::vector<PlayerActor> players;
 

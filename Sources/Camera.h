@@ -31,6 +31,7 @@ private:
 	PlayerController *playerController;
 	enum Direction {RIGHT, LEFT};
 	SDL_Rect frame;
+	int offset;
 };
 
 

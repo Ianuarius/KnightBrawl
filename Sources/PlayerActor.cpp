@@ -19,6 +19,6 @@ PlayerActor::PlayerActor(Window *window,
 
 void PlayerActor::render()
 {
-	texture.render((camera->getFrame().w / 2) + camera->getOffset() -25,
-				   (camera->getFrame().h) - 80);
+	texture.render(playerController->getLocation().x - camera->getOffset(),
+				   playerController->getLocation().y);
 }
