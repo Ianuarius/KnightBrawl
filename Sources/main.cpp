@@ -28,7 +28,7 @@ int main(int argc, char* args[])
 	
 	SDL_Rect sama = {16, 16, 160, 160};
 	SDL_Rect player = {0, 0, 0, 0};
-	SDL_Point start_point = {80, 0};
+	SDL_Point start_point = {140, 0};
 
 	std::vector<PlayerActor> players;
 

@@ -19,6 +19,19 @@ PlayerActor::PlayerActor(Window *window,
 
 void PlayerActor::render()
 {
-	texture.render(playerController->getLocation().x - camera->getOffset(),
-				   playerController->getLocation().y);
+	int left_border = camera->getFrame().w * 0.8;
+	
+		texture.render(playerController->getLocation().x,
+					   playerController->getLocation().y);
+	/*
+	if (playerController->getLocation().x >= (camera->getFrame().x + left_border)) {
+		
+		texture.render(left_border,
+					   playerController->getLocation().y);
+	} else {
+		
+		texture.render(playerController->getLocation().x,
+					   playerController->getLocation().y);
+	}
+	*/
 }

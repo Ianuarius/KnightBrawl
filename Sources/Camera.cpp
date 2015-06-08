@@ -8,7 +8,8 @@
 Camera::Camera(int width, int height, PlayerController *playerController):
 	facing(RIGHT),
 	playerController(playerController),
-	offset(0)
+	offset(0),
+	camera_state(RIGHT_STATE)
 {
 	SDL_Rect realcamera = {0, 0, width, height};
 	frame = realcamera;
@@ -45,13 +46,46 @@ void Camera::update()
 	}
 	*/
 
-	if (playerController->getLocation().x < (frame.x + (frame.w * 0.2f))) {
-		frame.x = playerController->getLocation().x - 0.2f;
-		offset = 10;
-	} else if (playerController->getLocation().x > (frame.x + (frame.w * 0.8f))) {
+	// NOTE(juha): The camera has states between which is alters as the player
+	// moves on the screen. We'll check the player position based only on
+	// the camera state.
+
+	if (camera_state == RIGHT) {
+		
+		if (playerController->getLocation().x < (frame.x + (frame.w * PAN_TR_L))) {
+			
+			camera_state = LEFT;
+			frame.x = playerController->getLocation().x - (frame.w * FACING_R);
+
+		} else if (playerController->getLocation().x > (frame.x + (frame.w * FACING_L))) {
+
+			frame.x = frame.x + playerController->getLocation().x - (frame.x + (frame.w * FACING_L));
+		}
+
+		// TODO(juha): Renderöinti oikein hahmolle ja levelille
+
+	} else {
+		
+		if (playerController->getLocation().x > (frame.x + (frame.w * PAN_TR_R))) {
+			
+			camera_state = RIGHT;
+			frame.x = playerController->getLocation().x - (frame.w * FACING_L);
+
+		} else if (playerController->getLocation().x < (frame.x + (frame.w * FACING_R))) {
+
+			frame.x = frame.x + playerController->getLocation().x - (frame.x + (frame.w * FACING_R));
+		}
+	}
+
+
+
+	// IF player moves past the 40% mark right then the camera is moved with him.
+	// Same thing if they move past 60% left
+
+		/*
 		frame.x = playerController->getLocation().x - 0.8f;
 		offset = -10;
-	}
+		*/
 
 	frame.y = playerController->getLocation().y;
 	/*

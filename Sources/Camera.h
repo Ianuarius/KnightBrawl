@@ -30,7 +30,9 @@ public:
 private:
 	PlayerController *playerController;
 	enum Direction {RIGHT, LEFT};
+	enum States {RIGHT_STATE, LEFT_STATE};
 	SDL_Rect frame;
+	int camera_state;
 	int offset;
 };
 
