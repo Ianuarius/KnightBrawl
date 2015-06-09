@@ -21,19 +21,17 @@ class Camera
 public:
 	Camera(int width, int height, PlayerController *playerController);
 	void update();
-	int getOffset();
+	int getState();
 	SDL_Rect getFrame();
-	int facing;
 	float facing_threshold;
 	float pan_threshold;
 
 private:
 	PlayerController *playerController;
 	enum Direction {RIGHT, LEFT};
-	enum States {RIGHT_STATE, LEFT_STATE};
 	SDL_Rect frame;
 	int camera_state;
-	int offset;
+	int lerp(int a, int b);
 };
 
 
