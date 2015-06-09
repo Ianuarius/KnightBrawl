@@ -10,16 +10,31 @@
 #include "Input.h"
 #include "SDL.h"
 #include "Sprite.h"
+#include "BaseState.h"
 #include "Level.h"
 #include "Camera.h"
 #include "PlayerActor.h"
 #include "PlayerController.h"
+#include "StateManager.h"
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 480;
-const int RESOLUTION_WIDTH = 400;
-const int RESOLUTION_HEIGHT = 240;
 
+
+
+int main(int argc, char* args[])
+{
+	SDL::init();
+
+	Window window(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
+	
+	StateManager manager(&window);
+	manager.run();
+	
+	SDL::exit();
+
+	return 0;
+}
+
+/*
 int main(int argc, char* args[])
 {
 	SDL::init();
@@ -63,3 +78,4 @@ int main(int argc, char* args[])
 
 	return 0;
 }
+*/

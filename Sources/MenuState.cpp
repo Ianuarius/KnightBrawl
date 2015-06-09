@@ -3,63 +3,40 @@
  *
  */
 #include "MenuState.h"
-MenuState::MenuState(Window *window) :
-window(window),
-menu_x(170),
-menu_y(110),
-menu_index(0),
-selector(window, ""),
-font(nullptr) 
+MenuState::MenuState(Window *window):
+	window(window),
+	menu(window, "menu_ph.png")
 {
-	font = new Font("fonts/AveriaSerif-Bold.ttf", 14);
-
-	menu_items.push_back(new Text(font, Color("white")));
-	menu_items.push_back(new Text(font, Color("white")));
-	menu_items.push_back(new Text(font, Color("white")));
+	
+	
 }
-
 MenuState::~MenuState() 
 {
-	delete font;
+	//delete font;
 }
 
 stateStatus MenuState::update() 
 {
 
 	stateStatus status;
+	status.status = STATE_CONTINUE;
+	status.prepend = false;
 
-	if (Input::keyPressed(SDL_SCANCODE_UP) || Input::keyPressed(SDL_SCANCODE_W)) 
-	{
-		if (menu_index > 0) {
-			menu_index--;
-		}
-	}
 
-	if (Input::keyPressed(SDL_SCANCODE_DOWN) || Input::keyPressed(SDL_SCANCODE_S)) 
-	{
-		if (menu_index < menu_items.size() - 1) {
-			menu_index++;
-		}
-	}
-
-	if (Input::keyPressed(SDL_SCANCODE_RETURN) || Input::keyPressed(SDL_SCANCODE_SPACE)) 
-	{
-		switch (menu_index)
-		{
-		case 0:
+		if (Input::keyPressed(SDL_SCANCODE_RETURN))	{
 			status.status = STATE_GAME;
-			break;
+			//game = new GameState;
+		}	
 
-		default:
-			break;
+		if(Input::keyPressed(SDL_SCANCODE_ESCAPE)) {
+			status.status = STATE_QUIT;
 		}
-	}
-
+			
 	return status;
 }
 
 void MenuState::render() 
 {
-	selector.render(menu_x - 25, menu_y + menu_index * 20);
-	menu_items[0]->print(window, "Start", menu_x, menu_y + 0);
+	menu.render(0,0);
+	//menu_items[0]->print(window, "Start", menu_x, menu_y + 0);
 }

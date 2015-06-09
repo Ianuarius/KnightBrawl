@@ -15,6 +15,14 @@
 #include "Animation.h"
 #include "Level.h"
 #include "Camera.h"
+#include <stdio.h>
+#include <vector>
+#include "SDL.h"
+#include "Sprite.h"
+#include "PlayerActor.h"
+#include "PlayerController.h"
+
+
 
 class GameState : public BaseState
 {
@@ -26,15 +34,15 @@ public:
 	void render();
 
 private:
-	Animation *test;
 	Window *window;
-	Level *level;
+	Level *testi;
 	Texture *background;
 	Font *font;
-	Text *tooltip, signText;
 	Camera *camera;
-	std::string tooltip_s, signText_s;
-	SDL_Rect hilight;
+	PlayerController *playerController1;
+	bool gameover;
+	
+
 };
 
-#endif // __GAMESTATE_H_DEFINED__
+#endif // __GAMESTATE_H_DEFINED__d

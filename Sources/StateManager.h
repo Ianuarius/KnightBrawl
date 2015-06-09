@@ -13,24 +13,25 @@
 #include "BaseState.h"
 #include "Music.h"
 #include "GameState.h"
-#include "ScoreState.h"
 #include "MenuState.h"
 #include "VictoryState.h"
+#include "SDL.h"
 
 class StateManager
 {
 public:
 	StateManager(Window *window);
 	~StateManager();
-
-	void pushState (BaseState *state);
-	void popState();
 	void run();
+	void pushState(BaseState *state);
+	void popState();
 
 protected:
 	Window *window;
 	std::vector<BaseState*> states;
 	bool glove;
+
+	
 };
 
 #endif // __STATEMANAGER_H_DEFINED__

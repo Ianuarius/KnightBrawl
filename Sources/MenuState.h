@@ -12,6 +12,11 @@
 #include "Text.h"
 #include "Color.h"
 #include "Texture.h"
+#include "GameState.h"
+#include <iostream>
+#include <stdio.h>
+#include "Music.h"
+
 
 class MenuState: public BaseState 
 {
@@ -21,15 +26,13 @@ public:
 	~MenuState();
 	void render();
 	stateStatus update();
-
 private:
-	Texture selector;
-	int menu_index;
-	std::vector<Text *> menu_items;
+	
+	Texture menu;
 	Window *window;
-	Font *font;
-	int menu_x;
-	int menu_y;
+	GameState *game;
+	bool start;
+	bool gameover;
 };
 
 #endif // __MENUSTATE_H_DEFINED__
