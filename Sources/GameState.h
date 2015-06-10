@@ -21,6 +21,7 @@
 #include "Sprite.h"
 #include "PlayerActor.h"
 #include "PlayerController.h"
+#include "StateManager.h"
 
 
 
@@ -39,6 +40,7 @@ private:
 	Texture *background;
 	Font *font;
 	Camera *camera;
+	Timer timer;
 	PlayerController *playerController1;
 	bool gameover;
 	

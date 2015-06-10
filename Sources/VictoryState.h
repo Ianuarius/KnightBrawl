@@ -14,8 +14,10 @@
 #include "Color.h"
 #include "Texture.h"
 #include "Timer.h"
+#include "StateManager.h"
 
-#define SLIDE_TIME 1000
+
+#define SLIDE_TIME 10000
 
 class VictoryState : public BaseState 
 {
@@ -23,15 +25,17 @@ class VictoryState : public BaseState
 public:
 	VictoryState(Window *window);
 	~VictoryState();
-
+	stateStatus update();
 	void render();
 
 private:
 	Window *window;
 	Text slideShowText();
+	Texture victory;
 	int slide_index;
-	std::vector<Texture *> backgrounds;
-	std::vector<std::string> texts;
+	Timer timer;
+	//std::vector<Texture *> backgrounds;
+	//std::vector<std::string> texts;
 };
 
 #endif // __VICTORYSTATE_H_DEFINED__

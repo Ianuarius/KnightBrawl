@@ -13,7 +13,7 @@ GameState::GameState(Window *window):
 
 {
 	//Window window(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
-	
+	timer.start();
 
 }
 

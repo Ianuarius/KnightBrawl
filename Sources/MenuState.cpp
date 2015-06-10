@@ -6,13 +6,11 @@
 MenuState::MenuState(Window *window):
 	window(window),
 	menu(window, "menu_ph.png")
-{
-	
-	
+{		
 }
+
 MenuState::~MenuState() 
 {
-	//delete font;
 }
 
 stateStatus MenuState::update() 
@@ -25,12 +23,16 @@ stateStatus MenuState::update()
 
 		if (Input::keyPressed(SDL_SCANCODE_RETURN))	{
 			status.status = STATE_GAME;
-			//game = new GameState;
 		}	
 
 		if(Input::keyPressed(SDL_SCANCODE_ESCAPE)) {
 			status.status = STATE_QUIT;
 		}
+
+		/*if(Input::keyPressed(SDL_SCANCODE_CAPSLOCK)){
+			status.status = STATE_VICTORY;
+		}*/
+
 			
 	return status;
 }
