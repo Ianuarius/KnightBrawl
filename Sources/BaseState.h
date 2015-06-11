@@ -14,10 +14,15 @@
 #define STATE_CONTINUE	3
 #define STATE_QUIT		4
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 480;
-const int RESOLUTION_WIDTH = 400;
-const int RESOLUTION_HEIGHT = 240;
+const int LARGE_WIDTH =			1600;
+const int LARGE_HEIGHT =		960;
+const int SMALL_WIDTH =			1000;
+const int SMALL_HEIGHT =		600;
+
+const int SCREEN_WIDTH =		LARGE_WIDTH;
+const int SCREEN_HEIGHT =		LARGE_HEIGHT;
+const int RESOLUTION_WIDTH =	600;
+const int RESOLUTION_HEIGHT =	360;
 
 struct stateStatus 
 {

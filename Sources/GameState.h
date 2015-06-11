@@ -23,6 +23,8 @@
 #include "Texture.h"
 #include "Window.h"
 
+#define PLAYERS	1
+
 class GameState : public BaseState
 {
 public:
@@ -37,7 +39,10 @@ private:
 	Font *font;
 	Camera *camera;
 	Timer timer;
-	PlayerController *playerController1;
+	
+	std::vector<PlayerActor *> playerActors;
+	std::vector<PlayerController *> playerControllers;
+	std::vector<SDL_Point> startPoints;
 	bool gameover;
 };
 

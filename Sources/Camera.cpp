@@ -38,6 +38,7 @@ void Camera::update()
 
 	// NOTE(juha): The position where the player actor is rendered on the screen
 	// is handled in the PlayerActor.cpp.
+	/*
 	if (camera_state == RIGHT) {
 		
 		if (playerController->getLocation().x < 
@@ -68,8 +69,9 @@ void Camera::update()
 				(frame.x + (frame.w * FACING_R));
 		}
 	}
-
+	*/
 	frame.y = lerp(frame.y, playerController->getLocation().y);
+	frame.x = lerp(frame.x, playerController->getLocation().x);
 	//frame.y = frame.y + (playerController->getLocation().y - frame.y) * LERP;
 }
 
