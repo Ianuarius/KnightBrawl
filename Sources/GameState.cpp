@@ -9,41 +9,34 @@ GameState::GameState(Window *window):
 	window(window),
 	playerController1(nullptr),
 	camera(nullptr),
-	testi(nullptr)
-
+	level(nullptr)
 {
-	//Window window(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
 	timer.start();
-
-}
-
-GameState::~GameState()
-{
-}
-
-stateStatus GameState::update()
-{
-
-	stateStatus status;
-	status.status = STATE_CONTINUE;
-	status.prepend = false;
 
 	SDL_Rect sama = {16, 16, 160, 160};
 	SDL_Rect player = {0, 0, 0, 0};
 	SDL_Point start_point = {140, 0};
 
 	std::vector<PlayerActor> players;
-
 	PlayerController playerController1(start_point);
 	
 	Camera camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerController1);
 	PlayerActor player1(window,
 						&camera,
 						&playerController1);
+
 	players.push_back(player1);
 
-	Level testi(window, &camera);
-	testi.load("test.tmx");
+	level = new Level(window, &camera);
+	level->load("test.tmx");
+
+}
+
+stateStatus GameState::update()
+{
+	stateStatus status;
+	status.status = STATE_CONTINUE;
+	status.prepend = false;
 
 	bool gameover = false;
 	
@@ -57,17 +50,14 @@ stateStatus GameState::update()
 		Input::update();
 		playerController1.update();
 		camera.update();
-		window->clear();
-		testi.render();
-		player1.render();
-		window->refresh();
 	}
-
 
 	return status;
 }
 
 void GameState::render()
 {
+	level->render();
+	player1.render();
 
 }

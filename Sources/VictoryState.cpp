@@ -22,10 +22,7 @@ stateStatus VictoryState::update()
 	status.status = STATE_CONTINUE;
 	status.prepend = false;
 	
-	
-	
-
-	if (timer.getTicks() >= SLIDE_TIME){
+	if (timer.getTicks() >= SLIDE_TIME) {
 		status.status = STATE_MENU;
 		return status;
 	}

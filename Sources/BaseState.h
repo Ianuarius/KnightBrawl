@@ -27,15 +27,11 @@ struct stateStatus
 
 class BaseState 
 {
-
 	public:
 		BaseState() {};
 		~BaseState() {};
-
 		virtual stateStatus update() = 0;
 		virtual void render() = 0;
-
-	protected:
 };
 
 #endif // __BASESTATE_H_DEFINED__

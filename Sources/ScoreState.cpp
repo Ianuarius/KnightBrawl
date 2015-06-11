@@ -6,10 +6,10 @@
 #include "ScoreState.h"
 
 ScoreState::ScoreState(Window *window) :
-window(window),
-background(window, ""),
-font(new Font("", 28)),
-playername(new Text(font, Color("white")))
+	window(window),
+	background(window, ""),
+	font(new Font("", 28)),
+	playername(new Text(font, Color("white")))
 {
 
 }

@@ -3,22 +3,10 @@
  *
  */
 
-#include <SDL.h>
-#include <stdio.h>
-#include <vector>
-#include "Window.h"
 #include "Input.h"
 #include "SDL.h"
-#include "Sprite.h"
-#include "BaseState.h"
-#include "Level.h"
-#include "Camera.h"
-#include "PlayerActor.h"
-#include "PlayerController.h"
 #include "StateManager.h"
-
-
-
+#include "Window.h"
 
 int main(int argc, char* args[])
 {

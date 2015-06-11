@@ -12,11 +12,6 @@ StateManager::StateManager(Window *window):
 		pushState(new MenuState(window));
 }
 
-StateManager::~StateManager() 
-{
-
-}
-
 void StateManager::pushState(BaseState *state) 
 {
 	states.push_back(state);
@@ -34,11 +29,10 @@ void StateManager::run()
 		stateStatus new_status;
 			
 		Input::update();
-		
 		new_status = currentState->update();
 
-	if (new_status.status != STATE_CONTINUE && !new_status.prepend) {
-			popState();
+		if (new_status.status != STATE_CONTINUE && !new_status.prepend) {
+				popState();
 		}
 
 		switch (new_status.status)
@@ -66,6 +60,7 @@ void StateManager::run()
 				glove = false;
 			}
 		}
+
 		window->clear();
 		currentState->render();
 		window->refresh();
