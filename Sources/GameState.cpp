@@ -10,16 +10,22 @@ GameState::GameState(Window *window):
 	camera(nullptr),
 	level(nullptr)
 {
+	
 	timer.start();
 	
 
 	SDL_Rect sama = {16, 16, 160, 160};
 	SDL_Rect player = {0, 0, 0, 0};
 	SDL_Point start_point = {140, 0};
+	bool multiplayer = true;
+
+	if (PLAYERS <= 1) {
+		multiplayer = false;
+	}
 	
 	for (int i = 0; i < PLAYERS; i++) {
 		startPoints.push_back(start_point);
-		playerControllers.push_back(new PlayerController(startPoints[i]));
+		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i));
 	}
 	
 	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, playerControllers[0]);
@@ -27,9 +33,10 @@ GameState::GameState(Window *window):
 	for (int i = 0; i < PLAYERS; i++) {
 		playerActors.push_back(new PlayerActor(window, camera, playerControllers[i]));
 	}
-
+	
 	level = new Level(window, camera);
 	level->load("test.tmx");
+	
 }
 
 stateStatus GameState::update()

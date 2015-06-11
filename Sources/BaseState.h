@@ -19,8 +19,8 @@ const int LARGE_HEIGHT =		960;
 const int SMALL_WIDTH =			1000;
 const int SMALL_HEIGHT =		600;
 
-const int SCREEN_WIDTH =		LARGE_WIDTH;
-const int SCREEN_HEIGHT =		LARGE_HEIGHT;
+const int SCREEN_WIDTH =		SMALL_WIDTH;
+const int SCREEN_HEIGHT =		SMALL_HEIGHT;
 const int RESOLUTION_WIDTH =	600;
 const int RESOLUTION_HEIGHT =	360;
 

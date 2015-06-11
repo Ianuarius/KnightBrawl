@@ -5,6 +5,7 @@
 
 #ifndef __LEVEL_H_DEFINED__
 #define __LEVEL_H_DEFINED__
+
 #include <vector>
 #include "Camera.h"
 #include "PugiXML.h"

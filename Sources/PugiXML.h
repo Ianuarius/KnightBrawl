@@ -20,7 +20,7 @@
 // #include "PugiConfig.h"
 
 #ifndef HEADER_PUGIXML_H
-#define HEADER_PUGIXML_P
+#define HEADER_PUGIXML_H
 
 // Include stddef.h for size_t and ptrdiff_t
 #include <stddef.h>

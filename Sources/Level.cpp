@@ -11,7 +11,6 @@ Level::Level(Window *window, Camera *camera):
 {
 	start_position.x = 640;
 	start_position.y = 480;
-
 }
 
 Level::~Level()
