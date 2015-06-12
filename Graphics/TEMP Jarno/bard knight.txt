@@ -1,0 +1,25 @@
+Hartwig the Bard Knight
+
+Hartwig always wanted to be knight but his parent were not willing to let him train. So he became bard but one day he joined knights to aid in battle with his couraging tunes and calming melodies. He saved whole group of knights and slaughtered opposing knights and eventually he became actual Bard KNIGHT.. Elegant and unyielding.
+
+Weapon: Bard's harp
+
+Block: Bard cannot block or parry but he will knockback enemy slightly with irritating sound instead.
+
+Special abilities gain power-ups if used after certain attacks.
+
+Special ability 1: Flip-flop tune - plays tune which makes enemies confused. Their movement is reversed.
+After basic attack: Does also damage.
+After block: Last second longer.
+
+Special ability 2: Mending chorus - signs chorus which heals allies over time. Continues playing as long you hold the key.
+After basic attack: Enemies cannot heal while he is singing.
+After block: Slows enemies around you for 30% while tune is playing.
+
+Special ability 3: You shall napp - plays tune which makes closest enemy sleep. Enemy awakes if he receives damage.
+After basic attack: Enemy takes double damage.
+After block: After enemy is awaken he is slowed by 50% for 3 seconds.
+
+Special ability 4: HARP SMASH - Bard smacks enemy with his harp breaking it and making massive damage. He cannot use his harp anymore (Cannot use block, Special ability 1 or 3).
+After basic attack: Insta kills enemies below 30% hp.
+After block: plays last flip-flop tune while smacking.

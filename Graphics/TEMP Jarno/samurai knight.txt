@@ -1,0 +1,15 @@
+- the Samurai Knight
+
+
+
+Weapon: Nodachi - Great katana
+
+Block: Fade Dash - Dashes forward evading all attacks.
+
+Special 1: - Stands ground gaining unmovable status and damage reduction. ___ can attack normally.
+
+Special 2: - Runs forward swiftly and makes deadly slashes.
+
+Special 3: - Knockbacks enemy. Moves behind them swiftly striking them.
+
+Special 4: - Channels pain strenghtening and healing him. More wounded he was more damage percentage he gets.
