@@ -1,0 +1,136 @@
+
+
+KNIGHT
+
+-Special Bar
+int specialbar = 0;
+//timer and landed hits add value
+
+
+Max value = 1000
+
+
+while (!gameover){
+timer.start();
+if (timer.getticks == 5000){
+specialbar + 5;
+timer.getticks = 0;
+}
+}
+
+
+-Attacks
+void attack(int damage, range)
+{
+attack animation
+
+if (distance to enemy <= range && not blocked){
+makes damage
+}
+
+specialbar +1;
+
+}
+
+
+void specialAbility1(int damage, range)
+{
+special ability 1 animation
+
+if (distance to enemy <= range && not blocked){
+makes more damage than basic attack;
+}
+
+specialbar = 0;
+
+}
+
+
+void specialAbility2(int damage, range)
+{
+special ability 2 animation
+
+if (distance to enemy <= ranget && not blocked){
+makes  times more damage than basic attack
+}
+
+specialbar = 0;
+
+}
+
+
+void specialAbility3(int damage, range)
+{
+special ability 3 animation
+
+if (distance to enemy <= ranget && not blocked){
+makes more damage than basic attack
+}
+
+specialbar = 0;
+
+}
+
+
+void specialAbility4(int damage, range)
+{
+special ability 4 animation
+
+if (distance to enemy <= ranget && not blocked){
+makes more damage than the basic attack
+}
+
+specialbar = 0;
+
+}
+
+
+
+
+
+
+
+
+PlayerController::update()(??)
+
+{
+
+if button (attack) is pressed{
+player.attack();
+}
+
+
+if (button (spes.ability) is pressed){
+ if specialbar ==1000){
+player.specialAbility1();
+ }
+else make a sound or blink special bar  
+}
+
+
+if (button (spes.ability2) is pressed){
+ if specialbar ==1000){
+player.specialAbility2();
+ }
+else make a sound or blink special bar  
+}
+
+
+if (button (spes.ability3) is pressed){
+ if specialbar ==1000){
+player.specialAbility3();
+ }
+else make a sound or blink special bar  
+}
+
+if (button (spes.ability4) is pressed){
+ if specialbar ==1000){
+player.specialAbility4();
+ }
+else make a sound or blink special bar  
+}
+
+}
+
+
+

@@ -1,0 +1,91 @@
+
+Special ability contents:
+
+damage
+
+particle img
+
+Particle types:
+Radial, (Explosion, Shockwave...) 
+Linear (Spikes, Fireball, Daggers, Bones...)
+
+Particle amount
+
+
+Particle range
+
+
+pushback(type, amount, range)
+
+---------------------------------
+
+
+special 1
+
+damage
+particle
+
+
+
+particle effect(type, amount, range)
+
+---------------------------------
+special 2
+
+damage
+particle
+
+
+particle effect(type, amount, range)
+
+---------------------------------
+special 3
+
+damage
+particle
+
+particle effect(type, amount, range)
+
+---------------------------------
+
+special 4
+
+damage
+particle
+
+particle effect(type, amount, range)
+
+---------------------------------
+
+
+
+xml:
+
+special 1
+
+particle
+particle img
+damage
+
+---------------------------------
+special 2
+
+particle
+particle img
+damage
+
+---------------------------------
+special 3
+
+particle
+particle img
+damage
+
+---------------------------------
+special 4
+
+particle
+particle img
+damage
+
+---------------------------------
