@@ -12,4 +12,4 @@ Special 2: - Runs forward swiftly and makes deadly slashes.
 
 Special 3: - Knockbacks enemy. Moves behind them swiftly striking them.
 
-Special 4: - Channels pain strenghtening and healing him. More wounded he was more damage percentage he gets.
+Special 4: - Channels pain strenghtening and healing him. More wounded he was more damage he gets.
