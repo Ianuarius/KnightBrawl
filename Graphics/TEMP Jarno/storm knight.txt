@@ -1,0 +1,15 @@
+the Storm Knight
+
+Weapon: Lighting rod
+
+Block: Creates 3 lighting spheres which reduces damage taken 25%. Deals damage to enemies.
+
+Special 1: Sphere Barrage
+
+Usable when you have 3 or none lighting spheres.
+Creates 3 lighting spheres and then shoots all to enemy front of you.
+Special 2: Shock Nova - Shocks every enemy around you making them vulnerable to incoming attacks.
+
+Special 3: Thunder Cloud - Makes AoE lighting storm which hits rapidly to ground. It follows you.
+
+Special 4: Lighting Ride - Warps to random location. Makes high damage upon arrival.
