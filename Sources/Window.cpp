@@ -84,3 +84,10 @@ Uint32 Window::getDelta()
 {
 	return current_delta;
 }
+
+void Window::drawRect(int X, int Y, int W, int H, Color color)
+{
+	SDL_Rect fillRect = { X, Y, W, H };
+	SDL_SetRenderDrawColor(renderer, color.r(), color.g(), color.b(), color.a());
+	SDL_RenderFillRect(renderer, &fillRect );
+}

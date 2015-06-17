@@ -22,6 +22,7 @@ SDL_Texture *Texture::loadImage(std::string path)
 		printf("Failed to load texture %s.\n", path.c_str());
 		return nullptr;
 	}
+
 	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format,
 												0xFF, 0, 0xFF));
 	SDL_Texture *newTexture = SDL_CreateTextureFromSurface(renderer, surface);

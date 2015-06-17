@@ -45,16 +45,122 @@ void Level::load(std::string level_name)
 		
 		if (iteratorCount % levelWidth == 0)
 		{
-			tileData.push_back(levelRow);
+			TileData.push_back(levelRow);
 			levelRow.clear();
 		}
 	}
 
 	//std::string tileSet = levelDocument.child("map").child("tileset").child("image").attribute("source").value();
-	std::string tileSet = "testi.png";
+	std::string tileSet = "tavern_tileset.png";
 
 
 	levelTileSheet = new Sprite(window, tileSet, tileSize, tileSize);
+}
+
+int Level::getTile(int x, int y)
+{
+	if (y >= 0 &&
+		x >= 0 &&
+		y < TileData.size()*tileSize &&
+		x < TileData[0].size()*tileSize)
+	{
+		return (TileData[y/tileSize][x/tileSize]);
+	}
+
+	return 0;
+}
+
+void Level::collides(PlayerController *playerController)
+{
+	Rectangle old_entity = playerController->hitbox;
+	Rectangle new_entity = playerController->boundbox;
+	new_entity.w = old_entity.w;
+	new_entity.h = old_entity.h;
+
+	// Get the area of tiles considered for collision
+	SDL_Point min_tile_xy = {std::min(old_entity.TopLeft().x, new_entity.TopLeft().x),
+							 std::min(old_entity.TopLeft().y, new_entity.TopLeft().y)};
+	SDL_Point max_tile_xy = {std::max(old_entity.BottomRight().x, new_entity.BottomRight().x),
+							 std::max(old_entity.BottomRight().y, new_entity.BottomRight().y)};
+
+	int min_tile_x = (min_tile_xy.x / tileSize) - 1;
+	int min_tile_y = (min_tile_xy.y / tileSize) - 1;
+	int max_tile_x = (max_tile_xy.x / tileSize) + 1;
+	int max_tile_y = (max_tile_xy.y / tileSize) + 1;
+
+	SDL_Rect tmpbound = (SDL_Rect) playerController->hitbox;
+
+	// Vertical collision
+	for (int y_tile = min_tile_y + 1; y_tile < max_tile_y - 1; y_tile++) {
+		for (int x_tile = min_tile_x; x_tile <= max_tile_x; x_tile++) {
+
+			SDL_Rect tmp_tile = {(x_tile * tileSize),
+								(y_tile * tileSize),
+								tileSize,
+								tileSize-2};
+			
+			if (SDL_HasIntersection(&tmp_tile, &tmpbound) &&
+				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
+					playerController->boundbox = playerController->old_bound;
+			}
+			/*
+			SDL_Rect tmp_tile = {(x_tile * tileSize),
+							(y_tile * tileSize),
+							tileSize,
+							tileSize-2};
+
+			if (getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
+				if (getTile(x_tile * tileSize, (y_tile + 1) * tileSize) != 0) {
+					tmp_tile.h += tileSize;
+				}
+			}
+
+			if (SDL_HasIntersection(&tmp_tile, &tmpbound) &&
+				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
+					if (playerController->velocity_x > 0) {
+						playerController->boundbox.x = tmp_tile.x - (playerController->hitbox.w + 1);
+					} else {
+						playerController->boundbox.x = (tmp_tile.x + tmp_tile.w) + 1;
+					}
+					
+			}*/
+		}
+	}
+
+	tmpbound = (SDL_Rect) playerController->boundbox;
+
+	// Horizontal collision
+	for (int y_tile = min_tile_y; y_tile <= max_tile_y; y_tile++) {
+		for (int x_tile = min_tile_x; x_tile < max_tile_x; x_tile++) {
+			
+			SDL_Rect tmp_tile = {(x_tile * tileSize),
+							(y_tile * tileSize),
+							tileSize,
+							tileSize};
+
+			if (getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
+				if (getTile((x_tile + 1) * tileSize, y_tile * tileSize) != 0) {
+					tmp_tile.w += tileSize;
+				}
+			}
+
+			if (SDL_HasIntersection(&tmp_tile, &tmpbound) &&
+				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
+					playerController->boundbox = playerController->old_bound;
+					/*
+					if (tmp_tile.y < playerController->boundbox.y) {
+						playerController->boundbox.y = tmp_tile.y + tmp_tile.h + 1;
+						playerController->velocity_y = 0;
+					} else {
+						playerController->boundbox.y = tmp_tile.y - playerController->hitbox.h;
+						playerController->velocity_y = 0;
+						playerController->in_air = false;
+					}
+					*/
+			}
+			
+		}
+	}
 }
 
 void Level::render()
@@ -64,7 +170,7 @@ void Level::render()
 	std::vector<std::vector<int>>::iterator row_begin;
 	std::vector<std::vector<int>>::iterator row_end;
 	std::vector<std::vector<int>> *data;
-	data = &tileData;
+	data = &TileData;
 
 	row_begin = data->begin();
 	row_end = data->end();

@@ -28,6 +28,7 @@ public:
 	void refresh();
 	void clear();
 	void fill(Color color);
+	void drawRect(int X, int Y, int W, int H, Color color);
 
 	unsigned int window_width, logical_width;
 	unsigned int window_height, logical_height;
