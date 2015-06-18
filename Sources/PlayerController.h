@@ -31,10 +31,10 @@ public:
 	void up();
 	void action();
 	
-	bool in_air;
+	bool in_air, jumping;
 	float velocity_x, velocity_y;
-	SDL_Point location;
-	Rectangle boundbox, hitbox, old_bound;
+	SDL_Point location, old_location;
+	Rectangle boundbox, hitbox;
 
 private:
 	EnumParser<SDL_Scancode> fieldTypeParser;

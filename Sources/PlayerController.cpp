@@ -13,8 +13,11 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	location(start_position),
 	boundbox(location.x - 25, location.y - 50, 50, 50),
 	hitbox(boundbox.x + ((50 / 2) - (26 / 2)), boundbox.y + (50 - 26), 26, 26),
-	old_bound(boundbox),
-	in_air(false)
+	old_location(location),
+	velocity_x(0), velocity_y(0),
+	in_air(false),
+	jumping(false),
+	speed(5)
 {
 	std::string filename = "Controls.xml";
 	result = controlsDocument.load_file(filename.c_str());
@@ -33,6 +36,18 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 
 void PlayerController::update()
 {
+	// Gravitational stuff
+	
+	velocity_y += GRAVITY * (16.f / 1000);
+
+	if (velocity_y >= 7) {
+		velocity_y = 7;
+	}
+	
+	if (!in_air) {
+		jumping = false;
+	}
+
 	if (!multiplayer) { // SINGLE PLAYER MAPPINGS
 		// MOVE LEFT
 		if (Input::keyState(fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
@@ -120,10 +135,17 @@ void PlayerController::update()
 		}
 	}
 
+	if (jumping) {
+		jump();
+	}
+
 	boundbox.x = location.x - 25;
 	boundbox.y = location.y - 50;
 	hitbox.x = boundbox.x + ((50 / 2) - (26 / 2));
 	hitbox.y = boundbox.y + (50 - 26);
+	location.y += velocity_y;
+
+	// printf("%f\n", velocity_y);
 
 }
 
@@ -134,17 +156,21 @@ int PlayerController::getDirection()
 
 void PlayerController::jump()
 {
-	printf("jump\n");
+	// NOTE(juha): ukko j‰‰ kiinni lattiaan, joten ei voi hyp‰t‰
+	if (in_air == false) {
+		velocity_y -= 5;
+		in_air = true;
+	}
 }
 
 void PlayerController::crouch()
 {
-	location.y += 10;
+	location.y += speed;
 }
 
 void PlayerController::up()
 {
-	location.y -= 10;
+	location.y -= speed;
 }
 
 void PlayerController::action()
@@ -154,10 +180,10 @@ void PlayerController::action()
 
 void PlayerController::left()
 {
-	location.x -= 10;
+	location.x -= speed;
 }
 
 void PlayerController::right()
 {
-	location.x += 10;
+	location.x += speed;
 }

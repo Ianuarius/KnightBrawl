@@ -18,13 +18,13 @@ Camera::Camera(int width, int height, PlayerController *playerController):
 
 void Camera::update()
 {
-	frame.x = lerp(frame.x, playerController->boundbox.x - frame.w/2);
-	frame.y = lerp(frame.y, playerController->boundbox.y - frame.h/2);
+	frame.x = lerp(frame.x, playerController->location.x - frame.w/2);
+	frame.y = lerp(frame.y, playerController->location.y - frame.h/2);
 }
 
 int Camera::lerp(int a, int b)
 {
-	return int(a + (b - a));
+	return int(a + (b - a) * LERP);
 }
 
 SDL_Rect Camera::getFrame()

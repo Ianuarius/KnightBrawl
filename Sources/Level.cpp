@@ -51,7 +51,7 @@ void Level::load(std::string level_name)
 	}
 
 	//std::string tileSet = levelDocument.child("map").child("tileset").child("image").attribute("source").value();
-	std::string tileSet = "tavern_tileset.png";
+	std::string tileSet = "Graphics/Tilesets/tavern_tileset.png";
 
 
 	levelTileSheet = new Sprite(window, tileSet, tileSize, tileSize);
@@ -90,7 +90,8 @@ void Level::collides(PlayerController *playerController)
 
 	SDL_Rect tmpbound = (SDL_Rect) playerController->hitbox;
 
-	// Vertical collision
+	// Horizontal collision
+
 	for (int y_tile = min_tile_y + 1; y_tile < max_tile_y - 1; y_tile++) {
 		for (int x_tile = min_tile_x; x_tile <= max_tile_x; x_tile++) {
 
@@ -101,7 +102,16 @@ void Level::collides(PlayerController *playerController)
 			
 			if (SDL_HasIntersection(&tmp_tile, &tmpbound) &&
 				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
-					playerController->boundbox = playerController->old_bound;
+
+				// NOTE(juha): If player mid is more right than tile mid
+				if ((playerController->location.x) > (tmp_tile.x + (tileSize / 2))) {
+ 					playerController->location.x = tmp_tile.x + tileSize + playerController->hitbox.w / 2;
+				}
+				
+				// NOTE(juha): If player mid is more left than tile mid
+				if ((playerController->location.x) < (tmp_tile.x + (tileSize / 2))) {
+ 					playerController->location.x = tmp_tile.x - playerController->hitbox.w / 2;
+				}
 			}
 			/*
 			SDL_Rect tmp_tile = {(x_tile * tileSize),
@@ -127,9 +137,9 @@ void Level::collides(PlayerController *playerController)
 		}
 	}
 
-	tmpbound = (SDL_Rect) playerController->boundbox;
+	tmpbound = (SDL_Rect) playerController->hitbox;
 
-	// Horizontal collision
+	// Vertical collision
 	for (int y_tile = min_tile_y; y_tile <= max_tile_y; y_tile++) {
 		for (int x_tile = min_tile_x; x_tile < max_tile_x; x_tile++) {
 			
@@ -144,9 +154,22 @@ void Level::collides(PlayerController *playerController)
 				}
 			}
 
+
+
 			if (SDL_HasIntersection(&tmp_tile, &tmpbound) &&
 				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
-					playerController->boundbox = playerController->old_bound;
+
+				// NOTE(juha): If player mid is lower than tile mid
+				if ((playerController->location.y - (playerController->hitbox.h / 2)) > (tmp_tile.y + (tileSize / 2))) {
+ 					playerController->location.y = tmp_tile.y + tileSize + playerController->hitbox.h;
+				}
+			
+				// NOTE(juha): If player mid is higher than tile mid
+				if ((playerController->location.y - (playerController->hitbox.h / 2)) < (tmp_tile.y + (tileSize / 2))) {
+					playerController->location.y = tmp_tile.y;
+					playerController->velocity_y = 0;
+					playerController->in_air = false;
+				}
 					/*
 					if (tmp_tile.y < playerController->boundbox.y) {
 						playerController->boundbox.y = tmp_tile.y + tmp_tile.h + 1;

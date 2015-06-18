@@ -11,7 +11,7 @@ GameState::GameState(Window *window):
 	level(nullptr)
 {
 	timer.start();
-	SDL_Point start_point = {140, 0};
+	SDL_Point start_point = {38*16, 54*16};
 
 	bool multiplayer = true;
 
@@ -31,7 +31,7 @@ GameState::GameState(Window *window):
 	}
 	
 	level = new Level(window, camera);
-	level->load("tavern_small.tmx");
+	level->load("Levels/tavern_small.tmx");
 	
 }
 
@@ -48,17 +48,17 @@ stateStatus GameState::update()
 	for (int i = 0; i < PLAYERS; i++) {
 		playerControllers[i]->update();
 	}
-
-	Input::update();
+	
 	level->collides(playerControllers[0]);
-	playerControllers[0]->old_bound = playerControllers[0]->boundbox;
-
-	// Tallennetaan pelaajan tietoihin sen edellinen sijainti ja jos tapahtuu
-	// collisioni, niin palautetaan pelaaja edelliseen sijaintiin.
+	Input::update();
+	playerControllers[0]->old_location = playerControllers[0]->location;
 	camera->update();
 
-	printf("Player x: %d - Player y: %d\n", playerControllers[0]->boundbox.x, playerControllers[0]->boundbox.y);
-
+	// NOTE(juha): prints player location to console
+	/*
+	printf("Player x: %d - Player y: %d\n", 
+		playerControllers[0]->location.x, playerControllers[0]->location.y);
+	*/
 	return status;
 }
 

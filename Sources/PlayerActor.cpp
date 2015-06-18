@@ -11,7 +11,7 @@ PlayerActor::PlayerActor(Window *window,
 	playerController(playerController),
 	window(window),
 	camera(camera),
-	texture(window, "rogue_knight_idle.png"),
+	texture(window, "Graphics/rogue_knight_idle.png"),
 	facing(RIGHT)
 {
 
@@ -19,7 +19,7 @@ PlayerActor::PlayerActor(Window *window,
 
 void PlayerActor::render()
 {	
-	bool draw_boundbox = true;
+	bool draw_boundbox = false;
 
 	int camera_middle_x = camera->getFrame().w / 2;
 

@@ -7,7 +7,7 @@
 
 MenuState::MenuState(Window *window):
 	window(window),
-	menu(window, "menu_ph.png")
+	menu(window, "Graphics/menu_ph.png")
 {		
 }
 
