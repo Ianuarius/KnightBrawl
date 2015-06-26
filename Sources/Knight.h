@@ -13,8 +13,10 @@
 class Knight
 {
 public:
-	Knight(Window *window, int knight_name);
+	Knight(Window *window, int knight_number);
 	Animation *getAnimations(int animation);
+	float getSpeed();
+	float getJump();
 
 	enum possible_animations {
 		IDLE=0,
@@ -41,6 +43,11 @@ public:
 
 private:
 	std::vector<Animation*> animations;
+	std::string truename;
+	std::string knightname;
+	float speed;
+	float jump;
+	int hitpoints;
 
 	pugi::xml_parse_result knight_result, roster_result;
 	pugi::xml_document knight_document, roster_document;

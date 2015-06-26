@@ -23,7 +23,7 @@ class PlayerController
 {
 public:
 	PlayerController(SDL_Point start_position, 
-		bool multiplayer, int player);
+		bool multiplayer, int player, Knight *knight);
 	int getDirection();
 	void update();
 	void jump();
@@ -40,6 +40,7 @@ public:
 	Rectangle boundbox, hitbox, desired;
 
 private:
+	Knight *knight;
 	EnumParser<SDL_Scancode> fieldTypeParser;
 	pugi::xml_document controlsDocument;
 	pugi::xml_parse_result result;

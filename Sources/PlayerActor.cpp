@@ -19,12 +19,37 @@ PlayerActor::PlayerActor(Window *window,
 
 void PlayerActor::updateAnimation()
 {
+	// IDLE
 	currentAnimation = knight->getAnimations(knight->IDLE);
-
+	
+	// RUN
 	if (playerController->velocity_x != 0) {
 		currentAnimation = knight->getAnimations(knight->RUN);
 	}
 	
+	// JUMP
+	if (playerController->jumping == true) {
+		currentAnimation = knight->getAnimations(knight->JUMP);
+	}
+
+	// ATTACK
+	// BLOCK
+
+	// CROUCH
+	// DEATH
+	// DODGE
+	// DOWN_THRUST
+	// HANGING
+	// MID_AIR_BASIC_ATTACK
+	// PUSHBACK
+	// SPECIAL_I
+	// SPECIAL_II
+	// SPECIAL_III
+	// SPECIAL_IV
+	// THROW
+	// UPPERCUT
+
+
 	currentAnimation->play(INFINITE_LOOP);
 }
 

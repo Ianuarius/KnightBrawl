@@ -33,7 +33,10 @@ public:
 	void render();
 	enum knights {
 		CACTUS_KNIGHT,
-		WIZARD_KNIGHT
+		WIZARD_KNIGHT,
+		ROGUE_KNIGHT,
+		LANTERN_KNIGHT,
+		DRAGON_KNIGHT
 	};
 
 private:

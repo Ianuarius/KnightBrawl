@@ -8,7 +8,7 @@
 // XBOX 360 Mapping:
 // http://wiki.gp2x.org/articles/s/d/l/SDL_Joystick_mapping.html
   
-PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player):
+PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
 	multiplayer(multiplayer),
 	location(start_position),
 	boundbox(location.x - 25, location.y - 50, 50, 50),
@@ -16,11 +16,12 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	desired(hitbox),
 	acceleration(0.8), stoppedThreshold(acceleration/3),
 	velocity_x(0), velocity_y(0),
+	knight(knight),
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
 	in_air(true),
 	jumping(false),
-	speed(5)
+	speed(knight->getSpeed())
 {
 	std::string filename = "Controls.xml";
 	result = controlsDocument.load_file(filename.c_str());
@@ -166,15 +167,6 @@ int PlayerController::getDirection()
 	return facing_direction;
 }
 
-void PlayerController::jump()
-{
-	// NOTE(juha): ukko jää kiinni lattiaan, joten ei voi hypätä
-	if (in_air == false) {
-		velocity_y -= 5;
-		in_air = true;
-	}
-}
-
 void PlayerController::commitMovement()
 {
 	location.x = desired.x + hitbox.w/2;
@@ -184,11 +176,6 @@ void PlayerController::commitMovement()
 	boundbox.y = location.y - 50;
 	hitbox.x = boundbox.x + ((50 / 2) - (26 / 2));
 	hitbox.y = boundbox.y + (50 - 26);
-}
-
-void PlayerController::crouch()
-{
-	// desired.y += speed;
 }
 
 void PlayerController::up()
@@ -201,6 +188,10 @@ void PlayerController::action()
 	printf("action\n");
 }
 
+
+// IDLE
+
+// RUN
 void PlayerController::left()
 {
 	targetVx = -(speed * acceleration);
@@ -212,3 +203,35 @@ void PlayerController::right()
 	targetVx = (speed * acceleration);
 	facing_direction = FACING_RIGHT;
 }
+
+// JUMP
+void PlayerController::jump()
+{
+	if (in_air == false) {
+		velocity_y -= knight->getJump();
+		in_air = true;
+		jumping = true;
+	}
+}
+
+// ATTACK
+// BLOCK
+
+// CROUCH
+void PlayerController::crouch()
+{
+	// desired.y += speed;
+}
+
+// DEATH
+// DODGE
+// DOWN_THRUST
+// HANGING
+// MID_AIR_BASIC_ATTACK
+// PUSHBACK
+// SPECIAL_I
+// SPECIAL_II
+// SPECIAL_III
+// SPECIAL_IV
+// THROW
+// UPPERCUT

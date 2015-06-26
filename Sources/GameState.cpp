@@ -46,16 +46,21 @@ GameState::GameState(Window *window):
 	animation knight
 	*/
 
-	knight1 = new Knight(window, CACTUS_KNIGHT);
-	knight2 = new Knight(window, WIZARD_KNIGHT);
+	knight1 = new Knight(window, DRAGON_KNIGHT);
+	knight2 = new Knight(window, LANTERN_KNIGHT);
 
 	startPoints.push_back(start_point_1);
 	startPoints.push_back(start_point_2);
 	
+	/*
 	for (int i = 0; i < PLAYERS; i++) {
 		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i));
 	}
-	
+	*/
+
+	playerControllers.push_back(new PlayerController(startPoints[0], multiplayer, 0, knight1));
+	playerControllers.push_back(new PlayerController(startPoints[1], multiplayer, 1, knight2));
+
 	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerControllers);
 
 	/*
