@@ -171,7 +171,7 @@
     </pushback>
       
     <run speed="5">
-      <animation filename="Graphics/Knights/wizard/cactusknight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" />
+      <animation filename="Graphics/Knights/wizardknight/wizard_knight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" />
       <control type="single">
         <key>forward</key>        
       </control>
