@@ -8,16 +8,13 @@
                   ranged - Fires a hitbox that flies through the air
                   buff - Doesn't create a hitbox, rather gives the user an effect
                   aoe - Creates a large hitbox that stays in place for a certain amount of time. Sometimes follows the user.
-                  
-  <animation filename="Graphics/Knights/knightfolder/knightname_animation.png" framecount="how many frames?" width="pixels (default 50px)" height="pixels (default 50px)" startframe"default 0 (the first frame)" framerate="divides 1000ms by this value (the more the faster, ex. 1000/4=250, 1000/8=125 etc)">
   
   <effect type="insert effect type" +following parameters+ > 
   Effect types:   slow - Debuff that slows targets. Requires duration="seconds" power="percentage"
                   stun - Debuff that incapacitates targets. Requires duration="seconds"
                   burn - Debuff that damages the target periodically. Requires duration="seconds" power="damage per tick" tickrate="seconds"
                   pushback - Sends targets flying in a direction the effect is fired at. Requires power="pixels per second"
-                  buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration or count" time="seconds or how many attacks(1, 2, 3...)" power="percentage"
-                  thorn - Buff that deals damage to enemies when user is touched or attacked. 
+                  buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration or count" time="seconds or how many attacks(1, 2, 3...)" power="percentage" 
   
   <control type="insert type">
   Control types:  single - requires only one key to be pushed
@@ -30,8 +27,7 @@
   Keys:   action - attack button
           up - doesn't do anything else than exist for combo reasons
           down - crouch
-          forward - left or right keys
-          jump - jump
+          forward - left or right
 -->
 
 <knight>
@@ -74,9 +70,9 @@
       </control>
     </attack>
 
-		<attack name="special1" format="ranged">
+		<attack name="special1" format="strike">
       <animation filename="Graphics/Knights/cactusknight/cactusknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
-      <projectile name="spine" filename="Graphics/Knights/cactusknight/cactusknight_spine.png" />
+      <effect type="slow" duration="3000" power="50" />
       <control type="combo">
         <key>forward</key>
         <key>up</key>

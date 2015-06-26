@@ -22,6 +22,7 @@ public:
 	
 	SDL_Renderer *getRenderer();
 	Uint32 getDelta();
+	int getFramerate();
 	
 	void destroy();
 	void resize(int window_width, int window_height, bool fullscreen);
@@ -34,17 +35,16 @@ public:
 	unsigned int window_height, logical_height;
 	unsigned int originalWidth;
 	unsigned int originalHeight;
-private:
 
-	SDL_Surface* gScreenSurface;
-	SDL_Surface* gHelloWorld;
+private:
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 
+	Timer frametimeTimer, fpsTimer;
 	Uint32 framerate, frame_delay, current_delta;
+	int fps_current, fps;
 
 	bool fullscreen;
-
 };
 
 

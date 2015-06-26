@@ -13,9 +13,12 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	location(start_position),
 	boundbox(location.x - 25, location.y - 50, 50, 50),
 	hitbox(boundbox.x + ((50 / 2) - (26 / 2)), boundbox.y + (50 - 26), 26, 26),
-	old_location(location),
+	desired(hitbox),
+	acceleration(0.8), stoppedThreshold(acceleration/3),
 	velocity_x(0), velocity_y(0),
-	in_air(false),
+	targetVx(0),
+	facing_direction(FACING_RIGHT),
+	in_air(true),
 	jumping(false),
 	speed(5)
 {
@@ -39,6 +42,8 @@ void PlayerController::update()
 	// Gravitational stuff
 	
 	velocity_y += GRAVITY * (16.f / 1000);
+	
+	desired.y += velocity_y;
 
 	if (velocity_y >= 7) {
 		velocity_y = 7;
@@ -47,6 +52,19 @@ void PlayerController::update()
 	if (!in_air) {
 		jumping = false;
 	}
+
+	velocity_x += ((targetVx - velocity_x) * acceleration) * 0.16667f;
+
+	if (fabs(velocity_x) > speed) {
+		velocity_x = (velocity_x > 0) ? speed : -speed;
+	}
+
+	if (fabs(velocity_x) < stoppedThreshold) {
+		velocity_x = 0;
+	}
+
+	desired.x += floorf(velocity_x);
+	targetVx = 0;
 
 	if (!multiplayer) { // SINGLE PLAYER MAPPINGS
 		// MOVE LEFT
@@ -139,19 +157,13 @@ void PlayerController::update()
 		jump();
 	}
 
-	boundbox.x = location.x - 25;
-	boundbox.y = location.y - 50;
-	hitbox.x = boundbox.x + ((50 / 2) - (26 / 2));
-	hitbox.y = boundbox.y + (50 - 26);
-	location.y += velocity_y;
-
 	// printf("%f\n", velocity_y);
 
 }
 
 int PlayerController::getDirection()
 {
-	return facing;
+	return facing_direction;
 }
 
 void PlayerController::jump()
@@ -163,14 +175,25 @@ void PlayerController::jump()
 	}
 }
 
+void PlayerController::commitMovement()
+{
+	location.x = desired.x + hitbox.w/2;
+	location.y = desired.y + hitbox.h;
+
+	boundbox.x = location.x - 25;
+	boundbox.y = location.y - 50;
+	hitbox.x = boundbox.x + ((50 / 2) - (26 / 2));
+	hitbox.y = boundbox.y + (50 - 26);
+}
+
 void PlayerController::crouch()
 {
-	location.y += speed;
+	// desired.y += speed;
 }
 
 void PlayerController::up()
 {
-	location.y -= speed;
+	// velocity_y -= speed * 0.1f;
 }
 
 void PlayerController::action()
@@ -180,10 +203,12 @@ void PlayerController::action()
 
 void PlayerController::left()
 {
-	location.x -= speed;
+	targetVx = -(speed * acceleration);
+	facing_direction = FACING_LEFT;
 }
 
 void PlayerController::right()
 {
-	location.x += speed;
+	targetVx = (speed * acceleration);
+	facing_direction = FACING_RIGHT;
 }

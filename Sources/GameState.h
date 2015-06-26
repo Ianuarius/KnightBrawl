@@ -23,7 +23,7 @@
 #include "Texture.h"
 #include "Window.h"
 
-#define PLAYERS	1
+#define PLAYERS	2
 
 class GameState : public BaseState
 {
@@ -31,6 +31,10 @@ public:
 	GameState(Window *window);
 	stateStatus update();
 	void render();
+	enum knights {
+		CACTUS_KNIGHT,
+		WIZARD_KNIGHT
+	};
 
 private:
 	Window *window;
@@ -38,6 +42,8 @@ private:
 	Texture *background;
 	Font *font;
 	Camera *camera;
+	Knight *knight1;
+	Knight *knight2;
 	Timer timer;
 	
 	std::vector<PlayerActor *> playerActors;

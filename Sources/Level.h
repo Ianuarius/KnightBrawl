@@ -6,12 +6,23 @@
 #ifndef __LEVEL_H_DEFINED__
 #define __LEVEL_H_DEFINED__
 
+#include <algorithm>
+#include <math.h>
 #include <vector>
 #include "Camera.h"
 #include "PugiXML.h"
+#include "Rectangle.h"
 #include "Sprite.h"
 #include "Window.h"
-#include "Rectangle.h"
+
+#define BG2_LAYER	0	// Background 2 layer
+#define BG1_LAYER	1	// Background 1 layer
+#define FG2_LAYER	2	// Foreground 2 layer
+#define FG1_LAYER	3	// Foreground 1 layer
+#define GAME_LAYER	4	// Game layer
+#define PF_LAYER	5	// Platform layer
+
+#define LAYER_COUNT 6
 
 class Level
 {
@@ -20,11 +31,11 @@ public:
 	~Level();
 
 	void load(std::string level_name);
-	void render();
+	void render(int layer);
 	int getTile(int x, int y);
 	void collides(PlayerController *playerController);
-	pugi::xml_node Layer;
 	SDL_Point start_position;
+	SDL_Rect pointToTile(int x, int y);
 
 private:
 	Window *window;
@@ -32,6 +43,14 @@ private:
 	
 	pugi::xml_document levelDocument;
 	pugi::xml_parse_result result;
+
+	pugi::xml_node Background2, Background1, 
+				   Foreground2, Foreground1, 
+				   GameLayer, PlatformLayer;
+
+	std::vector<std::vector<int> > Background2Data, Background1Data, 
+								   Foreground2Data, Foreground1Data, 
+								   GameLayerData, PlatformLayerData;
 
 	int levelWidth, levelHeight;
 	int tileSize;

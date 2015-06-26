@@ -6,16 +6,18 @@
 #ifndef __PLAYERCONTROLLER_H_DEFINED__
 #define __PLAYERCONTROLLER_H_DEFINED__
 
-#include "Input.h"
-#include "SDL.h"
-#include "PugiXML.h"
-#include "Keymap.h"
-#include "Rectangle.h"
 #include <string>
+#include "Input.h"
+#include "Keymap.h"
+#include "Knight.h"
+#include "PugiXML.h"
+#include "Rectangle.h"
+#include "SDL.h"
 
 #define GRAVITY 13
 
-enum Direction {RIGHT, LEFT};
+#define FACING_RIGHT 1
+#define FACING_LEFT 2
 
 class PlayerController
 {
@@ -30,11 +32,12 @@ public:
 	void crouch();
 	void up();
 	void action();
+	void commitMovement();
 	
 	bool in_air, jumping;
 	float velocity_x, velocity_y;
-	SDL_Point location, old_location;
-	Rectangle boundbox, hitbox;
+	SDL_Point location;
+	Rectangle boundbox, hitbox, desired;
 
 private:
 	EnumParser<SDL_Scancode> fieldTypeParser;
@@ -43,9 +46,11 @@ private:
 	pugi::xml_node SinglePlayerMappings;
 	pugi::xml_node MultiPlayerMappings;
 	bool multiplayer;
-	int facing;
+	int facing_direction;
 	float speed;
 	float acceleration;
+	float targetVx;
+	float stoppedThreshold;
 };
 
 #endif //__PLAYERCONTROLLER_H_DEFINED__

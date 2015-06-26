@@ -5,7 +5,8 @@
 #include "Texture.h"
 
 Texture::Texture(Window *window, std::string filename):
-	clipRect()
+	clipRect(),
+	flip(false)
 {
 	renderer = window->getRenderer();
 	texture = loadImage(filename);
@@ -15,7 +16,6 @@ Texture::Texture(Window *window, std::string filename):
 
 SDL_Texture *Texture::loadImage(std::string path)
 {
-
 	SDL_Surface* surface = IMG_Load(path.c_str());
 	
 	if (!surface) {
@@ -45,6 +45,10 @@ void Texture::render(int x, int y)
 
 	SDL_Rect destination = {x, y, clipRect.w, clipRect.h};
 	SDL_RendererFlip flag = SDL_FLIP_NONE;
+
+	if (flip) {
+		flag = SDL_FLIP_HORIZONTAL;
+	}
 
 	SDL_RenderCopyEx(renderer, texture, &clipRect, &destination, 0, NULL, flag);
 

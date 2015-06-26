@@ -5,13 +5,27 @@
 
 #include "GameState.h"
 
+/**
+ * TODO(juha):
+ * [x] Pelaajien animaatioiden lukeminen XML:st‰
+ * [ ] Pelaajien liikkeiden yhdist‰minen n‰pp‰imiin
+ * [ ] Iskujen hitboxit ja niiden yhdist‰minen tiettyyn animaation frameen
+ * [ ] Combo-liikkeiden n‰pp‰insarjat
+ * 
+ * 
+ * 
+ */
+
 GameState::GameState(Window *window):
 	window(window),
 	camera(nullptr),
+	knight1(nullptr),
+	knight2(nullptr),
 	level(nullptr)
 {
 	timer.start();
-	SDL_Point start_point = {38*16, 54*16};
+	SDL_Point start_point_1 = {36*16, 64*16};
+	SDL_Point start_point_2 = {46*16, 64*16};
 
 	bool multiplayer = true;
 
@@ -19,17 +33,39 @@ GameState::GameState(Window *window):
 		multiplayer = false;
 	}
 	
+	/*
+	TODO(juha): T‰ss‰ kun luodaan uusi knight, niin sille pit‰‰
+	saada xml-tiedostosta oikeat tiedot, kuten animaatioiden polut,
+	hitboxit, yms.
+
+	hitbox player_c
+	hitpoints knight
+	jump player_c
+	speed player_c
+	action player_c
+	animation knight
+	*/
+
+	knight1 = new Knight(window, CACTUS_KNIGHT);
+	knight2 = new Knight(window, WIZARD_KNIGHT);
+
+	startPoints.push_back(start_point_1);
+	startPoints.push_back(start_point_2);
+	
 	for (int i = 0; i < PLAYERS; i++) {
-		startPoints.push_back(start_point);
 		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i));
 	}
 	
-	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, playerControllers[0]);
+	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerControllers);
 
+	/*
 	for (int i = 0; i < PLAYERS; i++) {
 		playerActors.push_back(new PlayerActor(window, camera, playerControllers[i]));
 	}
-	
+	*/
+	playerActors.push_back(new PlayerActor(window, camera, playerControllers[0], knight1));
+	playerActors.push_back(new PlayerActor(window, camera, playerControllers[1], knight2));
+
 	level = new Level(window, camera);
 	level->load("Levels/tavern_small.tmx");
 	
@@ -48,10 +84,21 @@ stateStatus GameState::update()
 	for (int i = 0; i < PLAYERS; i++) {
 		playerControllers[i]->update();
 	}
+
+	for (int i = 0; i < PLAYERS; i++) {
+		level->collides(playerControllers[i]);
+	}
 	
-	level->collides(playerControllers[0]);
+	for (int i = 0; i < PLAYERS; i++) {
+		playerActors[i]->updateAnimation();
+	}
+
+	for (int i = 0; i < PLAYERS; i++) {
+		playerControllers[i]->commitMovement();
+	}
+	
 	Input::update();
-	playerControllers[0]->old_location = playerControllers[0]->location;
+
 	camera->update();
 
 	// NOTE(juha): prints player location to console
@@ -64,9 +111,16 @@ stateStatus GameState::update()
 
 void GameState::render()
 {
-	level->render();
+	level->render(BG2_LAYER);
+	level->render(BG1_LAYER);
+	level->render(GAME_LAYER);
+	
+	level->render(PF_LAYER);
+	level->render(FG2_LAYER);
+	level->render(FG1_LAYER);
 
 	for (int i = 0; i < PLAYERS; i++) {
 		playerActors[i]->render();
 	}
+	
 }

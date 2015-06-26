@@ -9,14 +9,33 @@ Window::Window(int window_width, int window_height, int resolution_width, int re
 	window(nullptr),
 	renderer(nullptr),
 	logical_width(resolution_width),
-	logical_height(resolution_height)
+	logical_height(resolution_height),
+	current_delta(0)
 {
 	resize(window_width, window_height, false);
+	frametimeTimer.start();
+	fpsTimer.start();
+
+	current_delta = frametimeTimer.getTicks();
+	
+	clear();
+	refresh();
 }
 
 void Window::refresh()
 {
 	SDL_RenderPresent(renderer);
+	
+	fps_current++;
+
+	int ticks = frametimeTimer.getTicks();
+
+	if (ticks < (1000 / FRAMERATE)) {
+		SDL_Delay((1000 / FRAMERATE) - ticks);
+	}
+
+	current_delta = frametimeTimer.getTicks();
+	frametimeTimer.start();
 }
 
 void Window::destroy()
@@ -44,7 +63,7 @@ void Window::resize(int window_width, int window_height, bool fullscreen)
 		window_flag = SDL_WINDOW_SHOWN;
 	}
 
-	window = SDL_CreateWindow("KnightBrawl", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, window_flag);
+	window = SDL_CreateWindow("One Knight Stand", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, window_flag);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
@@ -90,4 +109,15 @@ void Window::drawRect(int X, int Y, int W, int H, Color color)
 	SDL_Rect fillRect = { X, Y, W, H };
 	SDL_SetRenderDrawColor(renderer, color.r(), color.g(), color.b(), color.a());
 	SDL_RenderFillRect(renderer, &fillRect );
+}
+
+int Window::getFramerate()
+{
+	if (fpsTimer.getTicks() >= FPS_INTERVAL) {
+		fps = fps_current;
+		fps_current = 0;
+		fpsTimer.start();
+	}
+
+	return fps;
 }

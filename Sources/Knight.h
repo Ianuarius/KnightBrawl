@@ -6,64 +6,44 @@
 #ifndef __KNIGHT_H_DEFINED__
 #define __KNIGHT_H_DEFINED__
 
-#include "Timer.h"
 #include "Animation.h"
-#include "Texture.h"
+#include "PugiXML.h"
 #include "Window.h"
-
 
 class Knight
 {
 public:
-	Knight(Window *window);
+	Knight(Window *window, int knight_name);
+	Animation *getAnimations(int animation);
 
-	void update();
-	void updateAnimation();
 	enum possible_animations {
-		IDLE = 0,
+		IDLE=0,
+		RUN,
+		JUMP,
 		ATTACK,
 		BLOCK,
 		CROUCH,
 		DEATH,
 		DODGE,
-		DOWNTHRUST,
+		DOWN_THRUST,
 		HANGING,
-		JUMP,
-		AIRATTACK,
-		PUSHBACKTHROWN,
-		RUN,
-		SPECIAL1,
-		SPECIAL2,
-		SPECIAL3,
-		SPECIAL4,
+		MID_AIR_BASIC_ATTACK,
+		PUSHBACK,
+		SPECIAL_I,
+		SPECIAL_II,
+		SPECIAL_III,
+		SPECIAL_IV,
 		THROW,
-		UPPERCUT
+		UPPERCUT,
+
+		ANIMATION_MAX
 	};
 
-
-	void attack();
-	void block();
-	void damage(int amount);
-	void isDead();
-
 private:
-	Window *window;
-
-	Animation *currentAnimation;
 	std::vector<Animation*> animations;
 
-	int specialbar;
-	int health;
-
-	bool alive;
-	bool crouch;
-	bool jumping;
-	bool attacking;
-
-	Timer timer;
-	
-
-
+	pugi::xml_parse_result knight_result, roster_result;
+	pugi::xml_document knight_document, roster_document;
 };
 
-#endif // __KNIGHT_H_DEFINED__
+#endif //__KNIGHT_H_DEFINED__

@@ -19,6 +19,7 @@ public:
 	void crop(SDL_Rect rect);
 	int getWidth();
 	int getHeight();
+	bool flip;
 	
 private:
 	SDL_Texture *loadImage(std::string path);

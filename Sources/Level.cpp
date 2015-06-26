@@ -30,174 +30,265 @@ void Level::load(std::string level_name)
 	tileSize = atoi(levelDocument.child("map").attribute("tilewidth").value());
 	levelWidth = atoi(levelDocument.child("map").attribute("width").value());
 	levelHeight = atoi(levelDocument.child("map").attribute("height").value());
+	
+	// Get layer and object nodes
+	Background2		= levelDocument.child("map").find_child_by_attribute("name", "Background2").child("data");
+	Background1		= levelDocument.child("map").find_child_by_attribute("name", "Background1").child("data");
+	Foreground2		= levelDocument.child("map").find_child_by_attribute("name", "Foreground2").child("data");
+	Foreground1		= levelDocument.child("map").find_child_by_attribute("name", "Foreground1").child("data");
+	GameLayer		= levelDocument.child("map").find_child_by_attribute("name", "GameLayer").child("data");
+	PlatformLayer	= levelDocument.child("map").find_child_by_attribute("name", "PlatformLayer").child("data");
+	
+	//std::string tileSet = levelDocument.child("map").child("tileset").child("image").attribute("source").value();
+	std::string tileSet = "Graphics/Tilesets/tavern_tileset.png";
+	
+	levelTileSheet = new Sprite(window, tileSet, tileSize, tileSize);
 
 	int iteratorCount = 0;
 	std::vector<int> levelRow;
-	pugi::xml_node Layer = levelDocument.child("map").child("layer").child("data");
+	
+	// Parse layers
+	for(int i = 0; i < LAYER_COUNT; i++) {
+		pugi::xml_node *tempLayer = nullptr;
+		std::vector<std::vector<int>> *tempData = nullptr;
 
-	for(pugi::xml_node_iterator iterator = Layer.begin();
-				iterator != Layer.end();
-				++iterator)
-	{
-		iteratorCount++;
-		int gid = atoi(iterator->attribute("gid").value());
-		levelRow.push_back(gid);
-		
-		if (iteratorCount % levelWidth == 0)
+		switch (i)
 		{
-			TileData.push_back(levelRow);
-			levelRow.clear();
+			case BG2_LAYER:
+				tempLayer = &Background2;
+				tempData = &Background2Data;
+				break;
+
+			case BG1_LAYER:
+				tempLayer = &Background1;
+				tempData = &Background1Data;
+				break;
+				
+			case FG2_LAYER:
+				tempLayer = &Foreground2;
+				tempData = &Foreground2Data;
+				break;
+
+			case FG1_LAYER:
+				tempLayer = &Foreground1;
+				tempData = &Foreground1Data;
+				break;
+
+			case GAME_LAYER:
+				tempLayer = &GameLayer;
+				tempData = &GameLayerData;
+				break;
+
+			case PF_LAYER:
+				tempLayer = &PlatformLayer;
+				tempData = &PlatformLayerData;
+				break;
+
+			default:
+				break;
 		}
+		
+		for(pugi::xml_node_iterator iterator = tempLayer->begin();
+			iterator != tempLayer->end();
+			++iterator)
+		{
+			iteratorCount++;
+			
+			int gid = atoi(iterator->attribute("gid").value());
+			levelRow.push_back(gid);
+
+			if (iteratorCount % levelWidth == 0)
+			{
+				tempData->push_back(levelRow);
+				levelRow.clear();
+			}
+		}
+		
 	}
-
-	//std::string tileSet = levelDocument.child("map").child("tileset").child("image").attribute("source").value();
-	std::string tileSet = "Graphics/Tilesets/tavern_tileset.png";
-
-
-	levelTileSheet = new Sprite(window, tileSet, tileSize, tileSize);
 }
 
 int Level::getTile(int x, int y)
 {
 	if (y >= 0 &&
 		x >= 0 &&
-		y < TileData.size()*tileSize &&
-		x < TileData[0].size()*tileSize)
+		y < GameLayerData.size()*tileSize &&
+		x < GameLayerData[0].size()*tileSize)
 	{
-		return (TileData[y/tileSize][x/tileSize]);
+		return (GameLayerData[y/tileSize][x/tileSize]);
 	}
 
 	return 0;
 }
 
+SDL_Rect Level::pointToTile(int x, int y) {
+	int correction_x = x % tileSize;
+	int correction_y = y % tileSize;
+
+	int tile_x = x - correction_x;
+	int tile_y = y - correction_y;
+
+	SDL_Rect result = {tile_x, tile_y, tileSize, tileSize};
+
+	return result;
+}
+
 void Level::collides(PlayerController *playerController)
 {
-	Rectangle old_entity = playerController->hitbox;
-	Rectangle new_entity = playerController->boundbox;
-	new_entity.w = old_entity.w;
-	new_entity.h = old_entity.h;
+	// Top collision
+    if (getTile(playerController->desired.Center().x, playerController->desired.y) != 0) {
+        SDL_Rect top_collision_tile = pointToTile(playerController->desired.Center().x, playerController->desired.y);
 
-	// Get the area of tiles considered for collision
-	SDL_Point min_tile_xy = {std::min(old_entity.TopLeft().x, new_entity.TopLeft().x),
-							 std::min(old_entity.TopLeft().y, new_entity.TopLeft().y)};
-	SDL_Point max_tile_xy = {std::max(old_entity.BottomRight().x, new_entity.BottomRight().x),
-							 std::max(old_entity.BottomRight().y, new_entity.BottomRight().y)};
+        playerController->desired.y = top_collision_tile.y + top_collision_tile.h;
+        playerController->velocity_y = 0;
+    }
 
-	int min_tile_x = (min_tile_xy.x / tileSize) - 1;
-	int min_tile_y = (min_tile_xy.y / tileSize) - 1;
-	int max_tile_x = (max_tile_xy.x / tileSize) + 1;
-	int max_tile_y = (max_tile_xy.y / tileSize) + 1;
+    // Horizontal collision
 
-	SDL_Rect tmpbound = (SDL_Rect) playerController->hitbox;
+	// Get the area of tiles considered for vertical collision
+    // @see http://i.imgur.com/hfOKWO3.png
+	SDL_Point min_tile_pos = {std::min(playerController->hitbox.TopLeft().x, playerController->desired.TopLeft().x) / tileSize,
+							  std::min(playerController->hitbox.TopLeft().y, playerController->desired.TopLeft().y) / tileSize};
 
-	// Horizontal collision
+	SDL_Point max_tile_pos = {std::max(playerController->hitbox.BottomRight().x, playerController->desired.BottomRight().x) / tileSize,
+                              std::max(playerController->hitbox.BottomRight().y, playerController->desired.BottomRight().y) / tileSize};
 
-	for (int y_tile = min_tile_y + 1; y_tile < max_tile_y - 1; y_tile++) {
-		for (int x_tile = min_tile_x; x_tile <= max_tile_x; x_tile++) {
+    // Cast entity->desired to SDL_Rect since SDL_HasIntersection requires it
+    SDL_Rect sdl_desired = (SDL_Rect) playerController->desired;
 
-			SDL_Rect tmp_tile = {(x_tile * tileSize),
-								(y_tile * tileSize),
-								tileSize,
-								tileSize-2};
-			
-			if (SDL_HasIntersection(&tmp_tile, &tmpbound) &&
+    // Loop through all tiles considered for collision
+	for (int y_tile = min_tile_pos.y; y_tile < max_tile_pos.y; y_tile++) {
+		for (int x_tile = min_tile_pos.x; x_tile <= max_tile_pos.x; x_tile++) {
+
+			SDL_Rect tile = {(x_tile * tileSize), (y_tile * tileSize),
+							tileSize, tileSize};
+
+            // Correct desired position if tile is collidable and it has intersection
+            // width desired
+			if (SDL_HasIntersection(&tile, &sdl_desired) &&
 				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
 
-				// NOTE(juha): If player mid is more right than tile mid
-				if ((playerController->location.x) > (tmp_tile.x + (tileSize / 2))) {
- 					playerController->location.x = tmp_tile.x + tileSize + playerController->hitbox.w / 2;
-				}
-				
-				// NOTE(juha): If player mid is more left than tile mid
-				if ((playerController->location.x) < (tmp_tile.x + (tileSize / 2))) {
- 					playerController->location.x = tmp_tile.x - playerController->hitbox.w / 2;
-				}
-			}
-			/*
-			SDL_Rect tmp_tile = {(x_tile * tileSize),
-							(y_tile * tileSize),
-							tileSize,
-							tileSize-2};
-
-			if (getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
-				if (getTile(x_tile * tileSize, (y_tile + 1) * tileSize) != 0) {
-					tmp_tile.h += tileSize;
-				}
-			}
-
-			if (SDL_HasIntersection(&tmp_tile, &tmpbound) &&
-				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
-					if (playerController->velocity_x > 0) {
-						playerController->boundbox.x = tmp_tile.x - (playerController->hitbox.w + 1);
+					if (tile.x > playerController->desired.x) {
+                        // Correct right
+						playerController->desired.x = tile.x - playerController->hitbox.w;
 					} else {
-						playerController->boundbox.x = (tmp_tile.x + tmp_tile.w) + 1;
+                        // Correct left
+						playerController->desired.x = tile.x + tile.w;
 					}
-					
-			}*/
+			}
 		}
 	}
 
-	tmpbound = (SDL_Rect) playerController->hitbox;
+	// Bottom collision
+    SDL_Rect bot_collision_tile = {0, 0, 0, 0};
 
-	// Vertical collision
-	for (int y_tile = min_tile_y; y_tile <= max_tile_y; y_tile++) {
-		for (int x_tile = min_tile_x; x_tile < max_tile_x; x_tile++) {
-			
-			SDL_Rect tmp_tile = {(x_tile * tileSize),
-							(y_tile * tileSize),
-							tileSize,
-							tileSize};
+    // TODO(jouni): Translate plz
+    //
+    // Väsyttää. -_-
+    // Bottom collisionissa riittää että tarkiestetaan desiredin keskeltä, 2/4 kokoiselta alueelta (desiredin
+    // leveydestä), jos siellä on collidable tile niin ei tarvitte tippua.
+    // Hyvänä tai huonona puolena; jos on liian reunalla tileä (1/4 desiredin koosta), entiteetti luiskahtaa
+    // tileltä alas. RIP.
 
-			if (getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
-				if (getTile((x_tile + 1) * tileSize, y_tile * tileSize) != 0) {
-					tmp_tile.w += tileSize;
-				}
-			}
+    if (getTile(playerController->desired.BottomLeft().x + (playerController->desired.w / 4), playerController->desired.BottomLeft().y) != 0) {
+        bot_collision_tile = pointToTile(playerController->desired.BottomLeft().x + (playerController->desired.w / 4), playerController->desired.BottomLeft().y);
+    }
 
+    if (getTile(playerController->desired.BottomRight().x - (playerController->desired.w / 4), playerController->desired.BottomRight().y) != 0) {
+        bot_collision_tile = pointToTile(playerController->desired.BottomRight().x - (playerController->desired.w / 4), playerController->desired.BottomRight().y);
+    }
 
+    if (!SDL_RectEmpty(&bot_collision_tile)) {
+        playerController->desired.y = bot_collision_tile.y - playerController->hitbox.h;
 
-			if (SDL_HasIntersection(&tmp_tile, &tmpbound) &&
-				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
+        if (playerController->velocity_y >= 0) {
+            playerController->velocity_y = 0;
+            playerController->in_air = false;
+        }
+    }
 
-				// NOTE(juha): If player mid is lower than tile mid
-				if ((playerController->location.y - (playerController->hitbox.h / 2)) > (tmp_tile.y + (tileSize / 2))) {
- 					playerController->location.y = tmp_tile.y + tileSize + playerController->hitbox.h;
-				}
-			
-				// NOTE(juha): If player mid is higher than tile mid
-				if ((playerController->location.y - (playerController->hitbox.h / 2)) < (tmp_tile.y + (tileSize / 2))) {
-					playerController->location.y = tmp_tile.y;
-					playerController->velocity_y = 0;
-					playerController->in_air = false;
-				}
-					/*
-					if (tmp_tile.y < playerController->boundbox.y) {
-						playerController->boundbox.y = tmp_tile.y + tmp_tile.h + 1;
-						playerController->velocity_y = 0;
-					} else {
-						playerController->boundbox.y = tmp_tile.y - playerController->hitbox.h;
-						playerController->velocity_y = 0;
-						playerController->in_air = false;
-					}
-					*/
-			}
-			
-		}
+	if (camera->movementLocked()) {
+		playerController->desired.x = playerController->hitbox.x;
 	}
 }
 
-void Level::render()
+void Level::render(int layer)
 {
 	std::vector<std::vector<int>>::iterator row;
 	std::vector<int>::iterator col;
 	std::vector<std::vector<int>>::iterator row_begin;
 	std::vector<std::vector<int>>::iterator row_end;
-	std::vector<std::vector<int>> *data;
-	data = &TileData;
+	std::vector<std::vector<int>> *data = nullptr;
+	
+	switch (layer)
+	{
+		case BG2_LAYER:
+			data = &Background2Data;
+			break;
 
-	row_begin = data->begin();
+		case BG1_LAYER:
+			data = &Background1Data;
+			break;
+				
+		case FG2_LAYER:
+			data = &Foreground2Data;
+			break;
+
+		case FG1_LAYER:
+			data = &Foreground1Data;
+			break;
+
+		case GAME_LAYER:
+			data = &GameLayerData;
+			break;
+
+		case PF_LAYER:
+			data = &PlatformLayerData;
+			break;
+
+		default:
+			break;
+	}
+	
+	int tiles_y = camera->getFrame().h / tileSize + 2;
+	int start_tile_y = (camera->getFrame().y / tileSize);
+	if (start_tile_y < 0) {
+		start_tile_y = 0;
+	}
+
+	int tiles_x = (camera->getFrame().w / tileSize) + 2;
+	int start_tile_x = (camera->getFrame().x / tileSize);
+	if (start_tile_x < 0) {
+		start_tile_x = 0;
+	}
+
+	row_begin = data->begin() + start_tile_y;
 	row_end = data->end();
+	
+	if (start_tile_y + tiles_y < data->size()) {
+		row_end = data->begin() + start_tile_y + tiles_y;
+	} else {
+		row_end = data->end();
+	}
+	
+	for (row = row_begin; row != row_end; ++row) {
+		std::vector<int>::iterator col_begin = row->begin() + start_tile_x;
+		std::vector<int>::iterator col_end = row->end();
+		if (start_tile_x + tiles_x < row->size()) {
+			col_end = row->begin() + start_tile_x + tiles_x;
+		}
 
+		for (col = col_begin; col != col_end; ++col) {
+			int X = col - row->begin();
+			int Y = row - data->begin();
+			if ((*col) != 0) {
+				levelTileSheet->setIndex(*col-1);
+				int frameX = (camera->getFrame().x % 2 == 0) ? camera->getFrame().x : camera->getFrame().x + 1;
+				levelTileSheet->render(X*tileSize - frameX, Y*tileSize - camera->getFrame().y);
+			}
+		}
+	}
+
+	/*
 	for (row = row_begin; row != row_end; ++row) {
 		std::vector<int>::iterator col_begin = row->begin();
 		std::vector<int>::iterator col_end = row->end();
@@ -216,4 +307,5 @@ void Level::render()
 			
 		}
 	}
+	*/
 }

@@ -19,15 +19,16 @@ class Camera
 {
 
 public:
-	Camera(int width, int height, PlayerController *playerController);
+	Camera(int width, int height, std::vector<PlayerController *> *playerControllers);
 	void update();
 	int getState();
 	SDL_Rect getFrame();
 	float facing_threshold;
 	float pan_threshold;
+	bool movementLocked();
 
 private:
-	PlayerController *playerController;
+	std::vector<PlayerController *> *playerControllers;
 	enum Direction {RIGHT, LEFT};
 	SDL_Rect frame;
 	int camera_state;
