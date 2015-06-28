@@ -3,4 +3,7 @@
 <roster>
   <knight id="0" script="Scripts/cactusknight.xml" />
   <knight id="1" script="Scripts/wizardknight.xml" />
+  <knight id="2" script="Scripts/rogueknight.xml" />
+  <knight id="3" script="Scripts/lanternknight.xml" />
+  <knight id="4" script="Scripts/dragonknight.xml" />
 </roster>

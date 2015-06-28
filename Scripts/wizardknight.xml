@@ -52,7 +52,7 @@
 		</attack>
 
     <attack name="midair_basic" format="strike">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_midair_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
+      <animation filename="Graphics/Knights/wizardknight/wizard_knight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <damage value="7" />
       <control type="single">
@@ -118,7 +118,7 @@
     </attack>
 
     <attack name="uppercut" format="uppercut">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_uppercut.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
+      <animation filename="Graphics/Knights/wizardknight/wizard_knight_air_attack.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
       <control type="combo">
         <key pressed="true">down</key>
         <key>action</key>
