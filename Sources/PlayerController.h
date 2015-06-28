@@ -30,17 +30,19 @@ public:
 	void left();
 	void right();
 	void crouch();
+	void specialOne();
 	void up();
 	void action();
 	void commitMovement();
 	
-	bool in_air, jumping;
+	bool in_air, jumping, crouching;
 	float velocity_x, velocity_y;
 	SDL_Point location;
 	Rectangle boundbox, hitbox, desired;
 
 private:
 	Knight *knight;
+	Timer moveTimer;
 	EnumParser<SDL_Scancode> fieldTypeParser;
 	pugi::xml_document controlsDocument;
 	pugi::xml_parse_result result;

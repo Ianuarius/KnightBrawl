@@ -36,6 +36,11 @@ void PlayerActor::updateAnimation()
 	// BLOCK
 
 	// CROUCH
+	if (playerController->crouching == true) {
+		currentAnimation = knight->getAnimations(knight->CROUCH);
+	}
+
+
 	// DEATH
 	// DODGE
 	// DOWN_THRUST

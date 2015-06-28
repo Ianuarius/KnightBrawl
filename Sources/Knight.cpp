@@ -5,7 +5,8 @@
 
 #include "Knight.h"
 
-Knight::Knight(Window *window, int knight_number)
+Knight::Knight(Window *window, int knight_number):
+	window(window)
 {
 	roster_result = roster_document.load_file("Scripts/roster.xml");
 

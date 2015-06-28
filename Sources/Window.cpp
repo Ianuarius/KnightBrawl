@@ -10,7 +10,8 @@ Window::Window(int window_width, int window_height, int resolution_width, int re
 	renderer(nullptr),
 	logical_width(resolution_width),
 	logical_height(resolution_height),
-	current_delta(0)
+	current_delta(0),
+	ticks(0)
 {
 	resize(window_width, window_height, false);
 	frametimeTimer.start();
@@ -25,10 +26,10 @@ Window::Window(int window_width, int window_height, int resolution_width, int re
 void Window::refresh()
 {
 	SDL_RenderPresent(renderer);
-	
+
 	fps_current++;
 
-	int ticks = frametimeTimer.getTicks();
+	ticks = frametimeTimer.getTicks();
 
 	if (ticks < (1000 / FRAMERATE)) {
 		SDL_Delay((1000 / FRAMERATE) - ticks);

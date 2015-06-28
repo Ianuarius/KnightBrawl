@@ -45,6 +45,7 @@ private:
 	std::vector<Animation*> animations;
 	std::string truename;
 	std::string knightname;
+	Window *window;
 	float speed;
 	float jump;
 	int hitpoints;

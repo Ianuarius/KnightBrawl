@@ -19,7 +19,7 @@ public:
     EnumParser(){};
 
     T ParseSomeEnum(const string &value)
-    {
+    { 
         typename map <string, T>::const_iterator iValue = enumMap.find(value);
         if (iValue  == enumMap.end())
             throw runtime_error("");
@@ -27,8 +27,6 @@ public:
     }
 };
 
-template <>
-inline
 EnumParser<SDL_Scancode>::EnumParser()
 {
     enumMap["UNKNOWN"] = SDL_SCANCODE_UNKNOWN;

@@ -42,7 +42,7 @@ private:
 
 	Timer frametimeTimer, fpsTimer;
 	Uint32 framerate, frame_delay, current_delta;
-	int fps_current, fps;
+	int fps_current, fps, ticks;
 
 	bool fullscreen;
 };

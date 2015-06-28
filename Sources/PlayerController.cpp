@@ -19,8 +19,6 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	knight(knight),
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
-	in_air(true),
-	jumping(false),
 	speed(knight->getSpeed())
 {
 	std::string filename = "Controls.xml";
@@ -31,6 +29,13 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	MultiPlayerMappings = 
 		controlsDocument.child("profile").
 		find_child_by_attribute("controller", std::to_string(player).c_str());
+	
+	// NOTE(juha): Initialization
+	in_air =	true;
+	jumping =	false;
+	crouching = false;
+
+	moveTimer.start();
 
 	if (!result) {
 		printf("Failed to load controls file: %s.\n", filename.c_str());
@@ -45,6 +50,7 @@ void PlayerController::update()
 	velocity_y += GRAVITY * (16.f / 1000);
 	
 	desired.y += velocity_y;
+	crouching = false;
 
 	if (velocity_y >= 7) {
 		velocity_y = 7;
@@ -185,9 +191,8 @@ void PlayerController::up()
 
 void PlayerController::action()
 {
-	printf("action\n");
+	printf("%d\n", std::to_string(moveTimer.getTicks()).c_str());
 }
-
 
 // IDLE
 
@@ -220,6 +225,11 @@ void PlayerController::jump()
 // CROUCH
 void PlayerController::crouch()
 {
+	if (!jumping && !in_air) {
+		crouching = true;
+		velocity_x = 0;
+		targetVx = 0;
+	}
 	// desired.y += speed;
 }
 
@@ -229,7 +239,18 @@ void PlayerController::crouch()
 // HANGING
 // MID_AIR_BASIC_ATTACK
 // PUSHBACK
+
 // SPECIAL_I
+void PlayerController::specialOne()
+{
+	// tietojen lukeminen xml:st‰
+
+	// otetaan ajastimella aika 
+	
+	// animaation vaihto / bool
+	// n‰ytet‰‰n vain kerran
+}
+
 // SPECIAL_II
 // SPECIAL_III
 // SPECIAL_IV

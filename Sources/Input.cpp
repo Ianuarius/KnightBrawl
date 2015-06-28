@@ -1,4 +1,4 @@
-/**
+/*
  * Input.cpp
  *
  */
@@ -6,12 +6,9 @@
 #include "Input.h"
 
 bool Input::key[KEYBOARD_SIZE] = {0};
+bool Input::isLocked = false;
+
 const Uint8* Input::keyboard = NULL;
-
-Input::Input()
-{
-
-}
 
 void Input::update() {	
 	SDL_Event event;
@@ -40,13 +37,11 @@ void Input::update() {
 	}
 }
 
-bool Input::keyState(int k)
-{
-	/*
+bool Input::keyState(int k) {
 	if(isLocked) {
 		return false;
 	}
-	*/
+
 	if(k < 0 || k >= KEYBOARD_SIZE) {
 		return false;
 	}
@@ -59,4 +54,24 @@ bool Input::keyPressed(int k) {
 	key[k] = false;
 
 	return state;
+}
+
+bool Input::alt() {
+	return keyState(SDL_SCANCODE_LALT) || keyState(SDL_SCANCODE_RALT);
+}
+
+bool Input::ctrl() {
+	return keyState(SDL_SCANCODE_LCTRL) || keyState(SDL_SCANCODE_RCTRL);
+}
+
+bool Input::shift() {
+	return keyState(SDL_SCANCODE_LSHIFT) || keyState(SDL_SCANCODE_RSHIFT);
+}
+
+void Input::lock() {
+	isLocked = true;
+}
+
+void Input::unlock() {
+	isLocked = false;
 }
