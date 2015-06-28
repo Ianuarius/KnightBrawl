@@ -19,7 +19,8 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	knight(knight),
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
-	speed(knight->getSpeed())
+	speed(knight->getSpeed()),
+	special_one_combo(knight->getSpecialOneCombo())
 {
 	std::string filename = "Controls.xml";
 	result = controlsDocument.load_file(filename.c_str());
@@ -34,8 +35,36 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	in_air =	true;
 	jumping =	false;
 	crouching = false;
+	
+	sp_left = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+		find_child_by_attribute("name", "move_left").attribute("keyboard").value());
+	sp_right = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+		find_child_by_attribute("name", "move_right").attribute("keyboard").value());
+	sp_down = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+		find_child_by_attribute("name", "crouch").attribute("keyboard").value());
+	sp_up = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+		find_child_by_attribute("name", "up").attribute("keyboard").value());
+	sp_jump = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+		find_child_by_attribute("name", "jump").attribute("keyboard").value());
+	sp_action = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+		find_child_by_attribute("name", "action").attribute("keyboard").value());
+	sp_menu = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+		find_child_by_attribute("name", "menu").attribute("keyboard").value());
 
-	moveTimer.start();
+	mp_left = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+		find_child_by_attribute("name", "move_left").attribute("keyboard").value());
+	mp_right = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+		find_child_by_attribute("name", "move_right").attribute("keyboard").value());
+	mp_down = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+		find_child_by_attribute("name", "crouch").attribute("keyboard").value());
+	mp_up = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+		find_child_by_attribute("name", "up").attribute("keyboard").value());
+	mp_jump = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+		find_child_by_attribute("name", "jump").attribute("keyboard").value());
+	mp_action = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+		find_child_by_attribute("name", "action").attribute("keyboard").value());
+	mp_menu = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+		find_child_by_attribute("name", "menu").attribute("keyboard").value());
 
 	if (!result) {
 		printf("Failed to load controls file: %s.\n", filename.c_str());
@@ -73,89 +102,117 @@ void PlayerController::update()
 	desired.x += floorf(velocity_x);
 	targetVx = 0;
 
+	int tmp_input = NULL;
+
 	if (!multiplayer) { // SINGLE PLAYER MAPPINGS
 		// MOVE LEFT
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-			find_child_by_attribute("name", "move_left").attribute("keyboard").value()))) {
+		if (Input::keyState(sp_left)) {
+
+			if (Input::isKeyPressed(sp_left)) {
+				if (FACING_LEFT) {
+					tmp_input = knight->FORWARD;
+				} else {
+					tmp_input = knight->BACKWARD;
+				}
+			}
+
 			left();
 		}
 		
 		// MOVE RIGHT
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-			find_child_by_attribute("name", "move_right").attribute("keyboard").value()))) {
+		if (Input::isKeyPressed(sp_right)) {
+
+			if (Input::keyPressed(sp_right)) {
+				if (FACING_RIGHT) {
+					tmp_input = knight->FORWARD;
+				} else {
+					tmp_input = knight->BACKWARD;
+				}
+			}
+
 			right();
 		}
 		
 		// CROUCH BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-			find_child_by_attribute("name", "crouch").attribute("keyboard").value()))) {
+		if (Input::keyState(sp_down)) {
 			crouch();
 		}
 		
 		// UP BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-			find_child_by_attribute("name", "up").attribute("keyboard").value()))) {
+		if (Input::keyState(sp_up)) {
 			up();
 		}
 	
 		// JUMP BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-			find_child_by_attribute("name", "jump").attribute("keyboard").value()))) {
+		if (Input::keyState(sp_jump)) {
 			jump();
 		}
 		
 		// ACTION BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-			find_child_by_attribute("name", "action").attribute("keyboard").value()))) {
+		if (Input::keyState(sp_action)) {
 			action();
 		}
 		
 		// MENU BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-			find_child_by_attribute("name", "menu").attribute("keyboard").value()))) {
+		if (Input::keyState(sp_menu)) {
 			printf("menu\n");
 		}
 
 	} else { // MULTIPLAYER MAPPINGS
 		// MOVE LEFT
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-			find_child_by_attribute("name", "move_left").attribute("keyboard").value()))) {
+		if (Input::keyState(mp_left)) {
+
+			if (Input::isKeyPressed(mp_left)) {
+				if (facing_direction == FACING_LEFT) {
+					tmp_input = knight->FORWARD;
+					printf("%d\n", tmp_input);
+				} else {
+					tmp_input = knight->BACKWARD;
+					printf("%d\n", tmp_input);
+				}
+			}
+
 			left();
 		}
 		
 		// MOVE RIGHT
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-			find_child_by_attribute("name", "move_right").attribute("keyboard").value()))) {
+		if (Input::keyState(mp_right)) {
+			
+			if (Input::isKeyPressed(mp_right)) {
+				if (facing_direction == FACING_RIGHT) {
+					tmp_input = knight->FORWARD;
+					printf("%d\n", tmp_input);
+				} else {
+					tmp_input = knight->BACKWARD;
+					printf("%d\n", tmp_input);
+				}
+			}
+
 			right();
 		}
 		
 		// CROUCH BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-			find_child_by_attribute("name", "crouch").attribute("keyboard").value()))) {
+		if (Input::keyState(mp_down)) {
 			crouch();
 		}
 		
 		// UP BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-			find_child_by_attribute("name", "up").attribute("keyboard").value()))) {
+		if (Input::keyState(mp_up)) {
 			up();
 		}
 	
 		// JUMP BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-			find_child_by_attribute("name", "jump").attribute("keyboard").value()))) {
+		if (Input::keyState(mp_jump)) {
 			jump();
 		}
 		
 		// ACTION BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-			find_child_by_attribute("name", "action").attribute("keyboard").value()))) {
+		if (Input::keyState(mp_action)) {
 			action();
 		}
 		
 		// MENU BUTTON
-		if (Input::keyState(fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-			find_child_by_attribute("name", "menu").attribute("keyboard").value()))) {
+		if (Input::keyState(mp_menu)) {
 			printf("menu\n");
 		}
 	}
@@ -163,9 +220,11 @@ void PlayerController::update()
 	if (jumping) {
 		jump();
 	}
-
-	// printf("%f\n", velocity_y);
-
+	/*
+	if (tmp_input != 0) {
+		printf("%d\n", tmp_input);
+	}
+	*/
 }
 
 int PlayerController::getDirection()
@@ -191,7 +250,6 @@ void PlayerController::up()
 
 void PlayerController::action()
 {
-	printf("%d\n", std::to_string(moveTimer.getTicks()).c_str());
 }
 
 // IDLE
@@ -245,7 +303,7 @@ void PlayerController::specialOne()
 {
 	// tietojen lukeminen xml:st‰
 
-	// otetaan ajastimella aika 
+	// otetaan ajastimella aika (1500 ticki‰)
 	
 	// animaation vaihto / bool
 	// n‰ytet‰‰n vain kerran

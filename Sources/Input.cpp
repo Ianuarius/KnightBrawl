@@ -56,6 +56,45 @@ bool Input::keyPressed(int k) {
 	return state;
 }
 
+bool Input::isKeyPressed(int k)
+{
+	if (isLocked) {
+		return false;
+	}
+
+	if (!(keyboard)) {
+		return false;
+	}
+	
+	int sdl_key = static_cast<int>(k);
+
+	if (keyboard[sdl_key]) {
+		return true;
+	}
+	
+	return false;
+}
+
+bool Input::isKeyDown(int key)
+{
+	if (isLocked) return false;
+
+	if (key < 0 || key >= KEYBOARD_SIZE)
+		return false;
+
+	return (keyDown[key]);
+}
+
+bool Input::isKeyUp(int key)
+{
+	if (isLocked) return false;
+
+	if (key < 0 || key >= KEYBOARD_SIZE)
+		return false;
+
+	return (keyUp[key]);
+}
+
 bool Input::alt() {
 	return keyState(SDL_SCANCODE_LALT) || keyState(SDL_SCANCODE_RALT);
 }

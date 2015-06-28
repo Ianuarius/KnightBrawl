@@ -21,9 +21,13 @@ Knight::Knight(Window *window, int knight_number):
 		printf("Failed to load knight %s.\n", knight_file.c_str());
 		return;
 	}
-	Animation *tmp = nullptr;
 
+	Animation *tmp = nullptr;
 	animations.resize(ANIMATION_MAX);
+	
+	special_one_combo.push_back(FORWARD);
+	special_one_combo.push_back(FORWARD);
+	special_one_combo.push_back(ACTION);
 	
 	/* NOTE(juha): example code
 	atoi(levelDocument.child("map").attribute("height").value());
@@ -230,6 +234,11 @@ float Knight::getSpeed()
 float Knight::getJump()
 {
 	return jump;
+}
+
+std::vector<int> *Knight::getSpecialOneCombo()
+{
+	return &special_one_combo;
 }
 
 Animation *Knight::getAnimations(int animation)

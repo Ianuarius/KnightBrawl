@@ -6,6 +6,7 @@
 #ifndef __KNIGHT_H_DEFINED__
 #define __KNIGHT_H_DEFINED__
 
+#include <vector>
 #include "Animation.h"
 #include "PugiXML.h"
 #include "Window.h"
@@ -17,6 +18,17 @@ public:
 	Animation *getAnimations(int animation);
 	float getSpeed();
 	float getJump();
+	std::vector<int> *getSpecialOneCombo();
+	
+	enum moves {
+		FORWARD,
+		BACKWARD,
+		UP,
+		DOWN,
+		JUMP_MOVE,
+		ACTION,
+		MENU
+	};
 
 	enum possible_animations {
 		IDLE=0,
@@ -49,6 +61,10 @@ private:
 	float speed;
 	float jump;
 	int hitpoints;
+	
+	// Each element of the vector has one button of the
+	// combo saved in order.
+	std::vector<int> special_one_combo;
 
 	pugi::xml_parse_result knight_result, roster_result;
 	pugi::xml_document knight_document, roster_document;

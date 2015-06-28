@@ -30,6 +30,14 @@ class Input {
 		// Jos näppäin on alhaalla palauttaa true, muuten false
 		static bool keyState(int key);
 		static bool keyPressed(int key);
+		
+	    static bool isKeyPressed(int k);
+		
+		/// Tells if the keyboard `key` was released just now.
+		bool isKeyDown(int key);
+
+		/// Tells if the keyboard `key` was pressed just now.
+		bool isKeyUp(int key);
 
 		// Avustavametodi tarkastamaan onko SHIFT alhalla
 		static bool shift();
@@ -56,6 +64,17 @@ class Input {
 
 		// Näppäimistön tilan (SDL)
 		static const Uint8* keyboard;
+
+		 /// Saves which keys are currently down.
+		///
+		/// @note *KEYBOARD_SIZE* is defined on *SDL.hpp*.
+		bool keyDown[KEYBOARD_SIZE];
+
+		/// Saves which keys are currently up.
+		///
+		/// @note *KEYBOARD_SIZE* is defined on *SDL.hpp*.
+		bool keyUp[KEYBOARD_SIZE];
+
 };
 
 #endif
