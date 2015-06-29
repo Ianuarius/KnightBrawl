@@ -34,10 +34,10 @@ class Input {
 	    static bool isKeyPressed(int k);
 		
 		/// Tells if the keyboard `key` was released just now.
-		bool isKeyDown(int key);
+		static bool isKeyDown(int key);
 
 		/// Tells if the keyboard `key` was pressed just now.
-		bool isKeyUp(int key);
+		static bool isKeyUp(int key);
 
 		// Avustavametodi tarkastamaan onko SHIFT alhalla
 		static bool shift();
@@ -68,12 +68,12 @@ class Input {
 		 /// Saves which keys are currently down.
 		///
 		/// @note *KEYBOARD_SIZE* is defined on *SDL.hpp*.
-		bool keyDown[KEYBOARD_SIZE];
+		static bool keyDown[KEYBOARD_SIZE];
 
 		/// Saves which keys are currently up.
 		///
 		/// @note *KEYBOARD_SIZE* is defined on *SDL.hpp*.
-		bool keyUp[KEYBOARD_SIZE];
+		static bool keyUp[KEYBOARD_SIZE];
 
 };
 

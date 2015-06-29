@@ -6,11 +6,19 @@
 #include "Input.h"
 
 bool Input::key[KEYBOARD_SIZE] = {0};
+bool Input::keyDown[KEYBOARD_SIZE] = {0};
+bool Input::keyUp[KEYBOARD_SIZE] = {0};
 bool Input::isLocked = false;
 
 const Uint8* Input::keyboard = NULL;
 
 void Input::update() {	
+	
+	for (int i = 0; i < KEYBOARD_SIZE; i++) {
+		keyDown[i] = false;
+		keyUp[i]   = false;
+	}
+
 	SDL_Event event;
 
 	while(SDL_PollEvent(&event)) {
@@ -20,6 +28,7 @@ void Input::update() {
 
 					int scancode = event.key.keysym.scancode;
 					key[scancode] = true;
+					keyDown[scancode] = true;
 				}
 				break;
 
@@ -28,6 +37,7 @@ void Input::update() {
 
 					int scancode = event.key.keysym.scancode;
 					key[scancode] = false;
+					keyUp[scancode] = true;
 				}
 				break;
 
