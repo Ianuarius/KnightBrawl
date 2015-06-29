@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--  
+ 
+  ----- ATTACK -----
   <attack name="insert name" format="insert format"
   Attack formats: strike - Creates a quick hitbox that damages enemies it hits.
                   throw - When in contact with enemy hitbox, it will propell it in the facing direction.
@@ -8,14 +10,23 @@
                   ranged - Fires a hitbox that flies through the air
                   buff - Doesn't create a hitbox, rather gives the user an effect
                   aoe - Creates a large hitbox that stays in place for a certain amount of time. Sometimes follows the user.
-  
+                  
+  ----- PROJECTILE -----               
+  <projectile type="insert projectile type" +following parameters+>
+  Projectile types: linear - fires a projectile in a straight line
+                    arc - fires a projectile that obeys gravity, making it's trajectory decline instead of following a straight line
+                    Parameters: angle="degree, 0 is up, 90 straight forward and so on" range="maximum range in pixels" power="damage done in numeral value" speed="pixels (traveled in second)" delay="seconds (0 is immediate)" collision="player/wall/all (determines what the projectile will collide with and thus destruct"  
+                    
+  ----- EFFECT -----
   <effect type="insert effect type" +following parameters+ > 
   Effect types:   slow - Debuff that slows targets. Requires duration="seconds" power="percentage"
                   stun - Debuff that incapacitates targets. Requires duration="seconds"
                   burn - Debuff that damages the target periodically. Requires duration="seconds" power="damage per tick" tickrate="seconds"
                   pushback - Sends targets flying in a direction the effect is fired at. Requires power="pixels per second"
-                  buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration or count" time="seconds or how many attacks(1, 2, 3...)" power="percentage" 
+                  buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration or count" time="seconds if duration (0 infinite) or how many attacks(1, 2, 3...)" power="percentage" 
+                  damagereturn - Returns the dealt damage back to attacker. Requires format="duration or count" time="seconds if duration (0 infinite) or how many attacks(1, 2, 3...)" power="percentage"
   
+  ----- CONTROL -----
   <control type="insert type">
   Control types:  single - requires only one key to be pushed
                   combo - requires all keys to be pushed in top-down order within a short time
@@ -28,6 +39,7 @@
           up - doesn't do anything else than exist for combo reasons
           down - crouch
           forward - left or right
+          jump - jump
 -->
 
 <knight>

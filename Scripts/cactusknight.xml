@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--  
+
+  ----- ATTACK -----
   <attack name="insert name" format="insert format"
   Attack formats: strike - Creates a quick hitbox that damages enemies it hits.
                   throw - When in contact with enemy hitbox, it will propell it in the facing direction.
@@ -8,14 +10,23 @@
                   ranged - Fires a hitbox that flies through the air
                   buff - Doesn't create a hitbox, rather gives the user an effect
                   aoe - Creates a large hitbox that stays in place for a certain amount of time. Sometimes follows the user.
-  
+                  
+  ----- PROJECTILE -----               
+  <projectile type="insert projectile type" +following parameters+>
+  Projectile types: linear - fires a projectile in a straight line
+                    arc - fires a projectile that obeys gravity, making it's trajectory decline instead of following a straight line
+                    Parameters: angle="degree, 0 is up, 90 straight forward and so on" range="maximum range in pixels" power="damage done in numeral value" speed="pixels (traveled in second)" delay="seconds (0 is immediate)" collision="player/wall/all (determines what the projectile will collide with and thus destruct"  
+                    
+  ----- EFFECT -----
   <effect type="insert effect type" +following parameters+ > 
   Effect types:   slow - Debuff that slows targets. Requires duration="seconds" power="percentage"
                   stun - Debuff that incapacitates targets. Requires duration="seconds"
                   burn - Debuff that damages the target periodically. Requires duration="seconds" power="damage per tick" tickrate="seconds"
                   pushback - Sends targets flying in a direction the effect is fired at. Requires power="pixels per second"
-                  buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration or count" time="seconds or how many attacks(1, 2, 3...)" power="percentage" 
+                  buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration or count" time="seconds if duration (0 infinite) or how many attacks(1, 2, 3...)" power="percentage" 
+                  damagereturn - Returns the dealt damage back to attacker. Requires format="duration or count" time="seconds if duration (0 infinite) or how many attacks(1, 2, 3...)" power="percentage"
   
+  ----- CONTROL -----
   <control type="insert type">
   Control types:  single - requires only one key to be pushed
                   combo - requires all keys to be pushed in top-down order within a short time
@@ -28,6 +39,7 @@
           up - doesn't do anything else than exist for combo reasons
           down - crouch
           forward - left or right
+          jump - jump
 -->
 
 <knight>
@@ -36,8 +48,8 @@
     <knightname>Cactus Knight</knightname>
 		<hitpoints>100</hitpoints>
 		<hitbox x="-13" y="-26" width="26" height="26" />
-		<jump>5</jump> 
-		<speed>5</speed> <!-- 5 default -->		
+		<jump>5</jump> <!-- 5 default -->
+    <speed>5</speed> <!-- 5 default -->		
 	</stats>
   
 	<action>
@@ -70,9 +82,14 @@
       </control>
     </attack>
 
-		<attack name="special1" format="strike">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
-      <effect type="slow" duration="3000" power="50" />
+		<attack name="special1" format="ranged">
+      <name>Fan of Spines</name>
+      <animation filename="Graphics/Knights/cactusknight/cactusknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />      
+      <projectile type="linear" angle="50" range="80" power="20" speed="50" delay="0" collision="wall" />
+      <projectile type="linear" angle="70" range="80" power="20" speed="50" delay="0" collision="wall" />
+      <projectile type="linear" angle="90" range="80" power="20" speed="50" delay="0" collision="wall" />
+      <projectile type="linear" angle="110" range="80" power="20" speed="50" delay="0" collision="wall" />
+      <projectile type="linear" angle="130" range="80" power="20" speed="50" delay="0" collision="wall" />
       <control type="combo">
         <key>forward</key>
         <key>up</key>
@@ -82,6 +99,7 @@
     </attack>
 
     <attack name="special2" format="strike">
+      <name></name>
       <animation filename="Graphics/Knights/cactusknight/cactusknight_special2.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
       <control type="combo">
         <key>up</key>
@@ -92,6 +110,7 @@
 		</attack>
 		
 		<attack name="special3" format="strike">
+      <name></name>
       <animation filename="Graphics/Knights/cactusknight/cactusknight_special3.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
       <control type="combo">
         <key>down</key>
@@ -101,6 +120,7 @@
     </attack>
 		
 		<attack name="special4" format="strike">
+      <name></name>
       <animation filename="Graphics/Knights/cactusknight/cactusknight_special4.png" framecount="4" width="50" height="50" startframe="0" framerate="8" />
       <control type="combo">
         <key>forward</key>
