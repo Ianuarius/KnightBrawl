@@ -5,8 +5,9 @@
 
 #include "MenuState.h"
 
-MenuState::MenuState(Window *window):
+MenuState::MenuState(Window *window, Input *mainInput):
 	window(window),
+	mainInput(mainInput),
 	menu(window, "Graphics/menu_ph.png")
 {		
 }
@@ -17,11 +18,11 @@ stateStatus MenuState::update()
 	status.status = STATE_CONTINUE;
 	status.prepend = false;
 
-		if (Input::keyPressed(SDL_SCANCODE_RETURN))	{
+		if (mainInput->keyPressed(SDL_SCANCODE_RETURN))	{
 			status.status = STATE_GAME;
 		}	
 
-		if(Input::keyPressed(SDL_SCANCODE_ESCAPE)) {
+		if(mainInput->keyPressed(SDL_SCANCODE_ESCAPE)) {
 			status.status = STATE_QUIT;
 		}
 

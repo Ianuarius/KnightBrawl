@@ -16,8 +16,9 @@
  * 
  */
 
-GameState::GameState(Window *window):
+GameState::GameState(Window *window, Input *mainInput):
 	window(window),
+	mainInput(mainInput),
 	camera(nullptr),
 	knight1(nullptr),
 	knight2(nullptr),
@@ -47,7 +48,7 @@ GameState::GameState(Window *window):
 	*/
 
 	knight1 = new Knight(window, DRAGON_KNIGHT);
-	knight2 = new Knight(window, LANTERN_KNIGHT);
+	knight2 = new Knight(window, CACTUS_KNIGHT);
 
 	startPoints.push_back(start_point_1);
 	startPoints.push_back(start_point_2);
@@ -68,9 +69,10 @@ GameState::GameState(Window *window):
 		playerActors.push_back(new PlayerActor(window, camera, playerControllers[i]));
 	}
 	*/
+	
 	playerActors.push_back(new PlayerActor(window, camera, playerControllers[0], knight1));
 	playerActors.push_back(new PlayerActor(window, camera, playerControllers[1], knight2));
-
+	
 	level = new Level(window, camera);
 	level->load("Levels/tavern_small.tmx");
 	
@@ -82,12 +84,16 @@ stateStatus GameState::update()
 	status.status = STATE_CONTINUE;
 	status.prepend = false;
 
-	if (Input::keyState(SDL_SCANCODE_ESCAPE)) {
+	if (mainInput->keyState(SDL_SCANCODE_ESCAPE)) {
 		status.status = STATE_QUIT;
 	}
-		
+	
 	for (int i = 0; i < PLAYERS; i++) {
 		playerControllers[i]->update();
+	}
+	
+	for (int i = 0; i < PLAYERS; i++) {
+		playerControllers[i]->updateInput();
 	}
 
 	for (int i = 0; i < PLAYERS; i++) {
@@ -97,12 +103,12 @@ stateStatus GameState::update()
 	for (int i = 0; i < PLAYERS; i++) {
 		playerActors[i]->updateAnimation();
 	}
-
+	
 	for (int i = 0; i < PLAYERS; i++) {
 		playerControllers[i]->commitMovement();
 	}
 	
-	Input::update();
+	mainInput->update();
 
 	camera->update();
 
@@ -129,3 +135,4 @@ void GameState::render()
 	}
 	
 }
+

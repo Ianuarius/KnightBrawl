@@ -5,12 +5,16 @@
 
 #include "Input.h"
 
-bool Input::key[KEYBOARD_SIZE] = {0};
-bool Input::keyDown[KEYBOARD_SIZE] = {0};
-bool Input::keyUp[KEYBOARD_SIZE] = {0};
-bool Input::isLocked = false;
+bool key[KEYBOARD_SIZE] = {0};
+bool keyDown[KEYBOARD_SIZE] = {0};
+bool keyUp[KEYBOARD_SIZE] = {0};
+bool isLocked = false;
 
-const Uint8* Input::keyboard = NULL;
+const Uint8* keyboard = NULL;
+
+Input::Input()
+{	
+}
 
 void Input::update() {	
 	

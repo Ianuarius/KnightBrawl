@@ -14,13 +14,14 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	boundbox(location.x - 25, location.y - 50, 50, 50),
 	hitbox(boundbox.x + ((50 / 2) - (26 / 2)), boundbox.y + (50 - 26), 26, 26),
 	desired(hitbox),
-	acceleration(0.8), stoppedThreshold(acceleration/3),
+	acceleration(0.8f), stoppedThreshold(acceleration/3),
 	velocity_x(0), velocity_y(0),
 	knight(knight),
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
 	speed(knight->getSpeed()),
-	special_one_combo(knight->getSpecialOneCombo())
+	special_one_combo(knight->getSpecialOneCombo()),
+	combo_one_state(0)
 {
 	std::string filename = "Controls.xml";
 	result = controlsDocument.load_file(filename.c_str());
@@ -32,9 +33,13 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 		find_child_by_attribute("controller", std::to_string(player).c_str());
 	
 	// NOTE(juha): Initialization
-	in_air =	true;
-	jumping =	false;
-	crouching = false;
+	in_air =			true;
+	jumping =			false;
+	crouching =			false;
+	in_special_one =	false;
+	in_special_two =	false;
+	in_special_three =	false;
+	in_special_four =	false;
 	
 	sp_left = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
 		find_child_by_attribute("name", "move_left").attribute("keyboard").value());
@@ -102,13 +107,13 @@ void PlayerController::update()
 	desired.x += floorf(velocity_x);
 	targetVx = 0;
 
-	int tmp_input = NULL;
+	int tmp_input = 9999;
 
 	if (!multiplayer) { // SINGLE PLAYER MAPPINGS
 		// MOVE LEFT
-		if (Input::keyState(sp_left)) {
+		if (playerInput.keyState(sp_left)) {
 
-			if (Input::isKeyPressed(sp_left)) {
+			if (playerInput.isKeyPressed(sp_left) && playerInput.isKeyDown(sp_left)) {
 				if (FACING_LEFT) {
 					tmp_input = knight->FORWARD;
 				} else {
@@ -120,9 +125,9 @@ void PlayerController::update()
 		}
 		
 		// MOVE RIGHT
-		if (Input::isKeyPressed(sp_right)) {
+		if (playerInput.isKeyPressed(sp_right)) {
 
-			if (Input::keyPressed(sp_right)) {
+			if (playerInput.keyPressed(sp_right)) {
 				if (FACING_RIGHT) {
 					tmp_input = knight->FORWARD;
 				} else {
@@ -134,35 +139,35 @@ void PlayerController::update()
 		}
 		
 		// CROUCH BUTTON
-		if (Input::keyState(sp_down)) {
+		if (playerInput.keyState(sp_down)) {
 			crouch();
 		}
 		
 		// UP BUTTON
-		if (Input::keyState(sp_up)) {
+		if (playerInput.keyState(sp_up)) {
 			up();
 		}
 	
 		// JUMP BUTTON
-		if (Input::keyState(sp_jump)) {
+		if (playerInput.keyState(sp_jump)) {
 			jump();
 		}
 		
 		// ACTION BUTTON
-		if (Input::keyState(sp_action)) {
+		if (playerInput.keyState(sp_action)) {
 			action();
 		}
 		
 		// MENU BUTTON
-		if (Input::keyState(sp_menu)) {
+		if (playerInput.keyState(sp_menu)) {
 			printf("menu\n");
 		}
 
 	} else { // MULTIPLAYER MAPPINGS
 		// MOVE LEFT
-		if (Input::keyState(mp_left)) {
+		if (playerInput.keyState(mp_left)) {
 
-			if (Input::isKeyPressed(mp_left)) {
+			if (playerInput.isKeyPressed(mp_left) && playerInput.isKeyDown(mp_left)) {
 				if (facing_direction == FACING_LEFT) {
 					tmp_input = knight->FORWARD;
 					printf("%d\n", tmp_input);
@@ -176,9 +181,9 @@ void PlayerController::update()
 		}
 		
 		// MOVE RIGHT
-		if (Input::keyState(mp_right)) {
+		if (playerInput.keyState(mp_right)) {
 			
-			if (Input::isKeyPressed(mp_right)) {
+			if (playerInput.isKeyPressed(mp_right) && playerInput.isKeyDown(mp_right)) {
 				if (facing_direction == FACING_RIGHT) {
 					tmp_input = knight->FORWARD;
 					printf("%d\n", tmp_input);
@@ -192,27 +197,47 @@ void PlayerController::update()
 		}
 		
 		// CROUCH BUTTON
-		if (Input::keyState(mp_down)) {
+		if (playerInput.keyState(mp_down)) {
+			
+			if (playerInput.isKeyPressed(mp_down) && playerInput.isKeyDown(mp_down)) {
+				tmp_input = knight->DOWN;
+			}
+
 			crouch();
 		}
 		
 		// UP BUTTON
-		if (Input::keyState(mp_up)) {
+		if (playerInput.keyState(mp_up)) {
+			
+			if (playerInput.isKeyPressed(mp_up) && playerInput.isKeyDown(mp_up)) {
+				tmp_input = knight->UP;
+			}
+
 			up();
 		}
 	
 		// JUMP BUTTON
-		if (Input::keyState(mp_jump)) {
+		if (playerInput.keyState(mp_jump)) {
+			
+			if (playerInput.isKeyPressed(mp_jump) && playerInput.isKeyDown(mp_jump)) {
+				tmp_input = knight->JUMP;
+			}
+
 			jump();
 		}
 		
 		// ACTION BUTTON
-		if (Input::keyState(mp_action)) {
+		if (playerInput.keyState(mp_action)) {
+			
+			if (playerInput.isKeyPressed(mp_action) && playerInput.isKeyDown(mp_action)) {
+				tmp_input = knight->ACTION;
+			}
+
 			action();
 		}
 		
 		// MENU BUTTON
-		if (Input::keyState(mp_menu)) {
+		if (playerInput.keyState(mp_menu)) {
 			printf("menu\n");
 		}
 	}
@@ -220,11 +245,35 @@ void PlayerController::update()
 	if (jumping) {
 		jump();
 	}
-	/*
-	if (tmp_input != 0) {
-		printf("%d\n", tmp_input);
+	
+	// TODO(juha): Käy kaikki combot läpi
+
+	if ((*special_one_combo)[0] == knight->FORWARD &&
+		tmp_input == knight->BACKWARD &&
+		combo_one_state == 0) {
+		tmp_input = knight->FORWARD;
 	}
-	*/
+
+	if ((*special_one_combo)[combo_one_state] == tmp_input &&
+		in_special_one == false) {
+		combo_one_state++;
+	} else if (tmp_input == 9999) {
+
+	} else {
+		combo_one_state = 0;
+	}
+
+	if ((*special_one_combo).size() == combo_one_state) {
+		specialOne();
+		combo_one_state = 0;
+	}
+
+}
+
+void PlayerController::updateInput()
+{
+	playerInput.update();
+
 }
 
 int PlayerController::getDirection()
@@ -301,6 +350,7 @@ void PlayerController::crouch()
 // SPECIAL_I
 void PlayerController::specialOne()
 {
+	in_special_one = true;
 	// tietojen lukeminen xml:stä
 
 	// otetaan ajastimella aika (1500 tickiä)
@@ -310,7 +360,25 @@ void PlayerController::specialOne()
 }
 
 // SPECIAL_II
+
+void PlayerController::specialTwo()
+{
+	in_special_two = true;
+}
+
 // SPECIAL_III
+
+void PlayerController::specialThree()
+{
+	in_special_three = true;
+}
+
 // SPECIAL_IV
+
+void PlayerController::specialFour()
+{
+	in_special_four = true;
+}
+
 // THROW
 // UPPERCUT

@@ -40,21 +40,52 @@ void PlayerActor::updateAnimation()
 		currentAnimation = knight->getAnimations(knight->CROUCH);
 	}
 
-
 	// DEATH
 	// DODGE
 	// DOWN_THRUST
 	// HANGING
 	// MID_AIR_BASIC_ATTACK
 	// PUSHBACK
+
 	// SPECIAL_I
+	if (playerController->in_special_one == true) {
+		currentAnimation = knight->getAnimations(knight->SPECIAL_I);
+
+		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
+		 	playerController->in_special_one = false;
+		 	currentAnimation->times_played = 0;
+		}
+	}
 	// SPECIAL_II
+	if (playerController->in_special_two == true) {
+		currentAnimation = knight->getAnimations(knight->SPECIAL_II);
+
+		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
+		 	playerController->in_special_two = false;
+		 	currentAnimation->times_played = 0;
+		}
+	}
 	// SPECIAL_III
+	if (playerController->in_special_three == true) {
+		currentAnimation = knight->getAnimations(knight->SPECIAL_III);
+
+		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
+		 	playerController->in_special_three = false;
+		 	currentAnimation->times_played = 0;
+		}
+	}
 	// SPECIAL_IV
+	if (playerController->in_special_four == true) {
+		currentAnimation = knight->getAnimations(knight->SPECIAL_IV);
+
+		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
+		 	playerController->in_special_four = false;
+		 	currentAnimation->times_played = 0;
+		}
+	}
 	// THROW
 	// UPPERCUT
-
-
+	
 	currentAnimation->play(INFINITE_LOOP);
 }
 

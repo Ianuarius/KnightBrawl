@@ -5,11 +5,12 @@
  */
 #include "StateManager.h"
 
-StateManager::StateManager(Window *window):
+StateManager::StateManager(Window *window, Input *mainInput):
 	window(window),
+	mainInput(mainInput),
 	glove(true)
 {
-		pushState(new MenuState(window));
+		pushState(new MenuState(window, mainInput));
 }
 
 void StateManager::pushState(BaseState *state) 
@@ -28,7 +29,7 @@ void StateManager::run()
 		BaseState *currentState = states.back();
 		stateStatus new_status;
 			
-		Input::update();
+		mainInput->update();
 		new_status = currentState->update();
 
 		if (new_status.status != STATE_CONTINUE && !new_status.prepend) {
@@ -38,11 +39,11 @@ void StateManager::run()
 		switch (new_status.status)
 		{
 			case STATE_MENU:
-				pushState(new MenuState(window));
+				pushState(new MenuState(window, mainInput));
 				break;
 
 			case STATE_GAME:
-				pushState(new GameState(window));
+				pushState(new GameState(window, mainInput));
 				break;
 
 			case STATE_QUIT:
@@ -53,7 +54,7 @@ void StateManager::run()
 				break;
 		}
 
-		if (Input::keyPressed(SDL_SCANCODE_BACKSPACE)) {
+		if (mainInput->keyPressed(SDL_SCANCODE_BACKSPACE)) {
 			if (states.size() > 1) {
 				popState();
 			} else {

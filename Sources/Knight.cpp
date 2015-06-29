@@ -25,10 +25,6 @@ Knight::Knight(Window *window, int knight_number):
 	Animation *tmp = nullptr;
 	animations.resize(ANIMATION_MAX);
 	
-	special_one_combo.push_back(FORWARD);
-	special_one_combo.push_back(FORWARD);
-	special_one_combo.push_back(ACTION);
-	
 	/* NOTE(juha): example code
 	atoi(levelDocument.child("map").attribute("height").value());
 	levelDocument.child("map").find_child_by_attribute("name", "Background2").child("data");
@@ -173,6 +169,14 @@ Knight::Knight(Window *window, int knight_number):
 		atoi(tmp_node.child("animation").attribute("framecount").value()),
 		atoi(tmp_node.child("animation").attribute("framerate").value()));
 	animations[SPECIAL_I] = tmp;
+
+	for(pugi::xml_node_iterator iterator = tmp_node.child("control").begin();
+			iterator != tmp_node.child("control").end();
+			++iterator)
+		{
+			std::string tmp_key = std::string(iterator->child_value());
+			special_one_combo.push_back(parseKey(tmp_key));
+		}
 	
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "special2");
 	tmp = new Animation(window, 
@@ -244,4 +248,21 @@ std::vector<int> *Knight::getSpecialOneCombo()
 Animation *Knight::getAnimations(int animation)
 {
 	return animations[animation];
+}
+
+int Knight::parseKey(std::string key)
+{
+	if (key == "up") {
+		return UP;
+	} else if (key == "down") {
+		return DOWN;
+	} else if (key == "forward") {
+		return FORWARD;
+	} else if (key == "backward") {
+		return BACKWARD;
+	} else if (key == "jump") {
+		return JUMP;
+	} else {
+		return ACTION;
+	}
 }

@@ -24,56 +24,39 @@
 
 class Input {
 	public:
+		Input();
 		// P‰ivitt‰‰ n‰pp‰imen painallukset
-		static void update();
+		void update();
 
 		// Jos n‰pp‰in on alhaalla palauttaa true, muuten false
-		static bool keyState(int key);
-		static bool keyPressed(int key);
+		bool keyState(int key);
+		bool keyPressed(int key);
 		
-	    static bool isKeyPressed(int k);
+	    bool isKeyPressed(int k);
 		
 		/// Tells if the keyboard `key` was released just now.
-		static bool isKeyDown(int key);
+		bool isKeyDown(int key);
 
 		/// Tells if the keyboard `key` was pressed just now.
-		static bool isKeyUp(int key);
+		bool isKeyUp(int key);
 
 		// Avustavametodi tarkastamaan onko SHIFT alhalla
-		static bool shift();
+		bool shift();
 
 		// Avustavametodi tarkastamaan onko CTRL alhaalla
-		static bool ctrl();
+		bool ctrl();
 
 		// Avustavametodi tarkastamaan onko ALT alhaalla
-		static bool alt();
+		bool alt();
 
 		// 'Lukitsee' input managerin. N‰pp‰imi‰ ei p‰ivitet‰, jolloin esim.
 		// keyState palauttaa aina false.
-		static void lock();
+		void lock();
 
 		// Poistaa lukituksen
-		static void unlock();
+		void unlock();
 
 	private:
-		// S‰ilytt‰‰ tiedon input managerin lukituksesta
-		static bool isLocked;
-
-		// S‰ilytt‰‰ luokan sis‰isesti n‰pp‰inten tilan
-		static bool key[KEYBOARD_SIZE];
-
-		// N‰pp‰imistˆn tilan (SDL)
-		static const Uint8* keyboard;
-
-		 /// Saves which keys are currently down.
-		///
-		/// @note *KEYBOARD_SIZE* is defined on *SDL.hpp*.
-		static bool keyDown[KEYBOARD_SIZE];
-
-		/// Saves which keys are currently up.
-		///
-		/// @note *KEYBOARD_SIZE* is defined on *SDL.hpp*.
-		static bool keyUp[KEYBOARD_SIZE];
 
 };
 

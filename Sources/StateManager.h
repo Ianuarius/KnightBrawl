@@ -20,12 +20,13 @@
 class StateManager
 {
 public:
-	StateManager(Window *window);
+	StateManager(Window *window, Input *mainInput);
 	void run();
 	void pushState(BaseState *state);
 	void popState();
 
 protected:
+	Input *mainInput;
 	Window *window;
 	std::vector<BaseState*> states;
 	bool glove;

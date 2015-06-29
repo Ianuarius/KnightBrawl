@@ -19,6 +19,9 @@ public:
 	float getSpeed();
 	float getJump();
 	std::vector<int> *getSpecialOneCombo();
+	std::vector<int> *getSpecialTwoCombo();
+	std::vector<int> *getSpecialThreeCombo();
+	std::vector<int> *getSpecialFourCombo();
 	
 	enum moves {
 		FORWARD,
@@ -54,6 +57,7 @@ public:
 	};
 
 private:
+	int parseKey(std::string key);
 	std::vector<Animation*> animations;
 	std::string truename;
 	std::string knightname;
@@ -64,7 +68,10 @@ private:
 	
 	// Each element of the vector has one button of the
 	// combo saved in order.
-	std::vector<int> special_one_combo;
+	std::vector<int> special_one_combo,
+					 special_two_combo,
+					 special_three_combo,
+					 special_four_combo;
 
 	pugi::xml_parse_result knight_result, roster_result;
 	pugi::xml_document knight_document, roster_document;

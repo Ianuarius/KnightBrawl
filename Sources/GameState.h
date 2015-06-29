@@ -28,7 +28,7 @@
 class GameState : public BaseState
 {
 public:
-	GameState(Window *window);
+	GameState(Window *window, Input *mainInput);
 	stateStatus update();
 	void render();
 	enum knights {
@@ -48,6 +48,7 @@ private:
 	Knight *knight1;
 	Knight *knight2;
 	Timer timer;
+	Input *mainInput;
 	
 	std::vector<PlayerActor *> playerActors;
 	std::vector<PlayerController *> playerControllers;

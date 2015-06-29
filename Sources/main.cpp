@@ -13,7 +13,8 @@ int main(int argc, char* args[])
 	SDL::init();
 	
 	Window window(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
-	StateManager manager(&window);
+	Input mainInput;
+	StateManager manager(&window, &mainInput);
 	manager.run();
 	
 	SDL::exit();

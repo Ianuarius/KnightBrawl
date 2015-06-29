@@ -20,12 +20,13 @@
 class MenuState: public BaseState 
 {
 public:
-	MenuState(Window *window);
+	MenuState(Window *window, Input *mainInput);
 	void render();
 	stateStatus update();
 
 private:
 	Texture menu;
+	Input *mainInput;
 	Window *window;
 	GameState *game;
 	bool start;

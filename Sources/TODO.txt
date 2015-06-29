@@ -1,0 +1,16 @@
+
+TODO(juha):
+
+[ ] Read all the combos
+[ ] Check for all combos in Player_C
+[ ] Animate all combos
+[ ] 
+[ ] 
+[ ] 
+[ ] 
+[x] Read key commands from xml functionality
+[x] Read key combos from xml functionality
+	- Get a temp vector pointer
+	- Go through the controls with an iterator
+	- Push each control to a vector
+[x] Save key combos to vectors functionality
