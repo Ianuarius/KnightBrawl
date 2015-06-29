@@ -105,7 +105,7 @@
       <control type="combo">
         <key>forward</key>
         <key>up</key>
-        <key>up</key>
+        <key>down</key>
         <key>action</key>
       </control>
 		</attack>
