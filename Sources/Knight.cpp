@@ -10,6 +10,8 @@ Knight::Knight(Window *window, int knight_number):
 {
 	roster_result = roster_document.load_file("Scripts/roster.xml");
 
+	alive = true;
+
 	std::string knight_file = 
 		roster_document.child("roster").
 		find_child_by_attribute("id", std::to_string(knight_number).c_str()).
@@ -24,6 +26,10 @@ Knight::Knight(Window *window, int knight_number):
 
 	Animation *tmp = nullptr;
 	animations.resize(ANIMATION_MAX);
+
+	// NOTE(juha): This is filled with each combo, pushed to *special_combos 
+	//             and cleared before another fill
+	SpecialCombo combo;
 	
 	/* NOTE(juha): example code
 	atoi(levelDocument.child("map").attribute("height").value());
@@ -175,9 +181,12 @@ Knight::Knight(Window *window, int knight_number):
 			++iterator)
 		{
 			std::string tmp_key = std::string(iterator->child_value());
-			special_one_combo.push_back(parseKey(tmp_key));
+			combo.keys.push_back(parseKey(tmp_key));
 		}
 	
+	special_combos.push_back(combo);
+	combo.keys.clear();
+
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "special2");
 	tmp = new Animation(window, 
 		     tmp_node.child("animation").attribute("filename").value(),
@@ -188,6 +197,17 @@ Knight::Knight(Window *window, int knight_number):
 		atoi(tmp_node.child("animation").attribute("framerate").value()));
 	animations[SPECIAL_II] = tmp;
 	
+	for(pugi::xml_node_iterator iterator = tmp_node.child("control").begin();
+			iterator != tmp_node.child("control").end();
+			++iterator)
+		{
+			std::string tmp_key = std::string(iterator->child_value());
+			combo.keys.push_back(parseKey(tmp_key));
+		}
+	
+	special_combos.push_back(combo);
+	combo.keys.clear();
+
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "special3");
 	tmp = new Animation(window, 
 		     tmp_node.child("animation").attribute("filename").value(),
@@ -198,6 +218,17 @@ Knight::Knight(Window *window, int knight_number):
 		atoi(tmp_node.child("animation").attribute("framerate").value()));
 	animations[SPECIAL_III] = tmp;
 	
+	for(pugi::xml_node_iterator iterator = tmp_node.child("control").begin();
+			iterator != tmp_node.child("control").end();
+			++iterator)
+		{
+			std::string tmp_key = std::string(iterator->child_value());
+			combo.keys.push_back(parseKey(tmp_key));
+		}
+	
+	special_combos.push_back(combo);
+	combo.keys.clear();
+
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "special4");
 	tmp = new Animation(window, 
 		     tmp_node.child("animation").attribute("filename").value(),
@@ -207,7 +238,18 @@ Knight::Knight(Window *window, int knight_number):
 		atoi(tmp_node.child("animation").attribute("framecount").value()),
 		atoi(tmp_node.child("animation").attribute("framerate").value()));
 	animations[SPECIAL_IV] = tmp;
+
+	for(pugi::xml_node_iterator iterator = tmp_node.child("control").begin();
+			iterator != tmp_node.child("control").end();
+			++iterator)
+		{
+			std::string tmp_key = std::string(iterator->child_value());
+			combo.keys.push_back(parseKey(tmp_key));
+		}
 	
+	special_combos.push_back(combo);
+	combo.keys.clear();
+
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "throw");
 	tmp = new Animation(window, 
 		     tmp_node.child("animation").attribute("filename").value(),
@@ -240,9 +282,18 @@ float Knight::getJump()
 	return jump;
 }
 
-std::vector<int> *Knight::getSpecialOneCombo()
+int Knight::getHitpoints()
 {
-	return &special_one_combo;
+	return hitpoints;
+}
+
+std::string Knight::getTruename() {
+	return truename;
+}
+
+std::vector<SpecialCombo> *Knight::getSpecialCombos()
+{
+	return &special_combos;
 }
 
 Animation *Knight::getAnimations(int animation)

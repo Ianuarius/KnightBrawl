@@ -1,13 +1,13 @@
 
 TODO(juha):
 
-[ ] Read all the combos
-[ ] Check for all combos in Player_C
-[ ] Animate all combos
+[ ] Make hitboxes for attack functionality
+[ ] Have players take damage from colliding with attacks functionality
+[ ] Make all the attacks work
 [ ] 
-[ ] 
-[ ] 
-[ ] 
+[x] Read all the combos
+[x] Check for all combos in Player_C
+[x] Animate all combos
 [x] Read key commands from xml functionality
 [x] Read key combos from xml functionality
 	- Get a temp vector pointer

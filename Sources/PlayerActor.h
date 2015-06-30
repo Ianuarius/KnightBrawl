@@ -21,6 +21,7 @@ public:
 	void render();
 	int facing_direction;
 	void updateAnimation();
+	std::vector<SpecialCombo> *special_combos;
 	
 private:
 	Window *window;

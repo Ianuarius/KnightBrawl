@@ -56,7 +56,6 @@ private:
 	int tileSize;
 	
 	Sprite *levelTileSheet;
-	std::vector<std::vector<int> > TileData;
 };
 
 #endif //__LEVEL_H_DEFINED__

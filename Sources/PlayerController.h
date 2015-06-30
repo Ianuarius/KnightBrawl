@@ -29,6 +29,7 @@ public:
 	void update();
 	void commitMovement();
 	void updateInput();
+	std::vector<SpecialCombo> *special_combos;
 	
 	bool in_air, jumping, crouching, in_special_one,
 		 in_special_two, in_special_three, in_special_four;
@@ -55,10 +56,8 @@ private:
 	pugi::xml_node SinglePlayerMappings;
 	pugi::xml_node MultiPlayerMappings;
 
-	std::vector<int> *special_one_combo;
-	std::vector<int> *special_two_combo;
-	std::vector<int> *special_three_combo;
-	std::vector<int> *special_four_combo;
+	std::vector<int> combo_state;
+	// std::vector<std::vector<int> > *special_combos;
 	Timer specialOneTimer;
 	Input playerInput;
 

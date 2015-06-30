@@ -54,6 +54,8 @@ private:
 	std::vector<PlayerController *> playerControllers;
 	std::vector<SDL_Point> startPoints;
 	bool gameover;
+	Text *playername1;
+	Text *playername2;
 };
 
 #endif // __GAMESTATE_H_DEFINED__d

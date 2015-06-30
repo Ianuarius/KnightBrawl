@@ -9,6 +9,7 @@
 #include <vector>
 #include "Animation.h"
 #include "PugiXML.h"
+#include "SpecialCombo.h"
 #include "Window.h"
 
 class Knight
@@ -18,10 +19,10 @@ public:
 	Animation *getAnimations(int animation);
 	float getSpeed();
 	float getJump();
-	std::vector<int> *getSpecialOneCombo();
-	std::vector<int> *getSpecialTwoCombo();
-	std::vector<int> *getSpecialThreeCombo();
-	std::vector<int> *getSpecialFourCombo();
+	std::string getTruename();
+	int getHitpoints();
+	bool alive;
+	std::vector<SpecialCombo> *getSpecialCombos();
 	
 	enum moves {
 		FORWARD,
@@ -65,13 +66,8 @@ private:
 	float speed;
 	float jump;
 	int hitpoints;
-	
-	// Each element of the vector has one button of the
-	// combo saved in order.
-	std::vector<int> special_one_combo,
-					 special_two_combo,
-					 special_three_combo,
-					 special_four_combo;
+	std::vector<SpecialCombo> special_combos;
+	// std::vector<std::vector<int> > special_combos;
 
 	pugi::xml_parse_result knight_result, roster_result;
 	pugi::xml_document knight_document, roster_document;

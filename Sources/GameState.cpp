@@ -22,11 +22,14 @@ GameState::GameState(Window *window, Input *mainInput):
 	camera(nullptr),
 	knight1(nullptr),
 	knight2(nullptr),
-	level(nullptr)
+	level(nullptr),
+	font(new Font("ChicagoFLF.ttf", 10)),
+	playername1(new Text(font, Color("white"))),
+	playername2(new Text(font, Color("white")))
 {
 	timer.start();
-	SDL_Point start_point_1 = {36*16, 64*16};
-	SDL_Point start_point_2 = {46*16, 64*16};
+	SDL_Point start_point_1 = {36*16, 48*16};
+	SDL_Point start_point_2 = {46*16, 48*16};
 
 	bool multiplayer = true;
 
@@ -83,7 +86,7 @@ stateStatus GameState::update()
 	stateStatus status;
 	status.status = STATE_CONTINUE;
 	status.prepend = false;
-
+	
 	if (mainInput->keyState(SDL_SCANCODE_ESCAPE)) {
 		status.status = STATE_QUIT;
 	}
@@ -104,8 +107,12 @@ stateStatus GameState::update()
 		playerActors[i]->updateAnimation();
 	}
 	
-	for (int i = 0; i < PLAYERS; i++) {
-		playerControllers[i]->commitMovement();
+	if (knight1->alive == true) {
+		playerControllers[0]->commitMovement();
+	}
+	
+	if (knight2->alive == true) {
+		playerControllers[1]->commitMovement();
 	}
 	
 	mainInput->update();
@@ -134,5 +141,37 @@ void GameState::render()
 		playerActors[i]->render();
 	}
 	
+	bool draw_healthbars = true;
+	
+	if (draw_healthbars) {
+		window->drawRect(8,
+						 12,
+						 104,
+						 10,
+						 Color("black"));
+		
+		window->drawRect(10,
+						 14,
+						 knight1->getHitpoints(),
+						 6,
+						 Color("red"));
+
+		window->drawRect(camera->getFrame().w - 104 - 8,
+						 12,
+						 104,
+						 10,
+						 Color("black"));
+		
+		window->drawRect(camera->getFrame().w - 104 - 6,
+						 14,
+						 knight2->getHitpoints(),
+						 6,
+						 Color("red"));
+
+		playername1->print(window, knight1->getTruename(), 12, 2);
+		playername2->print(window, knight2->getTruename(), camera->getFrame().w - 104 - 2, 2);
+
+	}
+
 }
 

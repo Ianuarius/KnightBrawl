@@ -14,13 +14,13 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	boundbox(location.x - 25, location.y - 50, 50, 50),
 	hitbox(boundbox.x + ((50 / 2) - (26 / 2)), boundbox.y + (50 - 26), 26, 26),
 	desired(hitbox),
-	acceleration(0.8f), stoppedThreshold(acceleration/3),
+	acceleration(0.7f), stoppedThreshold(acceleration/7),
 	velocity_x(0), velocity_y(0),
 	knight(knight),
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
 	speed(knight->getSpeed()),
-	special_one_combo(knight->getSpecialOneCombo()),
+	special_combos(knight->getSpecialCombos()),
 	combo_one_state(0)
 {
 	std::string filename = "Controls.xml";
@@ -40,6 +40,12 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	in_special_two =	false;
 	in_special_three =	false;
 	in_special_four =	false;
+	
+	
+	for (int i = 0; i < SPECIAL_MOVES; ++i) {
+		combo_state.push_back(0);
+	}
+
 	
 	sp_left = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
 		find_child_by_attribute("name", "move_left").attribute("keyboard").value());
@@ -93,19 +99,6 @@ void PlayerController::update()
 	if (!in_air) {
 		jumping = false;
 	}
-
-	velocity_x += ((targetVx - velocity_x) * acceleration) * 0.16667f;
-
-	if (fabs(velocity_x) > speed) {
-		velocity_x = (velocity_x > 0) ? speed : -speed;
-	}
-
-	if (fabs(velocity_x) < stoppedThreshold) {
-		velocity_x = 0;
-	}
-
-	desired.x += floorf(velocity_x);
-	targetVx = 0;
 
 	int tmp_input = 9999;
 
@@ -170,10 +163,8 @@ void PlayerController::update()
 			if (playerInput.isKeyPressed(mp_left) && playerInput.isKeyDown(mp_left)) {
 				if (facing_direction == FACING_LEFT) {
 					tmp_input = knight->FORWARD;
-					printf("%d\n", tmp_input);
 				} else {
 					tmp_input = knight->BACKWARD;
-					printf("%d\n", tmp_input);
 				}
 			}
 
@@ -186,10 +177,8 @@ void PlayerController::update()
 			if (playerInput.isKeyPressed(mp_right) && playerInput.isKeyDown(mp_right)) {
 				if (facing_direction == FACING_RIGHT) {
 					tmp_input = knight->FORWARD;
-					printf("%d\n", tmp_input);
 				} else {
 					tmp_input = knight->BACKWARD;
-					printf("%d\n", tmp_input);
 				}
 			}
 
@@ -238,7 +227,6 @@ void PlayerController::update()
 		
 		// MENU BUTTON
 		if (playerInput.keyState(mp_menu)) {
-			printf("menu\n");
 		}
 	}
 
@@ -248,26 +236,72 @@ void PlayerController::update()
 	
 	// TODO(juha): Käy kaikki combot läpi
 
-	if ((*special_one_combo)[0] == knight->FORWARD &&
-		tmp_input == knight->BACKWARD &&
-		combo_one_state == 0) {
-		tmp_input = knight->FORWARD;
+	for (int i = 0; i < SPECIAL_MOVES; ++i) {
+		(*special_combos)[i].tmp_input = tmp_input;
+
+		if ((*special_combos)[i].keys[0] == knight->FORWARD &&
+			(*special_combos)[i].tmp_input == knight->BACKWARD &&
+			(*special_combos)[i].state == 0) {
+			(*special_combos)[i].tmp_input = knight->FORWARD;
+		}
+
+		if ((*special_combos)[i].keys[(*special_combos)[i].state] == (*special_combos)[i].tmp_input &&
+			(*special_combos)[i].executing == false) {
+			(*special_combos)[i].state++;
+		} else if ((*special_combos)[i].tmp_input == 9999) {
+
+		} else {
+			(*special_combos)[i].state = 0;
+		}
+
+		if ((*special_combos)[i].keys.size() == (*special_combos)[i].state) {
+			(*special_combos)[i].executing = true;
+			(*special_combos)[i].state = 0;
+		}
+	}
+	
+	velocity_x += ((targetVx - velocity_x) * acceleration) * 0.16667f;
+	
+	if (fabs(velocity_x) > speed) {
+		velocity_x = (velocity_x > 0) ? (speed+1) : -speed;
 	}
 
-	if ((*special_one_combo)[combo_one_state] == tmp_input &&
-		in_special_one == false) {
-		combo_one_state++;
-	} else if (tmp_input == 9999) {
+	if (fabs(velocity_x) < stoppedThreshold) {
+		velocity_x = 0;
+	}
+	
+	// printf("%f\n", velocity_x);
 
+	if (facing_direction == FACING_RIGHT) {
+		desired.x += ceilf(fabs(velocity_x));
 	} else {
-		combo_one_state = 0;
+		desired.x -= ceilf(fabs(velocity_x));
 	}
 
-	if ((*special_one_combo).size() == combo_one_state) {
-		specialOne();
-		combo_one_state = 0;
-	}
+	// desired.x += floorf(velocity_x);
+	targetVx = 0;
 
+	/*
+	velocity_x += ((targetVx - velocity_x) * acceleration) * 0.16667f;
+ 
+	if (fabs(velocity_x) > speed) {
+		velocity_x = (velocity_x > 0) ? speed : -speed;
+	}
+ 
+	if (fabs(velocity_x) < stoppedThreshold) {
+		velocity_x = 0;
+	}
+ 
+	velocity_x = ceilf(fabs(velocity_x));
+ 
+	if (facing_direction == FACING_RIGHT) {
+		desired.x += velocity_x;
+	} else {
+		desired.x -= velocity_x;
+	}
+ 
+	targetVx = 0;
+	*/
 }
 
 void PlayerController::updateInput()
@@ -346,39 +380,6 @@ void PlayerController::crouch()
 // HANGING
 // MID_AIR_BASIC_ATTACK
 // PUSHBACK
-
-// SPECIAL_I
-void PlayerController::specialOne()
-{
-	in_special_one = true;
-	// tietojen lukeminen xml:stä
-
-	// otetaan ajastimella aika (1500 tickiä)
-	
-	// animaation vaihto / bool
-	// näytetään vain kerran
-}
-
-// SPECIAL_II
-
-void PlayerController::specialTwo()
-{
-	in_special_two = true;
-}
-
-// SPECIAL_III
-
-void PlayerController::specialThree()
-{
-	in_special_three = true;
-}
-
-// SPECIAL_IV
-
-void PlayerController::specialFour()
-{
-	in_special_four = true;
-}
 
 // THROW
 // UPPERCUT

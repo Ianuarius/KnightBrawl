@@ -13,7 +13,8 @@ PlayerActor::PlayerActor(Window *window,
 	window(window),
 	camera(camera),
 	knight(knight),
-	facing_direction(FACING_RIGHT)
+	facing_direction(FACING_RIGHT),
+	special_combos(playerController->special_combos)
 {
 }
 
@@ -48,45 +49,52 @@ void PlayerActor::updateAnimation()
 	// PUSHBACK
 
 	// SPECIAL_I
-	if (playerController->in_special_one == true) {
+	if ((*special_combos)[0].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_I);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	playerController->in_special_one = false;
+		 	(*special_combos)[0].executing = false;
 		 	currentAnimation->times_played = 0;
 		}
 	}
 	// SPECIAL_II
-	if (playerController->in_special_two == true) {
+
+	
+	if ((*special_combos)[1].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_II);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	playerController->in_special_two = false;
+		 	(*special_combos)[1].executing = false;
 		 	currentAnimation->times_played = 0;
 		}
 	}
 	// SPECIAL_III
-	if (playerController->in_special_three == true) {
+	if ((*special_combos)[2].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_III);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	playerController->in_special_three = false;
+		 	(*special_combos)[2].executing = false;
 		 	currentAnimation->times_played = 0;
 		}
 	}
 	// SPECIAL_IV
-	if (playerController->in_special_four == true) {
+	if ((*special_combos)[3].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_IV);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	playerController->in_special_four = false;
+		 	(*special_combos)[3].executing = false;
 		 	currentAnimation->times_played = 0;
 		}
 	}
 	// THROW
 	// UPPERCUT
-	
 	currentAnimation->play(INFINITE_LOOP);
+
+	if (knight->alive == false) {
+		currentAnimation = knight->getAnimations(knight->DEATH);
+		currentAnimation->play(1);
+	}
+
 }
 
 void PlayerActor::render()
@@ -102,6 +110,7 @@ void PlayerActor::render()
 	bool draw_boundbox = false;
 
 	int camera_middle_x = camera->getFrame().w / 2;
+
 
 	if (draw_boundbox) {
 		window->drawRect(playerController->boundbox.x - camera->getFrame().x,

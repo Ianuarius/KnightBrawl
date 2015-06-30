@@ -65,7 +65,7 @@ void Text::print(Window *window, std::string text, int x, int y)
 
 			SDL_RenderCopy(renderer, texture, &clip, &destination);
 		} else {
-			printf("Ei voitu tulostaa tekstiä! SDL_Error: %s\n", SDL_GetError());
+			printf("SDL_Error: %s\n", SDL_GetError());
 		}
 
 	SDL_FreeSurface(text_surface);
