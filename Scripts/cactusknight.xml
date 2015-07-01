@@ -2,6 +2,10 @@
 
 <!--  
 
+  TODO:
+  * Character moves while special attack is performed (propelling)
+  * Projectile
+
   ***** ATTACK *****
   <attack name="insert name" format="insert format"
   Attack formats: strike - Creates a quick hitbox that damages enemies it hits.
@@ -11,7 +15,8 @@
                   buff - Doesn't create a hitbox, rather gives the user an effect
                   aoe - Creates a large hitbox that stays in place for a certain amount of time. Sometimes follows the user.
                                     
-  ***** PROJECTILE *****               
+  ***** PROJECTILE ***** 
+
   <projectile type="insert projectile type" +following parameters+>
   Projectile types: linear - fires a projectile in a straight line
                     arc - fires a projectile that obeys gravity, making it's trajectory decline instead of following a straight line
@@ -54,9 +59,27 @@
     <knightname>Cactus Knight</knightname>
 		<hitpoints>100</hitpoints>
 		<hitbox x="-13" y="-26" width="26" height="26" />
-		<jump>5</jump> <!-- 5 default -->
     <speed>5</speed> <!-- 5 default -->		
 	</stats>
+  
+  <projectile name="thorn" type="linear" range="80" power="20" speed="50" delay="0">
+    <animation filename="Graphics/Knights/cactusknight/cactusknight_spine.png" framecount="1" width="5" height="5" startframe="0" framerate="8"  />
+    <collision collision="wall" collisiondestruct="true" />
+    <hitbox x="10" y="-10" width="3" height="3" />
+  </projectile>
+
+  <areaeffect name="stingingspin">
+    <animation />
+    <effect />
+    <hitbox x="-25" y="-25" width="50" height="50" />
+  </areaeffect>
+
+  <buffeffect name="thornshield">
+    <animation filename="Graphics/Knights/cactusknight/thornshield.png" />
+    <collision collision="player" collisiondestruct="false" />
+    <hitbox x="-25" y="-25" width="50" height="50" />
+    <effect type="damagereturn" power="50" />
+  </buffeffect>
   
 	<action>
 
@@ -91,13 +114,7 @@
 		<attack name="special1" format="ranged">
       <name>Fan of Spines</name>
       <animation filename="Graphics/Knights/cactusknight/cactusknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
-      <projectileanimation filename="Graphics/Knights/cactusknight/cactusknight_spine.png" framecount="1" width="5" height="5" startframe="0" framerate="8"  />
-      <hitbox x="10" y="-10" width="3" height="3" />
-      <projectile type="linear" angle="50" range="80" power="20" speed="50" delay="0" collision="wall" collisiondestruct="true" />
-      <projectile type="linear" angle="70" range="80" power="20" speed="50" delay="0" collision="wall" collisiondestruct="true" />
-      <projectile type="linear" angle="90" range="80" power="20" speed="50" delay="0" collision="wall" collisiondestruct="true" />
-      <projectile type="linear" angle="110" range="80" power="20" speed="50" delay="0" collision="wall" collisiondestruct="true" />
-      <projectile type="linear" angle="130" range="80" power="20" speed="50" delay="0" collision="wall" collisiondestruct="true" />
+      <projectilespawner type="thorn" amount="5" angle="50" angledelta="20" />
       <control type="combo">
         <key>forward</key>
         <key>up</key>
@@ -123,6 +140,7 @@
 		<attack name="special3" format="strike">
       <name>Thorn Shield</name>
       <animation filename="Graphics/Knights/cactusknight/cactusknight_special3.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
+      <buffeffect type="thornshield" duration="7" />
       <control type="combo">
         <key>down</key>
         <key>up</key>
