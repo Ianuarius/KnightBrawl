@@ -6,9 +6,11 @@
 #include "Knight.h"
 
 Knight::Knight(Window *window, int knight_number):
-	window(window)
+	window(window),
+	hitbox(0, 0, 0, 0)
 {
 	roster_result = roster_document.load_file("Scripts/roster.xml");
+	attack_hitboxes.reserve(8);
 
 	alive = true;
 
@@ -24,7 +26,6 @@ Knight::Knight(Window *window, int knight_number):
 		return;
 	}
 
-	Animation *tmp = nullptr;
 	animations.resize(ANIMATION_MAX);
 
 	// NOTE(juha): This is filled with each combo, pushed to *special_combos 
@@ -41,140 +42,55 @@ Knight::Knight(Window *window, int knight_number):
 	hitpoints = atoi(knight_document.child("knight").child("stats").child("hitpoints").child_value());
 	truename = knight_document.child("knight").child("stats").child("truename").child_value();
 	knightname = knight_document.child("knight").child("stats").child("knightname").child_value();
-	
+	hitbox.x = atoi(knight_document.child("knight").child("stats").child("hitbox").attribute("x").value());
+	hitbox.y = atoi(knight_document.child("knight").child("stats").child("hitbox").attribute("y").value());
+	hitbox.w = atoi(knight_document.child("knight").child("stats").child("hitbox").attribute("w").value());
+	hitbox.h = atoi(knight_document.child("knight").child("stats").child("hitbox").attribute("h").value());
+
 	pugi::xml_node tmp_node;
+	Rectangle tmp_hitbox(0, 0, 0, 0);
+	std::vector<Rectangle> tmp_move_hitboxes;
 
 	tmp_node = knight_document.child("knight").child("action").child("idle");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[IDLE] = tmp;
+	animations[IDLE] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").child("run");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[RUN] = tmp;
+	animations[RUN] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").child("jump");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[JUMP] = tmp;
+	animations[JUMP] = parseAction(&tmp_node);
 
 	jump = atof(tmp_node.attribute("height").value());
 	
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "basic");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[ATTACK] = tmp;
+	animations[ATTACK] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").child("block");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[BLOCK] = tmp;
+	animations[BLOCK] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").child("crouch");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[CROUCH] = tmp;
+	animations[CROUCH] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").child("death");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[DEATH] = tmp;
+	animations[DEATH] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").child("dodge");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[DODGE] = tmp;
+	animations[DODGE] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "midair_downthrust");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[DOWN_THRUST] = tmp;
+	animations[DOWN_THRUST] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").child("hanging");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[HANGING] = tmp;
+	animations[HANGING] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "midair_basic");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[MID_AIR_BASIC_ATTACK] = tmp;
+	animations[MID_AIR_BASIC_ATTACK] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").child("pushback");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[PUSHBACK] = tmp;
+	animations[PUSHBACK] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "special1");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[SPECIAL_I] = tmp;
+	animations[SPECIAL_I] = parseAction(&tmp_node);
 
 	for(pugi::xml_node_iterator iterator = tmp_node.child("control").begin();
 			iterator != tmp_node.child("control").end();
@@ -188,14 +104,7 @@ Knight::Knight(Window *window, int knight_number):
 	combo.keys.clear();
 
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "special2");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[SPECIAL_II] = tmp;
+	animations[SPECIAL_II] = parseAction(&tmp_node);
 	
 	for(pugi::xml_node_iterator iterator = tmp_node.child("control").begin();
 			iterator != tmp_node.child("control").end();
@@ -209,14 +118,7 @@ Knight::Knight(Window *window, int knight_number):
 	combo.keys.clear();
 
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "special3");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[SPECIAL_III] = tmp;
+	animations[SPECIAL_III] = parseAction(&tmp_node);
 	
 	for(pugi::xml_node_iterator iterator = tmp_node.child("control").begin();
 			iterator != tmp_node.child("control").end();
@@ -230,14 +132,7 @@ Knight::Knight(Window *window, int knight_number):
 	combo.keys.clear();
 
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "special4");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[SPECIAL_IV] = tmp;
+	animations[SPECIAL_IV] = parseAction(&tmp_node);
 
 	for(pugi::xml_node_iterator iterator = tmp_node.child("control").begin();
 			iterator != tmp_node.child("control").end();
@@ -251,26 +146,68 @@ Knight::Knight(Window *window, int knight_number):
 	combo.keys.clear();
 
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "throw");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[THROW] = tmp;
+	animations[THROW] = parseAction(&tmp_node);
 	
 	tmp_node = knight_document.child("knight").child("action").find_child_by_attribute("name", "uppercut");
-	tmp = new Animation(window, 
-		     tmp_node.child("animation").attribute("filename").value(),
-		atoi(tmp_node.child("animation").attribute("width").value()),
-		atoi(tmp_node.child("animation").attribute("height").value()),
-		atoi(tmp_node.child("animation").attribute("startframe").value()),
-		atoi(tmp_node.child("animation").attribute("framecount").value()),
-		atoi(tmp_node.child("animation").attribute("framerate").value()));
-	animations[UPPERCUT] = tmp;
+	animations[UPPERCUT] = parseAction(&tmp_node);
 	
 }
+
+Animation *Knight::parseAction(pugi::xml_node *tmp_node)
+{
+	Animation *tmp_animation = nullptr;
+
+	for(pugi::xml_node_iterator iterator = tmp_node->begin();
+			iterator != tmp_node->end();
+			++iterator)
+		{
+			std::string tmp_string = iterator->name();
+
+			if (tmp_string.compare("animation") == 0) {
+				tmp_animation = new Animation(window, 
+						 tmp_node->child("animation").attribute("filename").value(),
+					atoi(tmp_node->child("animation").attribute("width").value()),
+					atoi(tmp_node->child("animation").attribute("height").value()),
+					atoi(tmp_node->child("animation").attribute("startframe").value()),
+					atoi(tmp_node->child("animation").attribute("framecount").value()),
+					atoi(tmp_node->child("animation").attribute("framerate").value()));
+			}
+
+			if (tmp_string.compare("hitbox") == 0) {
+
+			}
+			
+			if (tmp_string.compare("damage") == 0) {
+			}
+			
+			if (tmp_string.compare("control") == 0) {
+
+			}
+			
+			if (tmp_string.compare("name") == 0) {
+
+			}
+			
+			if (tmp_string.compare("effect") == 0) {
+
+			}
+			
+			if (tmp_string.compare("buffeffect") == 0) {
+
+			}
+			
+			if (tmp_string.compare("projectile") == 0) {
+
+			}
+			
+			if (tmp_string.compare("projectilespawner") == 0) {
+
+			}
+		}
+
+	return tmp_animation;
+}
+
 
 float Knight::getSpeed()
 {
