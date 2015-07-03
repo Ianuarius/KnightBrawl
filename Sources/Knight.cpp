@@ -181,7 +181,7 @@ Animation *Knight::parseAction(pugi::xml_node *tmp_node)
 			}
 			
 			if (tmp_string.compare("control") == 0) {
-
+				
 			}
 			
 			if (tmp_string.compare("name") == 0) {

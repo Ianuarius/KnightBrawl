@@ -38,16 +38,29 @@ GameState::GameState(Window *window, Input *mainInput):
 	}
 	
 	/*
-	TODO(juha): T‰ss‰ kun luodaan uusi knight, niin sille pit‰‰
-	saada xml-tiedostosta oikeat tiedot, kuten animaatioiden polut,
-	hitboxit, yms.
+		WEAPON HITBOX STUFF
+	
+		for(std::vector<Enemy*>::iterator it = enemies.begin();
+			it != enemies.end(); it++) {
 
-	hitbox player_c
-	hitpoints knight
-	jump player_c
-	speed player_c
-	action player_c
-	animation knight
+			SDL_Rect tmp_hb = (*it)->hitbox;
+			SDL_Rect wep_hb = player->weapon_hitbox;
+
+			if (SDL_HasIntersection(&tmp_hb, &wep_hb)) {
+				(*it)->damage(10);
+			}
+
+			if ((*it)->isDead()) {
+				it = enemies.erase(it);
+			}
+
+			SDL_Rect plr_hb = player->hitbox;
+			SDL_Rect enemy_wep_hb = (*it)->weapon_hitbox;
+
+			if (SDL_HasIntersection(&plr_hb, &enemy_wep_hb)) {
+				player->damage(1);
+			}
+
 	*/
 
 	knight1 = new Knight(window, DRAGON_KNIGHT);
