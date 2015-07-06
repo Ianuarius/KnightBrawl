@@ -13,6 +13,7 @@ Knight::Knight(Window *window, int knight_number):
 	attack_hitboxes.reserve(8);
 
 	alive = true;
+	hit = false;
 
 	std::string knight_file = 
 		roster_document.child("roster").
@@ -236,6 +237,15 @@ std::vector<SpecialCombo> *Knight::getSpecialCombos()
 Animation *Knight::getAnimations(int animation)
 {
 	return animations[animation];
+}
+
+void Knight::damage(int amount) {
+	hitpoints -= amount;
+	
+	if (hitpoints < 0) {
+		hitpoints = 0;
+	}
+
 }
 
 int Knight::parseKey(std::string key)

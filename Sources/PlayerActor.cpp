@@ -34,6 +34,23 @@ void PlayerActor::updateAnimation()
 	}
 
 	// ATTACK
+	if (playerController->attacking == true) {
+		currentAnimation = knight->getAnimations(knight->ATTACK);
+		
+		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
+		 	playerController->attacking = false;
+			knight->hit = false;
+		 	currentAnimation->times_played = 0;
+		}
+
+		if (currentAnimation->getCurrentFrame() > 1) {
+			playerController->attack_hb.w = 36;
+			playerController->attack_hb.h = 10;
+		} else {
+			playerController->attack_hb.w = 0;
+			playerController->attack_hb.h = 0;
+		}
+	}
 	// BLOCK
 
 	// CROUCH
@@ -41,7 +58,6 @@ void PlayerActor::updateAnimation()
 		currentAnimation = knight->getAnimations(knight->CROUCH);
 	}
 
-	// DEATH
 	// DODGE
 	// DOWN_THRUST
 	// HANGING
@@ -88,11 +104,18 @@ void PlayerActor::updateAnimation()
 	}
 	// THROW
 	// UPPERCUT
-	currentAnimation->play(INFINITE_LOOP);
+	if (knight->alive) {
+		currentAnimation->play(INFINITE_LOOP);
+	}
 
+	
+	// DEATH
 	if (knight->alive == false) {
 		currentAnimation = knight->getAnimations(knight->DEATH);
-		currentAnimation->play(1);
+
+		if (currentAnimation->times_played == 0) {
+			currentAnimation->play(1);
+		}
 	}
 
 }
@@ -107,10 +130,18 @@ void PlayerActor::render()
 		currentAnimation->flip = false;
 	}
 
-	bool draw_boundbox = false;
+	bool draw_boundbox =		false;
+	bool draw_attack_hitbox =	false;
 
 	int camera_middle_x = camera->getFrame().w / 2;
 
+	if (draw_attack_hitbox) {
+		window->drawRect(playerController->attack_hb.x - camera->getFrame().x,
+						 playerController->attack_hb.y - camera->getFrame().y,
+						 playerController->attack_hb.w,
+						 playerController->attack_hb.h,
+						 Color("red"));
+	}
 
 	if (draw_boundbox) {
 		window->drawRect(playerController->boundbox.x - camera->getFrame().x,

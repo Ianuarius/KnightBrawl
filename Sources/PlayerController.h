@@ -31,11 +31,10 @@ public:
 	void updateInput();
 	std::vector<SpecialCombo> *special_combos;
 	
-	bool in_air, jumping, crouching, in_special_one,
-		 in_special_two, in_special_three, in_special_four;
+	bool in_air, jumping, crouching, attacking;
 	float velocity_x, velocity_y;
 	SDL_Point location;
-	Rectangle boundbox, hitbox, desired;
+	Rectangle boundbox, hitbox, desired, attack_hb;
 
 private:
 	void specialOne();
@@ -47,7 +46,7 @@ private:
 	void right();
 	void crouch();
 	void up();
-	void action();
+	void basicAttack();
 
 	Knight *knight;
 	EnumParser<SDL_Scancode> fieldTypeParser;

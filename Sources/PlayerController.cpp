@@ -14,6 +14,7 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	boundbox(location.x - 25, location.y - 50, 50, 50),
 	hitbox(boundbox.x + ((50 / 2) - (26 / 2)), boundbox.y + (50 - 26), 26, 26),
 	desired(hitbox),
+	attack_hb(desired.x -25, desired.y + 40, 0, 0),
 	acceleration(0.7f), stoppedThreshold(acceleration/7),
 	velocity_x(0), velocity_y(0),
 	knight(knight),
@@ -149,6 +150,7 @@ void PlayerController::update()
 			if (playerInput.isKeyPressed(sp_action) && playerInput.isKeyDown(sp_action)) {
 				tmp_input = knight->ACTION;
 			}
+			basicAttack();
 		}
 		
 		// MENU BUTTON
@@ -208,6 +210,7 @@ void PlayerController::update()
 			if (playerInput.isKeyPressed(mp_action) && playerInput.isKeyDown(mp_action)) {
 				tmp_input = knight->ACTION;
 			}
+			basicAttack();
 		}
 		
 		// MENU BUTTON
@@ -267,7 +270,37 @@ void PlayerController::update()
 		desired.x -= ceilf(fabs(velocity_x));
 	}
 
+	int deduct = 23 - (36 / 2);
+
+	if (facing_direction == FACING_RIGHT) {
+		attack_hb.x = desired.x + deduct;
+	} else {
+		attack_hb.x = desired.x - 20 + deduct;
+	}
+
+	attack_hb.y = desired.y + 8;
+
 	targetVx = 0;
+
+	/*
+	w 0
+	+23
+
+	w 10
+	+18
+
+	w 20
+	+13
+
+	w 30
+	+8
+
+	w 40
+
+	+3
+
+	*/
+
 }
 
 void PlayerController::updateInput()
@@ -318,6 +351,11 @@ void PlayerController::jump()
 }
 
 // ATTACK
+void PlayerController::basicAttack()
+{
+	attacking = true;
+}
+
 // BLOCK
 
 // CROUCH

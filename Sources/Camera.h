@@ -6,10 +6,6 @@
 #ifndef __CAMERA_H_DEFINED__
 #define __CAMERA_H_DEFINED__
 
-#define FACING_L 0.4
-#define FACING_R 0.6
-#define PAN_TR_L 0.3
-#define PAN_TR_R 0.7
 #define LERP 0.1
 
 #include "SDL.h"

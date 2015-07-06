@@ -22,8 +22,9 @@ public:
 	float getJump();
 	std::string getTruename();
 	int getHitpoints();
+	void damage(int amount);
 	Rectangle hitbox;
-	bool alive;
+	bool alive, hit;
 	std::vector<SpecialCombo> *getSpecialCombos();
 	
 	enum moves {

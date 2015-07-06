@@ -36,32 +36,6 @@ GameState::GameState(Window *window, Input *mainInput):
 	if (PLAYERS <= 1) {
 		multiplayer = false;
 	}
-	
-	/*
-		WEAPON HITBOX STUFF
-	
-		for(std::vector<Enemy*>::iterator it = enemies.begin();
-			it != enemies.end(); it++) {
-
-			SDL_Rect tmp_hb = (*it)->hitbox;
-			SDL_Rect wep_hb = player->weapon_hitbox;
-
-			if (SDL_HasIntersection(&tmp_hb, &wep_hb)) {
-				(*it)->damage(10);
-			}
-
-			if ((*it)->isDead()) {
-				it = enemies.erase(it);
-			}
-
-			SDL_Rect plr_hb = player->hitbox;
-			SDL_Rect enemy_wep_hb = (*it)->weapon_hitbox;
-
-			if (SDL_HasIntersection(&plr_hb, &enemy_wep_hb)) {
-				player->damage(1);
-			}
-
-	*/
 
 	knight1 = new Knight(window, DRAGON_KNIGHT);
 	knight2 = new Knight(window, CACTUS_KNIGHT);
@@ -91,7 +65,14 @@ GameState::GameState(Window *window, Input *mainInput):
 	
 	level = new Level(window, camera);
 	level->load("Levels/tavern_small.tmx");
-	
+
+	/*
+	Pellaaaja lyöpi
+	- tarkista painettiinko actionia
+	- player_c:ssä attack = true
+	- 
+
+	*/
 }
 
 stateStatus GameState::update()
@@ -118,6 +99,55 @@ stateStatus GameState::update()
 	
 	for (int i = 0; i < PLAYERS; i++) {
 		playerActors[i]->updateAnimation();
+	}
+	
+	/*
+		WEAPON HITBOX STUFF
+	
+			SDL_Rect tmp_hb = (*it)->hitbox;
+			SDL_Rect wep_hb = player->weapon_hitbox;
+
+			if (SDL_HasIntersection(&tmp_hb, &wep_hb)) {
+				(*it)->damage(10);
+			}
+
+			if ((*it)->isDead()) {
+				it = enemies.erase(it);
+			}
+
+			SDL_Rect plr_hb = player->hitbox;
+			SDL_Rect enemy_wep_hb = (*it)->weapon_hitbox;
+
+			if (SDL_HasIntersection(&plr_hb, &enemy_wep_hb)) {
+				player->damage(1);
+			}
+
+	*/
+	
+	SDL_Rect tmp_hb = playerControllers[1]->hitbox;
+	SDL_Rect wep_hb = playerControllers[0]->attack_hb;
+
+	if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
+		knight1->hit == false) {
+		knight2->damage(15);
+		knight1->hit = true;
+	}
+	
+	tmp_hb = playerControllers[0]->hitbox;
+	wep_hb = playerControllers[1]->attack_hb;
+
+	if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
+		knight2->hit == false) {
+		knight1->damage(15);
+		knight2->hit = true;
+	}
+
+	if (knight1->getHitpoints() <= 0) {
+		knight1->alive = false;
+	}
+	
+	if (knight2->getHitpoints() <= 0) {
+		knight2->alive = false;
 	}
 	
 	if (knight1->alive == true) {
