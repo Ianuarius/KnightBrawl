@@ -23,7 +23,7 @@
 #include "Texture.h"
 #include "Window.h"
 
-#define PLAYERS	2
+#define PLAYERS	3
 
 class GameState : public BaseState
 {
@@ -45,11 +45,10 @@ private:
 	Texture *background;
 	Font *font;
 	Camera *camera;
-	Knight *knight1;
-	Knight *knight2;
 	Timer timer;
 	Input *mainInput;
 	
+	std::vector<Knight *> knights;
 	std::vector<PlayerActor *> playerActors;
 	std::vector<PlayerController *> playerControllers;
 	std::vector<SDL_Point> startPoints;

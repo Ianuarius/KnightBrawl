@@ -20,20 +20,16 @@ PlayerActor::PlayerActor(Window *window,
 
 void PlayerActor::updateAnimation()
 {
-	// IDLE
 	currentAnimation = knight->getAnimations(knight->IDLE);
 	
-	// RUN
 	if (playerController->velocity_x != 0) {
 		currentAnimation = knight->getAnimations(knight->RUN);
 	}
 	
-	// JUMP
 	if (playerController->jumping == true) {
 		currentAnimation = knight->getAnimations(knight->JUMP);
 	}
 
-	// ATTACK
 	if (playerController->attacking == true) {
 		currentAnimation = knight->getAnimations(knight->ATTACK);
 		
@@ -43,7 +39,7 @@ void PlayerActor::updateAnimation()
 		 	currentAnimation->times_played = 0;
 		}
 
-		if (currentAnimation->getCurrentFrame() > 1) {
+		if (currentAnimation->getCurrentFrame() > 0) {
 			playerController->attack_hb.w = 36;
 			playerController->attack_hb.h = 10;
 		} else {
@@ -131,7 +127,7 @@ void PlayerActor::render()
 	}
 
 	bool draw_boundbox =		false;
-	bool draw_attack_hitbox =	false;
+	bool draw_attack_hitbox =	true;
 
 	int camera_middle_x = camera->getFrame().w / 2;
 

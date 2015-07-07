@@ -17,10 +17,10 @@
   </actionmap>
 
   <actionmap name="multiplayer" controller="0">
-    <action name="move_left" onPress="1" keyboard="J" xboxpad="XI_DPAD_LEFT" />
-    <action name="move_right" onPress="1" keyboard="L" xboxpad="XI_DPAD_RIGHT" />
-    <action name="crouch" onPress="1" keyboard="K" xboxpad="XI_DPAD_DOWN" />
-    <action name="up" onPress="1" keyboard="I" xboxpad="XI_DPAD_UP" />
+    <action name="move_left" onPress="1" keyboard="F" xboxpad="XI_DPAD_LEFT" />
+    <action name="move_right" onPress="1" keyboard="H" xboxpad="XI_DPAD_RIGHT" />
+    <action name="crouch" onPress="1" keyboard="G" xboxpad="XI_DPAD_DOWN" />
+    <action name="up" onPress="1" keyboard="T" xboxpad="XI_DPAD_UP" />
     <action name="jump" onPress="1" keyboard="W" xboxpad="XI_BUTTON_A" />
     <action name="action" onPress="1" keyboard="Q" xboxpad="XI_BUTTON_X" />
     <action name="menu" onPress="1" keyboard="ESCAPE" xboxpad="XI_BUTTON_START" />
@@ -37,13 +37,13 @@
   </actionmap>
 
   <actionmap name="multiplayer" controller="2">
-    <action name="move_left" onPress="1" keyboard="" xboxpad="XI_DPAD_LEFT" />
-    <action name="move_right" onPress="1" keyboard="" xboxpad="XI_DPAD_RIGHT" />
-    <action name="crouch" onPress="1" keyboard="" xboxpad="XI_DPAD_DOWN" />
-    <action name="up" onPress="1" keyboard="" xboxpad="XI_DPAD_UP" />
-    <action name="jump" onPress="1" keyboard="" xboxpad="XI_BUTTON_A" />
-    <action name="action" onPress="1" keyboard="" xboxpad="XI_BUTTON_X" />
-    <action name="menu" onPress="1" keyboard="" xboxpad="XI_BUTTON_START" />
+    <action name="move_left" onPress="1" keyboard="LEFT" xboxpad="XI_DPAD_LEFT" />
+    <action name="move_right" onPress="1" keyboard="RIGHT" xboxpad="XI_DPAD_RIGHT" />
+    <action name="crouch" onPress="1" keyboard="DOWN" xboxpad="XI_DPAD_DOWN" />
+    <action name="up" onPress="1" keyboard="UP" xboxpad="XI_DPAD_UP" />
+    <action name="jump" onPress="1" keyboard="PERIOD" xboxpad="XI_BUTTON_A" />
+    <action name="action" onPress="1" keyboard="COMMA" xboxpad="XI_BUTTON_X" />
+    <action name="menu" onPress="1" keyboard="ESCAPE" xboxpad="XI_BUTTON_START" />
   </actionmap>
 
   <actionmap name="multiplayer" controller="3">

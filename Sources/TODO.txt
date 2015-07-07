@@ -1,10 +1,17 @@
 
 TODO(juha):
 
-[ ] Make hitboxes for attack functionality
-[ ] Have players take damage from colliding with attacks functionality
-[ ] Make all the attacks work
-[ ] 
+[ ] Midair Basic attack
+[ ] Downthrust attack
+[ ] Uppercut attack
+[ ] Attack controls from XML
+[ ] Attack hitboxes from XML
+[x] Knights in a vector
+[ ] Respawning Knights
+[ ] Character selection
+[x] Make hitboxes for attack functionality
+[x] Have players take damage from colliding with attacks functionality
+[x] Make all the attacks work
 [x] Read all the combos
 [x] Check for all combos in Player_C
 [x] Animate all combos
