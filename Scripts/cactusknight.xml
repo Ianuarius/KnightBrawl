@@ -84,6 +84,7 @@
 	<stats>	
 		<truename>Pepito</truename>
     <knightname>Cactus Knight</knightname>
+    <decal filename="Graphics/Decals/cactusknight.png" width="30" height="30" />
 		<hitpoints>100</hitpoints>
 		<hitbox x="-13" y="-26" width="26" height="26" />
     <speed>5</speed> <!-- 5 default -->		
