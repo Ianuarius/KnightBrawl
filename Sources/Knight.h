@@ -20,6 +20,7 @@ public:
 	Animation *getAnimations(int animation);
 	float getSpeed();
 	float getJump();
+	Sprite *getDecal();
 	std::string getTruename();
 	int getHitpoints();
 	void damage(int amount);
@@ -78,6 +79,7 @@ private:
 	std::string truename;
 	std::string knightname;
 	Window *window;
+	Sprite *decal;
 	float speed;
 	float jump;
 	int hitpoints;

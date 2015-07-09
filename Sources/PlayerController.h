@@ -23,12 +23,18 @@
 class PlayerController
 {
 public:
+	// NOTE(juha): Constructor for in-menu controls.
+	PlayerController(bool multiplayer, int player);
+	
+	// NOTE(juha): Constructor for in-game controls.
 	PlayerController(SDL_Point start_position, 
 		bool multiplayer, int player, Knight *knight);
+
 	int getDirection();
 	void update();
 	void commitMovement();
 	void updateInput();
+	int menu_x, menu_y;
 	std::vector<SpecialCombo> *special_combos;
 	
 	bool in_air, jumping, crouching, attacking;
@@ -37,16 +43,13 @@ public:
 	Rectangle boundbox, hitbox, desired, attack_hb;
 
 private:
-	void specialOne();
-	void specialTwo();
-	void specialThree();
-	void specialFour();
 	void jump();
 	void left();
 	void right();
 	void crouch();
 	void up();
 	void basicAttack();
+	void parseMappedValues();
 
 	Knight *knight;
 	EnumParser<SDL_Scancode> fieldTypeParser;
@@ -62,8 +65,8 @@ private:
 
 	int mp_action, mp_down, mp_jump, mp_left, mp_menu, mp_right, mp_up;
 	int sp_action, sp_down, sp_jump, sp_left, sp_menu, sp_right, sp_up;
-	int combo_one_state;
-	bool multiplayer;
+	int combo_one_state, player;
+	bool multiplayer, in_menu;
 	int facing_direction;
 	float speed;
 	float acceleration;

@@ -13,6 +13,7 @@
 #define STATE_VICTORY	2
 #define STATE_CONTINUE	3
 #define STATE_QUIT		4
+#define STATE_C_SELECT	5
 
 const int LARGE_WIDTH =			1600;
 const int LARGE_HEIGHT =		960;

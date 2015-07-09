@@ -19,7 +19,7 @@ stateStatus MenuState::update()
 	status.prepend = false;
 
 		if (mainInput->keyPressed(SDL_SCANCODE_RETURN))	{
-			status.status = STATE_GAME;
+			status.status = STATE_C_SELECT;
 		}	
 
 		if(mainInput->keyPressed(SDL_SCANCODE_ESCAPE)) {

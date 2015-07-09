@@ -7,7 +7,8 @@
 
 Knight::Knight(Window *window, int knight_number):
 	window(window),
-	hitbox(0, 0, 0, 0)
+	hitbox(0, 0, 0, 0),
+	decal(nullptr)
 {
 	roster_result = roster_document.load_file("Scripts/roster.xml");
 	attack_hitboxes.reserve(8);
@@ -47,6 +48,11 @@ Knight::Knight(Window *window, int knight_number):
 	hitbox.y = atoi(knight_document.child("knight").child("stats").child("hitbox").attribute("y").value());
 	hitbox.w = atoi(knight_document.child("knight").child("stats").child("hitbox").attribute("w").value());
 	hitbox.h = atoi(knight_document.child("knight").child("stats").child("hitbox").attribute("h").value());
+
+	decal = new Sprite(window,
+		knight_document.child("knight").child("stats").child("decal").attribute("filename").value(),
+		atoi(knight_document.child("knight").child("stats").child("decal").attribute("width").value()),
+		atoi(knight_document.child("knight").child("stats").child("decal").attribute("height").value()));
 
 	pugi::xml_node tmp_node;
 	Rectangle tmp_hitbox(0, 0, 0, 0);
@@ -223,6 +229,11 @@ float Knight::getJump()
 int Knight::getHitpoints()
 {
 	return hitpoints;
+}
+
+Sprite *Knight::getDecal()
+{
+	return decal;
 }
 
 std::string Knight::getTruename() {

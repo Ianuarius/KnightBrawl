@@ -8,7 +8,7 @@
 StateManager::StateManager(Window *window, Input *mainInput):
 	window(window),
 	mainInput(mainInput),
-	glove(true)
+	love(true)
 {
 		pushState(new MenuState(window, mainInput));
 }
@@ -25,7 +25,7 @@ void StateManager::popState()
 
 void StateManager::run() 
 {	
-	while (glove) {
+	while (love) {
 		BaseState *currentState = states.back();
 		stateStatus new_status;
 			
@@ -45,9 +45,13 @@ void StateManager::run()
 			case STATE_GAME:
 				pushState(new GameState(window, mainInput));
 				break;
+				
+			case STATE_C_SELECT:
+				pushState(new CharacterSelectState(window, mainInput));
+				break;
 
 			case STATE_QUIT:
-				glove = false;
+				love = false;
 				break;
 	
 			default:
@@ -58,7 +62,7 @@ void StateManager::run()
 			if (states.size() > 1) {
 				popState();
 			} else {
-				glove = false;
+				love = false;
 			}
 		}
 

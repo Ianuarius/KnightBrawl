@@ -23,8 +23,6 @@
 #include "Texture.h"
 #include "Window.h"
 
-#define PLAYERS	3
-
 class GameState : public BaseState
 {
 public:
@@ -48,6 +46,7 @@ private:
 	Timer timer;
 	Input *mainInput;
 	
+	int players;
 	std::vector<Knight *> knights;
 	std::vector<PlayerActor *> playerActors;
 	std::vector<PlayerController *> playerControllers;

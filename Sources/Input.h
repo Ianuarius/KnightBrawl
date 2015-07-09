@@ -9,8 +9,6 @@
  *
  * Input::keyState(SDL_SCANCODE_A); // Palauttaa true jos 'A' on alhaalla
  * 
- * TODO(jouni):
- *	- Muunnetaan luokka staattisesta oikeaan oliopohjaiseen
  */
 
 #ifndef __INPUT_H_DEFINED__

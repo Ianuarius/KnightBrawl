@@ -6,9 +6,10 @@ TODO(juha):
 [ ] Uppercut attack
 [ ] Attack controls from XML
 [ ] Attack hitboxes from XML
-[x] Knights in a vector
 [ ] Respawning Knights
 [ ] Character selection
+[ ] Camera update with more than 2 players
+[x] Knights in a vector
 [x] Make hitboxes for attack functionality
 [x] Have players take damage from colliding with attacks functionality
 [x] Make all the attacks work
