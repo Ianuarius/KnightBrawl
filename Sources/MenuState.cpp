@@ -12,6 +12,10 @@ MenuState::MenuState(Window *window, Input *mainInput):
 {		
 }
 
+void MenuState::load(StateData *data)
+{
+	
+}
 stateStatus MenuState::update() 
 {
 	stateStatus status;
@@ -32,4 +36,9 @@ stateStatus MenuState::update()
 void MenuState::render() 
 {
 	menu.render(0,0);
+}
+
+StateData *MenuState::getStateData()
+{
+	return nullptr;
 }

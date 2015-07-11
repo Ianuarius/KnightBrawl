@@ -6,6 +6,7 @@
 #ifndef __BASESTATE_H_DEFINED__
 #define __BASESTATE_H_DEFINED__
 
+#include "StateData.h"
 #include "Window.h"
 
 #define STATE_GAME		0
@@ -38,6 +39,8 @@ class BaseState
 		~BaseState() {};
 		virtual stateStatus update() = 0;
 		virtual void render() = 0;
+		virtual StateData *getStateData() = 0;
+		virtual void load(StateData *data) = 0;
 };
 
 #endif // __BASESTATE_H_DEFINED__

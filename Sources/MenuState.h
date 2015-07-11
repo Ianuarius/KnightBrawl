@@ -6,7 +6,6 @@
 #ifndef __MENUSTATE_H_DEFINED__
 #define __MENUSTATE_H_DEFINED__
 
-#include <iostream>
 #include <stdio.h>
 #include "BaseState.h"
 #include "Color.h"
@@ -23,6 +22,8 @@ public:
 	MenuState(Window *window, Input *mainInput);
 	void render();
 	stateStatus update();
+	void load(StateData *data);
+	StateData *getStateData();
 
 private:
 	Texture menu;

@@ -22,3 +22,6 @@ TODO(juha):
 	- Go through the controls with an iterator
 	- Push each control to a vector
 [x] Save key combos to vectors functionality
+
+17:00
+	

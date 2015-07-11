@@ -28,6 +28,7 @@ public:
 
 protected:
 	Input *mainInput;
+	StateData *stateData;
 	Window *window;
 	std::vector<BaseState*> states;
 	bool love;

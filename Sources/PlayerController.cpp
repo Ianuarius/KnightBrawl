@@ -120,40 +120,52 @@ void PlayerController::update()
 	if (!multiplayer) { // SINGLE PLAYER MAPPINGS
 		// MOVE LEFT
 		if (playerInput.keyState(sp_left)) {
-			if (playerInput.isKeyPressed(sp_left) && playerInput.isKeyDown(sp_left) && !in_menu) {
-				if (facing_direction == FACING_LEFT) {
-					tmp_input = knight->FORWARD;
-				} else {
-					tmp_input = knight->BACKWARD;
+			if (playerInput.isKeyPressed(sp_left) && playerInput.isKeyDown(sp_left)) {
+				if (!in_menu) {
+					if (facing_direction == FACING_LEFT) {
+						tmp_input = knight->FORWARD;
+					} else {
+						tmp_input = knight->BACKWARD;
+					}
 				}
+				menu_x -= 1;
 			}
 			left();
 		}
 		
 		// MOVE RIGHT
-		if (playerInput.isKeyPressed(sp_right)) {
-			if (playerInput.isKeyPressed(sp_right) && playerInput.isKeyDown(sp_right) && !in_menu) {
-				if (facing_direction == FACING_RIGHT) {
-					tmp_input = knight->FORWARD;
-				} else {
-					tmp_input = knight->BACKWARD;
+		if (playerInput.keyState(sp_right)) {
+			if (playerInput.isKeyPressed(sp_right) && playerInput.isKeyDown(sp_right)) {
+				if (!in_menu) {
+					if (facing_direction == FACING_RIGHT) {
+						tmp_input = knight->FORWARD;
+					} else {
+						tmp_input = knight->BACKWARD;
+					}
 				}
+				menu_x += 1;
 			}
 			right();
 		}
 		
 		// DOWN BUTTON
 		if (playerInput.keyState(sp_down)) {
-			if (playerInput.isKeyPressed(sp_down) && playerInput.isKeyDown(sp_down) && !in_menu) {
-				tmp_input = knight->DOWN;
+			if (playerInput.isKeyPressed(sp_down) && playerInput.isKeyDown(sp_down)) {
+				if (!in_menu) {
+					tmp_input = knight->DOWN;
+				}
+				menu_y += 1;
 			}
 			crouch();
 		}
 		
 		// UP BUTTON
 		if (playerInput.keyState(sp_up)) {
-			if (playerInput.isKeyPressed(sp_up) && playerInput.isKeyDown(sp_up) && !in_menu) {
-				tmp_input = knight->UP;
+			if (playerInput.isKeyPressed(sp_up) && playerInput.isKeyDown(sp_up)) {
+				if (!in_menu) {
+					tmp_input = knight->UP;
+				}
+				menu_y -= 1;
 			}
 			up();
 		}
@@ -181,40 +193,52 @@ void PlayerController::update()
 	} else { // MULTIPLAYER MAPPINGS
 		// MOVE LEFT
 		if (playerInput.keyState(mp_left)) {
-			if (playerInput.isKeyPressed(mp_left) && playerInput.isKeyDown(mp_left) && !in_menu) {
-				if (facing_direction == FACING_LEFT) {
-					tmp_input = knight->FORWARD;
-				} else {
-					tmp_input = knight->BACKWARD;
+			if (playerInput.isKeyPressed(mp_left) && playerInput.isKeyDown(mp_left)) {
+				if (!in_menu) {
+					if (facing_direction == FACING_LEFT) {
+						tmp_input = knight->FORWARD;
+					} else {
+						tmp_input = knight->BACKWARD;
+					}
 				}
+				menu_x -= 1;
 			}
 			left();
 		}
 		
 		// MOVE RIGHT
 		if (playerInput.keyState(mp_right)) {
-			if (playerInput.isKeyPressed(mp_right) && playerInput.isKeyDown(mp_right) && !in_menu) {
-				if (facing_direction == FACING_RIGHT) {
-					tmp_input = knight->FORWARD;
-				} else {
-					tmp_input = knight->BACKWARD;
+			if (playerInput.isKeyPressed(mp_right) && playerInput.isKeyDown(mp_right)) {
+				if (!in_menu) {
+					if (facing_direction == FACING_RIGHT) {
+						tmp_input = knight->FORWARD;
+					} else {
+						tmp_input = knight->BACKWARD;
+					}
 				}
+				menu_x += 1;
 			}
 			right();
 		}
 		
 		// DOWN BUTTON
 		if (playerInput.keyState(mp_down)) {
-			if (playerInput.isKeyPressed(mp_down) && playerInput.isKeyDown(mp_down) && !in_menu) {
-				tmp_input = knight->DOWN;
+			if (playerInput.isKeyPressed(mp_down) && playerInput.isKeyDown(mp_down)) {
+				if (!in_menu) {
+					tmp_input = knight->DOWN;
+				}
+				menu_y += 1;
 			}
 			crouch();
 		}
 		
 		// UP BUTTON
 		if (playerInput.keyState(mp_up)) {
-			if (playerInput.isKeyPressed(mp_up) && playerInput.isKeyDown(mp_up) && !in_menu) {
-				tmp_input = knight->UP;
+			if (playerInput.isKeyPressed(mp_up) && playerInput.isKeyDown(mp_up)) {
+				if (!in_menu) {
+					tmp_input = knight->UP;
+				}
+				menu_y -= 1;
 			}
 			up();
 		}
@@ -335,7 +359,6 @@ void PlayerController::left()
 		targetVx = -(speed * acceleration);
 		facing_direction = FACING_LEFT;
 	} else {
-
 	}
 }
 
@@ -345,7 +368,6 @@ void PlayerController::right()
 		targetVx = (speed * acceleration);
 		facing_direction = FACING_RIGHT;
 	} else {
-
 	}
 }
 
@@ -353,7 +375,6 @@ void PlayerController::up()
 {
 	if (!in_menu) {
 	} else {
-
 	}
 }
 
@@ -388,7 +409,6 @@ void PlayerController::crouch()
 			targetVx = 0;
 		}
 	} else {
-
 	}
 }
 

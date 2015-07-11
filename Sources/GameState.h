@@ -28,6 +28,8 @@ class GameState : public BaseState
 public:
 	GameState(Window *window, Input *mainInput);
 	stateStatus update();
+	StateData *getStateData();
+	void load(StateData *data);
 	void render();
 	enum knights {
 		CACTUS_KNIGHT,
@@ -45,6 +47,7 @@ private:
 	Camera *camera;
 	Timer timer;
 	Input *mainInput;
+	StateData *stateData;
 	
 	int players;
 	std::vector<Knight *> knights;

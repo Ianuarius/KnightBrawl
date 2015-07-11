@@ -8,17 +8,19 @@
 CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	window(window),
 	mainInput(mainInput),
-	knight1(window, "Graphics/Decals/cactusknight.png", 30, 30),
-	knight2(window, "Graphics/Decals/dragonknight.png", 30, 30),
-	knight3(window, "Graphics/Decals/lanternknight.png", 30, 30),
-	knight4(window, "Graphics/Decals/rogueknight.png", 30, 30),
-	knight5(window, "Graphics/Decals/wizardknight.png", 30, 30),
 	font(new Font("ChicagoFLF.ttf", 16)),
 	header(new Text(font, Color("white")))
 {
+	stateData = new StateData();
 	bool multiplayer = true;
 	players = 2;
-	
+	stateData->players = players;
+	stateData->selection.reserve(players);
+	for (int i = 0; i < players; i++)
+	{
+		stateData->selection.push_back(nullptr);
+	}
+
 	/*
 		TODO(juha): Go thru the roster
 		- for every row make new knight with that id
@@ -65,6 +67,11 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	
 }
 
+void CharacterSelectState::load(StateData *data)
+{
+	
+}
+
 stateStatus CharacterSelectState::update() 
 {
 	stateStatus status;
@@ -86,31 +93,10 @@ stateStatus CharacterSelectState::update()
 	return status;
 }
 
-/*
-	TODO(juha):
-	1. get which knight is selected for each player
-		- go through knights and put each one to a new vector
-		  selection_row and then put each row into a new vector.
-		- If the vector is filled with Knights then the knight
-		  can be passed to the corresponding player as an address.
-		  If the vector is filled with sprites, then the knight
-		  needs to be linked to a sprite somehow.
-	2. switch sprite index if it's selected
-	3. change selected knight with l,r,u,d
-
-*/
 void CharacterSelectState::render() 
 {
 	header->print(window, "Choose your destiny", 170, (int)(MARGIN_TOP / 2));
-
-	/*
-	knights[0][0]->getDecal()->render(MARGIN_LEFT + 30 * 0, MARGIN_TOP + 30 * 0);
-	knights[0][1]->getDecal()->render(MARGIN_LEFT + 30 * 1, MARGIN_TOP + 30 * 0);
-	knights[0][2]->getDecal()->render(MARGIN_LEFT + 30 * 2, MARGIN_TOP + 30 * 0);
-	knights[1][0]->getDecal()->render(MARGIN_LEFT + 30 * 0, MARGIN_TOP + 30 * 1);
-	knights[1][1]->getDecal()->render(MARGIN_LEFT + 30 * 1, MARGIN_TOP + 30 * 1);
-	*/
-
+	
 	for (int i = 0; i < row_count; i++)
 	{
 		for (int j = 0; j < row_length; j++)
@@ -120,6 +106,7 @@ void CharacterSelectState::render()
 				for (int k = 0; k < players; k++) {
 					if (j == playerControllers[k]->menu_x && i == playerControllers[k]->menu_y) {
 						knights[i][j]->getDecal()->setIndex(0);
+						stateData->selection[k] = knights[i][j];
 						break;
 					} else {
 						knights[i][j]->getDecal()->setIndex(1);
@@ -130,17 +117,10 @@ void CharacterSelectState::render()
 			}
 		}
 	}
+}
 
-	/*
-	knight1.render(MARGIN_LEFT	+ 30 * 0, 
-				   MARGIN_TOP	+ 30 * 0);
-	knight2.render(MARGIN_LEFT	+ 30 * 1, 
-				   MARGIN_TOP	+ 30 * 0);
-	knight3.render(MARGIN_LEFT	+ 30 * 2, 
-				   MARGIN_TOP	+ 30 * 0);
-	knight4.render(MARGIN_LEFT	+ 30 * 0, 
-				   MARGIN_TOP	+ 30 * 1);
-	knight5.render(MARGIN_LEFT	+ 30 * 1, 
-				   MARGIN_TOP	+ 30 * 1);
-				   */
+StateData *CharacterSelectState::getStateData()
+{
+	stateData->knights = &knights;
+	return stateData;
 }
