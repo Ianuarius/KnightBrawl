@@ -24,7 +24,7 @@ class PlayerController
 {
 public:
 	// NOTE(juha): Constructor for in-menu controls.
-	PlayerController(bool multiplayer, int player);
+	PlayerController(bool multiplayer, int player, std::vector<SDL_Point> *positions);
 	
 	// NOTE(juha): Constructor for in-game controls.
 	PlayerController(SDL_Point start_position, 
@@ -52,6 +52,7 @@ private:
 	void parseMappedValues();
 
 	Knight *knight;
+	std::vector<SDL_Point> *positions;
 	EnumParser<SDL_Scancode> fieldTypeParser;
 	pugi::xml_document controlsDocument;
 	pugi::xml_parse_result result;

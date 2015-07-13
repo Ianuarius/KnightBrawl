@@ -30,8 +30,11 @@ public:
 	void load(StateData *data);
 
 private:
+	void menuMovement();
+
 	Font *font;
-	Text *header;
+	Font *player_tag;
+	Text *header, *p1_text, *p2_text, *p3_text;
 	Input *mainInput;
 	Window *window;
 	GameState *game;
@@ -39,6 +42,10 @@ private:
 	bool start;
 	bool gameover;
 	StateData *stateData;
+	std::vector<SDL_Point> positions;
+	std::vector<Text *> tags;
+	std::vector<Text *> tag_shadows;
+	std::vector<std::string> tag_texts;
 	std::vector<std::vector<Knight *> > knights;
 	std::vector<PlayerController *> playerControllers;
 	pugi::xml_parse_result knight_result, roster_result;

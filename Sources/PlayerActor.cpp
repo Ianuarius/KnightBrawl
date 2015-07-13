@@ -127,7 +127,7 @@ void PlayerActor::render()
 	}
 
 	bool draw_boundbox =		false;
-	bool draw_attack_hitbox =	true;
+	bool draw_attack_hitbox =	false;
 
 	int camera_middle_x = camera->getFrame().w / 2;
 

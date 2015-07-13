@@ -12,7 +12,10 @@ class StateData
 {
 public:
 	StateData();
+
+	// NOTE(juha): Filled but not really used at the moment.
 	std::vector<std::vector<Knight *> > *knights;
+
 	std::vector<Knight *> selection;
 	int players;
 

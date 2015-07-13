@@ -8,9 +8,10 @@
 // XBOX 360 Mapping:
 // http://wiki.gp2x.org/articles/s/d/l/SDL_Joystick_mapping.html
 
-PlayerController::PlayerController(bool multiplayer, int player):
+PlayerController::PlayerController(bool multiplayer, int player, std::vector<SDL_Point> *positions):
 	multiplayer(multiplayer),
 	player(player),
+	positions(positions),
 	in_menu(true),
 	boundbox(0, 0, 0, 0), // NOTE(juha): Init due no default constructor.
 	hitbox(boundbox),
@@ -20,6 +21,17 @@ PlayerController::PlayerController(bool multiplayer, int player):
 {	
 	parseMappedValues();
 }
+
+/*
+Cases where the player can't move up in the selection screen:
+	They're in the top row
+	If there's a player on the row above, try to move past them
+	If there's a player on the top row that is above, move to their side
+	Same with bottom
+
+
+*/
+
 
 PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
 	multiplayer(multiplayer),
@@ -165,6 +177,7 @@ void PlayerController::update()
 				if (!in_menu) {
 					tmp_input = knight->UP;
 				}
+				
 				menu_y -= 1;
 			}
 			up();

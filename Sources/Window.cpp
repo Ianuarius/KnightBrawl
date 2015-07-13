@@ -13,7 +13,7 @@ Window::Window(int window_width, int window_height, int resolution_width, int re
 	current_delta(0),
 	ticks(0)
 {
-	resize(window_width, window_height, false);
+	resize(window_width, window_height, true);
 	frametimeTimer.start();
 	fpsTimer.start();
 
