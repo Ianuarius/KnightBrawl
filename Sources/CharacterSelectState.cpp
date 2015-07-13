@@ -41,7 +41,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 
 	roster_result = roster_document.load_file("Scripts/roster.xml");
 	
-	row_length = 4;
+	row_length = 5;
 	row_count = 0;
 	int col_count = 0;
 	std::vector<Knight *> tmp_row;
@@ -157,13 +157,15 @@ void CharacterSelectState::menuMovement()
 						playerControllers[i]->menu_y -= 1;
 					}
 					intruder = true;
+					break;
 				} else {
 					intruder = false;
 				}
 			}
 		} while (intruder == true);
-		
+	}
 
+	for (int i = 0; i < players; i++) {
 		if (playerControllers[i]->menu_x >= 0 &&
 			playerControllers[i]->menu_x < knights[0].size() &&
 			playerControllers[i]->menu_y >= 0 &&
