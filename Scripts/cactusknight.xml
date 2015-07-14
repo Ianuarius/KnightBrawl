@@ -119,8 +119,10 @@
     <animation filename="Graphics/Knights/cactusknight/thornshield.png" framecount="" width="" height="" startframe="" framerate="" loops="0" />
     <collision collision="player" collisiondestruct="false" />
     <hitbox x="-25" y="-25" width="50" height="50" />
-    <effect type="damagereturn" power="50" format="duration" time="7" />
-    <effect type="buff" stat="defense" power="50" format="duration" time="7" />
+    <effects>
+      <effect type="damagereturn" power="50" format="duration" time="7" />
+      <effect type="buff" stat="defense" power="50" format="duration" time="7" />
+    </effects>
   </buffeffect>
   
 	<action>
@@ -274,7 +276,7 @@
       <animation filename="Graphics/Knights/cactusknight/cactusknight_pushback.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </pushback>
       
-    <run speed="5">
+    <run>
       <animation filename="Graphics/Knights/cactusknight/cactusknight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="single">
         <key>forward</key>        
