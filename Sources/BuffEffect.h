@@ -1,34 +1,34 @@
 /**
- * SpecialCombo.h
+ * BuffEffect.h
  *
- * All actions
  */
 
-#ifndef __SPECIALCOMBO_H_DEFINED__
-#define __SPECIALCOMBO_H_DEFINED__
+#ifndef __BUFFEFFECT_H_DEFINED__
+#define __BUFFEFFECT_H_DEFINED__
 
 #include <vector>
 #include "Entity.h"
 #include "Rectangle.h"
 
-class SpecialCombo : public Entity
+class BuffEffect : public Entity
 {
 public:
-	enum format_types {
-		TYPE_STRIKE,
-		TYPE_RANGED,
-		TYPE_MISC
+	enum collision_types {
+		COLLISION_ALL,
+		COLLISION_PLAYER,
+		COLLISION_WALL
 	};
-	
-	SpecialCombo();
+
+	BuffEffect();
 	void defineAnimation(Animation *new_animation);
 	
 	Rectangle hitbox;
 	Animation *animation;
-	
+
 	std::string name;
-	int format;
 	int damage;
+	int collision_type;
+	bool collision_destruct;
 	bool executing;
 	int state;
 	std::vector<int> keys;
@@ -37,4 +37,4 @@ public:
 private:
 };
 
-#endif //__SPECIALCOMBO_H_DEFINED__
+#endif //__BUFFEFFECT_H_DEFINED__

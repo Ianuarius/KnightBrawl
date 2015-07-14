@@ -35,16 +35,19 @@ Cases where the player can't move up in the selection screen:
 
 PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
 	multiplayer(multiplayer),
+	knight(knight),
 	in_menu(false),
 	player(player),
 	location(start_position),
 	boundbox(location.x - 25, location.y - 50, 50, 50),
-	hitbox(boundbox.x + ((50 / 2) - (26 / 2)), boundbox.y + (50 - 26), 26, 26),
+	hitbox(location.x + knight->hitbox.x, 
+		   location.y + knight->hitbox.y, 
+		   knight->hitbox.w, 
+		   knight->hitbox.h),
 	desired(hitbox),
 	attack_hb(desired.x -25, desired.y + 40, 0, 0),
 	acceleration(0.7f), stoppedThreshold(acceleration/7),
 	velocity_x(0), velocity_y(0),
-	knight(knight),
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
 	speed(knight->getSpeed()),
@@ -362,8 +365,8 @@ void PlayerController::commitMovement()
 
 	boundbox.x = location.x - 25;
 	boundbox.y = location.y - 50;
-	hitbox.x = boundbox.x + ((50 / 2) - (26 / 2));
-	hitbox.y = boundbox.y + (50 - 26);
+	hitbox.x = location.x + knight->hitbox.x;
+	hitbox.y = location.y + knight->hitbox.y;
 }
 
 void PlayerController::left()

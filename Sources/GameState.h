@@ -59,4 +59,4 @@ private:
 	Text *playername2;
 };
 
-#endif // __GAMESTATE_H_DEFINED__d
+#endif // __GAMESTATE_H_DEFINED__

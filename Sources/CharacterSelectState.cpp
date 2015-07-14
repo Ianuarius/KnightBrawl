@@ -186,7 +186,6 @@ void CharacterSelectState::menuMovement()
 	}
 }
 
-
 void CharacterSelectState::render() 
 {
 	header->print(window, "Choose your destiny", 170, (int)(MARGIN_TOP / 2));
