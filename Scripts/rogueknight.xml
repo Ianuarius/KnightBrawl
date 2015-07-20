@@ -138,52 +138,51 @@
       </control>
     </attack>
 
-    <block>
+    <block name="block">
       <animation filename="Graphics/Knights/rogueknight/rogue_knight_block.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
       <control type="single">
         <key>block</key>
       </control>
     </block>
-		
-    <crouch>
+
+    <crouch name="crouch">
       <animation filename="Graphics/Knights/rogueknight/rogue_knight_crouch.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
       <control type="single">
         <key>down</key>
       </control>
     </crouch>
 
-    <death>
+    <death name="death">
       <animation filename="Graphics/Knights/rogueknight/rogue_knight_death.png" framecount="4" width="50" height="50" startframe="0" framerate="8" />
     </death>
 
-    <dodge>
+    <dodge name="dodge">
       <animation filename="Graphics/Knights/rogueknight/rogue_knight_dodge.png" framecount="5" width="50" height="50" startframe="0" framerate="8" />
       <control type="single">
         <key>dodge</key>
       </control>
     </dodge>
 
-    <hanging>      
+    <hanging name="hanging">
         <animation filename="Graphics/Knights/rogueknight/rogue_knight_hanging.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
     </hanging>
-    
-    <idle>
+
+    <idle name="idle">
       <animation filename="Graphics/Knights/rogueknight/rogue_knight_idle.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
     </idle>
-    
-		<jump height="5">
+
+    <jump height="5" name="jump">
 			<animation filename="Graphics/Knights/rogueknight/rogue_knight_jump.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
       <control type="single">
         <key>jump</key>
       </control>
 		</jump> <!-- 5 default -->
 
-    
-    <pushback>
+    <pushback name="pushback">
       <animation filename="Graphics/Knights/rogueknight/rogue_knight_pushback.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
     </pushback>
-      
-    <run speed="5">
+
+    <run name="run">
       <animation filename="Graphics/Knights/rogueknight/rogue_knight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" />
       <control type="single">
         <key>forward</key>        

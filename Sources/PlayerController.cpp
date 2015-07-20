@@ -51,7 +51,7 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
 	speed(knight->getSpeed()),
-	special_combos(knight->getSpecialCombos()),
+	moves(knight->getMoves()),
 	combo_one_state(0)
 {
 	// NOTE(juha): Initialization
@@ -63,6 +63,8 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 		combo_state.push_back(0);
 	}
 	parseMappedValues();
+
+	moves_amount = knight->ANIMATION_MAX;
 }
 
 void PlayerController::parseMappedValues()
@@ -117,7 +119,7 @@ void PlayerController::update()
 {
 	// NOTE(juha): Gravitational stuff
 	velocity_y += GRAVITY * (16.f / 1000);
-	desired.y += velocity_y;
+	desired.y += (int)velocity_y;
 	crouching = false;
 
 	if (velocity_y >= 7) {
@@ -282,33 +284,35 @@ void PlayerController::update()
 	
 	if (!in_menu) {
 		// NOTE(juha): Goes through all the special combos.
-		for (int i = 0; i < SPECIAL_MOVES; ++i) {
-			(*special_combos)[i].tmp_input = tmp_input;
+		for (int i = 0; i < moves_amount; ++i) {
+			(*moves)[i].tmp_input = tmp_input;
 
-			// NOTE(juha): If the player just turned, then the first
-			// key can be counted as forward instead of backward.
-			if ((*special_combos)[i].keys[0] == knight->FORWARD &&
-				(*special_combos)[i].tmp_input == knight->BACKWARD &&
-				(*special_combos)[i].state == 0) {
-				(*special_combos)[i].tmp_input = knight->FORWARD;
-			}
+			if ((*moves)[i].keys.size() > 0) {
+				// NOTE(juha): If the player just turned, then the first
+				// key can be counted as forward instead of backward.
+				if ((*moves)[i].keys[0].keycode == knight->FORWARD &&
+					(*moves)[i].tmp_input == knight->BACKWARD &&
+					(*moves)[i].state == 0) {
+					(*moves)[i].tmp_input = knight->FORWARD;
+				}
 
-			// NOTE(juha): tmp_input 9999 means that no keys were pressed.
-			// NOTE(juha): If a right key was pressed, move combos that had that key
-			// to the next state. If nothing was pressed, do nothing. If the key
-			// wasn't a part of the combo, then return it to the beginning state.
-			if ((*special_combos)[i].keys[(*special_combos)[i].state] == (*special_combos)[i].tmp_input &&
-				(*special_combos)[i].executing == false) {
-				(*special_combos)[i].state++;
-			} else if ((*special_combos)[i].tmp_input == 9999) {
-				// Do nothing.
-			} else {
-				(*special_combos)[i].state = 0;
-			}
+				// NOTE(juha): tmp_input 9999 means that no keys were pressed.
+				// NOTE(juha): If a right key was pressed, move combos that had that key
+				// to the next state. If nothing was pressed, do nothing. If the key
+				// wasn't a part of the combo, then return it to the beginning state.
+				if ((*moves)[i].keys[(*moves)[i].state].keycode == (*moves)[i].tmp_input &&
+					(*moves)[i].executing == false) {
+					(*moves)[i].state++;
+				} else if ((*moves)[i].tmp_input == 9999) {
+					// Do nothing.
+				} else {
+					(*moves)[i].state = 0;
+				}
 
-			if ((*special_combos)[i].keys.size() == (*special_combos)[i].state) {
-				(*special_combos)[i].executing = true;
-				(*special_combos)[i].state = 0;
+				if ((*moves)[i].keys.size() == (*moves)[i].state) {
+					(*moves)[i].executing = true;
+					(*moves)[i].state = 0;
+				}
 			}
 		}
 	
@@ -328,9 +332,9 @@ void PlayerController::update()
 		}
 
 		if (facing_direction == FACING_RIGHT) {
-			desired.x += ceilf(fabs(velocity_x));
+			desired.x += (int)ceilf(fabs(velocity_x));
 		} else {
-			desired.x -= ceilf(fabs(velocity_x));
+			desired.x -= (int)ceilf(fabs(velocity_x));
 		}
 
 		int deduct = 23 - (36 / 2);

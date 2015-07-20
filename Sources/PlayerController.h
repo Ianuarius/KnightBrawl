@@ -35,7 +35,7 @@ public:
 	void commitMovement();
 	void updateInput();
 	int menu_x, menu_y;
-	std::vector<SpecialCombo> *special_combos;
+	std::vector<SpecialCombo> *moves;
 	
 	bool in_air, jumping, crouching, attacking;
 	float velocity_x, velocity_y;
@@ -64,6 +64,7 @@ private:
 	Timer specialOneTimer;
 	Input playerInput;
 
+	int moves_amount;
 	int mp_action, mp_down, mp_jump, mp_left, mp_menu, mp_right, mp_up;
 	int sp_action, sp_down, sp_jump, sp_left, sp_menu, sp_right, sp_up;
 	int combo_one_state, player;

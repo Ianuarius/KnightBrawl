@@ -38,8 +38,6 @@ public:
 	bool collision_destruct;
 	bool executing;
 	int state;
-	std::vector<int> keys;
-	int tmp_input;
 
 private:
 };

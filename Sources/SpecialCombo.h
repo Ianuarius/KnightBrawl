@@ -8,7 +8,11 @@
 #define __SPECIALCOMBO_H_DEFINED__
 
 #include <vector>
+#include "AreaEffect.h"
+#include "BuffEffect.h"
+#include "Effect.h"
 #include "Entity.h"
+#include "Key.h"
 #include "Rectangle.h"
 
 class SpecialCombo : public Entity
@@ -27,11 +31,15 @@ public:
 	Animation *animation;
 	
 	std::string name;
+	std::string combo_name;
 	int format;
 	int damage;
 	bool executing;
 	int state;
-	std::vector<int> keys;
+	std::vector<Key> keys;
+	std::vector<Effect> effects;
+	std::vector<AreaEffect> area_effects;
+	std::vector<BuffEffect> buff_effects;
 	int tmp_input;
 
 private:

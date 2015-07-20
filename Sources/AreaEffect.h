@@ -23,8 +23,6 @@ public:
 	int damage;
 	bool executing;
 	int state;
-	std::vector<int> keys;
-	int tmp_input;
 
 private:
 };

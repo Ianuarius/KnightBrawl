@@ -16,11 +16,6 @@ public:
 	~Entity() {};
 	virtual void defineAnimation(Animation *new_animation) = 0;
 
-	bool executing;
-	int state;
-	std::vector<int> keys;
-	int tmp_input;
-
 private:
 };
 

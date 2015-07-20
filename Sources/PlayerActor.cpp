@@ -14,7 +14,7 @@ PlayerActor::PlayerActor(Window *window,
 	camera(camera),
 	knight(knight),
 	facing_direction(FACING_RIGHT),
-	special_combos(playerController->special_combos)
+	special_combos(playerController->moves)
 {
 }
 

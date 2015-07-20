@@ -141,7 +141,7 @@ void CharacterSelectState::menuMovement()
 	for (int i = 0; i < players; i++) {
 		
 		do {
-			for (int j = 0; j < positions.size(); j++) {
+			for (int j = 0; j < (int)positions.size(); j++) {
 
 				if (playerControllers[i]->menu_x == positions[j].x &&
 					playerControllers[i]->menu_y == positions[j].y &&
@@ -167,11 +167,11 @@ void CharacterSelectState::menuMovement()
 
 	for (int i = 0; i < players; i++) {
 		if (playerControllers[i]->menu_x >= 0 &&
-			playerControllers[i]->menu_x < knights[0].size() &&
+			playerControllers[i]->menu_x < (int)knights[0].size() &&
 			playerControllers[i]->menu_y >= 0 &&
-			playerControllers[i]->menu_y < knights.size()) {
+			playerControllers[i]->menu_y < (int)knights.size()) {
 			
-			if (playerControllers[i]->menu_x > knights[playerControllers[i]->menu_y].size() - 1) {
+			if (playerControllers[i]->menu_x > (int)knights[playerControllers[i]->menu_y].size() - 1) {
 				playerControllers[i]->menu_x = positions[i].x;
 				playerControllers[i]->menu_y = positions[i].y;
 			} else {
@@ -191,7 +191,7 @@ void CharacterSelectState::render()
 	header->print(window, "Choose your destiny", 170, (int)(MARGIN_TOP / 2));
 	
 	for (int i = 0; i < row_count; i++) {
-		for (int j = 0; j < knights[i].size(); ++j) {	
+		for (int j = 0; j < (int)knights[i].size(); ++j) {	
 			if (knights[i][j]) {
 
 				for (int k = 0; k < players; k++) {
