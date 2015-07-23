@@ -22,17 +22,6 @@ PlayerController::PlayerController(bool multiplayer, int player, std::vector<SDL
 	parseMappedValues();
 }
 
-/*
-Cases where the player can't move up in the selection screen:
-	They're in the top row
-	If there's a player on the row above, try to move past them
-	If there's a player on the top row that is above, move to their side
-	Same with bottom
-
-
-*/
-
-
 PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
 	multiplayer(multiplayer),
 	knight(knight),
@@ -82,37 +71,39 @@ void PlayerController::parseMappedValues()
 		printf("Failed to load controls file: %s.\n", filename.c_str());
 		return;
 	}
-
+	
 	// NOTE(juha): Parsing the inputs from the mapped values.
-	sp_left = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-		find_child_by_attribute("name", "move_left").attribute("keyboard").value());
-	sp_right = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-		find_child_by_attribute("name", "move_right").attribute("keyboard").value());
-	sp_down = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-		find_child_by_attribute("name", "crouch").attribute("keyboard").value());
-	sp_up = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-		find_child_by_attribute("name", "up").attribute("keyboard").value());
-	sp_jump = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-		find_child_by_attribute("name", "jump").attribute("keyboard").value());
-	sp_action = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-		find_child_by_attribute("name", "action").attribute("keyboard").value());
-	sp_menu = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
-		find_child_by_attribute("name", "menu").attribute("keyboard").value());
-
-	mp_left = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-		find_child_by_attribute("name", "move_left").attribute("keyboard").value());
-	mp_right = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-		find_child_by_attribute("name", "move_right").attribute("keyboard").value());
-	mp_down = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-		find_child_by_attribute("name", "crouch").attribute("keyboard").value());
-	mp_up = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-		find_child_by_attribute("name", "up").attribute("keyboard").value());
-	mp_jump = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-		find_child_by_attribute("name", "jump").attribute("keyboard").value());
-	mp_action = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-		find_child_by_attribute("name", "action").attribute("keyboard").value());
-	mp_menu = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
-		find_child_by_attribute("name", "menu").attribute("keyboard").value());
+	if (!multiplayer) {
+		key_left = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+			find_child_by_attribute("name", "move_left").attribute("keyboard").value());
+		key_right = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+			find_child_by_attribute("name", "move_right").attribute("keyboard").value());
+		key_down = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+			find_child_by_attribute("name", "crouch").attribute("keyboard").value());
+		key_up = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+			find_child_by_attribute("name", "up").attribute("keyboard").value());
+		key_jump = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+			find_child_by_attribute("name", "jump").attribute("keyboard").value());
+		key_action = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+			find_child_by_attribute("name", "action").attribute("keyboard").value());
+		key_menu = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
+			find_child_by_attribute("name", "menu").attribute("keyboard").value());
+	} else {
+		key_left = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+			find_child_by_attribute("name", "move_left").attribute("keyboard").value());
+		key_right = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+			find_child_by_attribute("name", "move_right").attribute("keyboard").value());
+		key_down = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+			find_child_by_attribute("name", "crouch").attribute("keyboard").value());
+		key_up = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+			find_child_by_attribute("name", "up").attribute("keyboard").value());
+		key_jump = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+			find_child_by_attribute("name", "jump").attribute("keyboard").value());
+		key_action = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+			find_child_by_attribute("name", "action").attribute("keyboard").value());
+		key_menu = fieldTypeParser.ParseSomeEnum(MultiPlayerMappings.
+			find_child_by_attribute("name", "menu").attribute("keyboard").value());
+	}
 }
 
 void PlayerController::update()
@@ -130,157 +121,81 @@ void PlayerController::update()
 		jumping = false;
 	}
 
-
 	// NOTE(juha): Reading the inputs for single player and multiplayer.
 	int tmp_input = 9999;
-
-	if (!multiplayer) { // SINGLE PLAYER MAPPINGS
-		// MOVE LEFT
-		if (playerInput.keyState(sp_left)) {
-			if (playerInput.isKeyPressed(sp_left) && playerInput.isKeyDown(sp_left)) {
-				if (!in_menu) {
-					if (facing_direction == FACING_LEFT) {
-						tmp_input = knight->FORWARD;
-					} else {
-						tmp_input = knight->BACKWARD;
-					}
-				}
-				menu_x -= 1;
-			}
-			left();
-		}
-		
-		// MOVE RIGHT
-		if (playerInput.keyState(sp_right)) {
-			if (playerInput.isKeyPressed(sp_right) && playerInput.isKeyDown(sp_right)) {
-				if (!in_menu) {
-					if (facing_direction == FACING_RIGHT) {
-						tmp_input = knight->FORWARD;
-					} else {
-						tmp_input = knight->BACKWARD;
-					}
-				}
-				menu_x += 1;
-			}
-			right();
-		}
-		
-		// DOWN BUTTON
-		if (playerInput.keyState(sp_down)) {
-			if (playerInput.isKeyPressed(sp_down) && playerInput.isKeyDown(sp_down)) {
-				if (!in_menu) {
-					tmp_input = knight->DOWN;
-				}
-				menu_y += 1;
-			}
-			crouch();
-		}
-		
-		// UP BUTTON
-		if (playerInput.keyState(sp_up)) {
-			if (playerInput.isKeyPressed(sp_up) && playerInput.isKeyDown(sp_up)) {
-				if (!in_menu) {
-					tmp_input = knight->UP;
-				}
-				
-				menu_y -= 1;
-			}
-			up();
-		}
 	
-		// JUMP BUTTON
-		if (playerInput.keyState(sp_jump)) {
-			if (playerInput.isKeyPressed(sp_jump) && playerInput.isKeyDown(sp_jump) && !in_menu) {
-				tmp_input = knight->JUMP;
-			}
-			jump();
-		}
-		
-		// ACTION BUTTON
-		if (playerInput.keyState(sp_action)) {
-			if (playerInput.isKeyPressed(sp_action) && playerInput.isKeyDown(sp_action) && !in_menu) {
-				tmp_input = knight->ACTION;
-			}
-			basicAttack();
-		}
-		
-		// MENU BUTTON
-		if (playerInput.keyState(sp_menu)) {
-		}
-
-	} else { // MULTIPLAYER MAPPINGS
-		// MOVE LEFT
-		if (playerInput.keyState(mp_left)) {
-			if (playerInput.isKeyPressed(mp_left) && playerInput.isKeyDown(mp_left)) {
-				if (!in_menu) {
-					if (facing_direction == FACING_LEFT) {
-						tmp_input = knight->FORWARD;
-					} else {
-						tmp_input = knight->BACKWARD;
-					}
+	// MOVE LEFT
+	if (playerInput.keyState(key_left)) {
+		if (playerInput.isKeyPressed(key_left) && playerInput.isKeyDown(key_left)) {
+			if (!in_menu) {
+				if (facing_direction == FACING_LEFT) {
+					tmp_input = knight->FORWARD;
+				} else {
+					tmp_input = knight->BACKWARD;
 				}
-				menu_x -= 1;
 			}
-			left();
+			menu_x -= 1;
 		}
-		
-		// MOVE RIGHT
-		if (playerInput.keyState(mp_right)) {
-			if (playerInput.isKeyPressed(mp_right) && playerInput.isKeyDown(mp_right)) {
-				if (!in_menu) {
-					if (facing_direction == FACING_RIGHT) {
-						tmp_input = knight->FORWARD;
-					} else {
-						tmp_input = knight->BACKWARD;
-					}
-				}
-				menu_x += 1;
-			}
-			right();
-		}
-		
-		// DOWN BUTTON
-		if (playerInput.keyState(mp_down)) {
-			if (playerInput.isKeyPressed(mp_down) && playerInput.isKeyDown(mp_down)) {
-				if (!in_menu) {
-					tmp_input = knight->DOWN;
-				}
-				menu_y += 1;
-			}
-			crouch();
-		}
-		
-		// UP BUTTON
-		if (playerInput.keyState(mp_up)) {
-			if (playerInput.isKeyPressed(mp_up) && playerInput.isKeyDown(mp_up)) {
-				if (!in_menu) {
-					tmp_input = knight->UP;
-				}
-				menu_y -= 1;
-			}
-			up();
-		}
-	
-		// JUMP BUTTON
-		if (playerInput.keyState(mp_jump)) {
-			if (playerInput.isKeyPressed(mp_jump) && playerInput.isKeyDown(mp_jump) && !in_menu) {
-				tmp_input = knight->JUMP;
-			}
-			jump();
-		}
-		
-		// ACTION BUTTON
-		if (playerInput.keyState(mp_action)) {
-			if (playerInput.isKeyPressed(mp_action) && playerInput.isKeyDown(mp_action) && !in_menu) {
-				tmp_input = knight->ACTION;
-			}
-			basicAttack();
-		}
-		
-		// MENU BUTTON
-		if (playerInput.keyState(mp_menu)) {
-		}
+		left();
 	}
+		
+	// MOVE RIGHT
+	if (playerInput.keyState(key_right)) {
+		if (playerInput.isKeyPressed(key_right) && playerInput.isKeyDown(key_right)) {
+			if (!in_menu) {
+				if (facing_direction == FACING_RIGHT) {
+					tmp_input = knight->FORWARD;
+				} else {
+					tmp_input = knight->BACKWARD;
+				}
+			}
+			menu_x += 1;
+		}
+		right();
+	}
+		
+	// DOWN BUTTON
+	if (playerInput.keyState(key_down)) {
+		if (playerInput.isKeyPressed(key_down) && playerInput.isKeyDown(key_down)) {
+			if (!in_menu) {
+				tmp_input = knight->DOWN;
+			}
+			menu_y += 1;
+		}
+		crouch();
+	}
+		
+	// UP BUTTON
+	if (playerInput.keyState(key_up)) {
+		if (playerInput.isKeyPressed(key_up) && playerInput.isKeyDown(key_up)) {
+			if (!in_menu) {
+				tmp_input = knight->UP;
+			}
+			menu_y -= 1;
+		}
+		up();
+	}
+	
+	// JUMP BUTTON
+	if (playerInput.keyState(key_jump)) {
+		if (playerInput.isKeyPressed(key_jump) && playerInput.isKeyDown(key_jump) && !in_menu) {
+			tmp_input = knight->JUMP;
+		}
+		jump();
+	}
+		
+	// ACTION BUTTON
+	if (playerInput.keyState(key_action)) {
+		if (playerInput.isKeyPressed(key_action) && playerInput.isKeyDown(key_action) && !in_menu) {
+			tmp_input = knight->ACTION;
+		}
+		basicAttack();
+	}
+		
+	// MENU BUTTON
+	if (playerInput.keyState(key_menu)) {
+	}
+	
 	
 	if (!in_menu) {
 		// NOTE(juha): Goes through all the special combos.
@@ -351,18 +266,18 @@ void PlayerController::update()
 	}
 }
 
-void PlayerController::updateInput()
+inline void PlayerController::updateInput()
 {
 	playerInput.update();
 
 }
 
-int PlayerController::getDirection()
+inline int PlayerController::getDirection()
 {
 	return facing_direction;
 }
 
-void PlayerController::commitMovement()
+inline void PlayerController::commitMovement()
 {
 	location.x = desired.x + hitbox.w/2;
 	location.y = desired.y + hitbox.h;
@@ -371,6 +286,17 @@ void PlayerController::commitMovement()
 	boundbox.y = location.y - 50;
 	hitbox.x = location.x + knight->hitbox.x;
 	hitbox.y = location.y + knight->hitbox.y;
+}
+
+// NOTE(juha): Collects all the action methods into one
+// Changes the PlayerController STATE instead of it having many different bools
+void PlayerController::doAction(int action)
+{
+	switch (action)
+	{
+	default:
+		break;
+	}
 }
 
 void PlayerController::left()

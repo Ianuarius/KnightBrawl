@@ -14,7 +14,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 {
 	stateData = new StateData();
 	bool multiplayer = true;
-	players = 3;
+	players = 2;
 	stateData->players = players;
 	stateData->selection.reserve(players);
 	for (int i = 0; i < players; i++)
@@ -41,7 +41,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 
 	roster_result = roster_document.load_file("Scripts/roster.xml");
 	
-	row_length = 5;
+	row_length = 3;
 	row_count = 0;
 	int col_count = 0;
 	std::vector<Knight *> tmp_row;

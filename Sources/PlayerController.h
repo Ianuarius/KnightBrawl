@@ -30,10 +30,10 @@ public:
 	PlayerController(SDL_Point start_position, 
 		bool multiplayer, int player, Knight *knight);
 
-	int getDirection();
+	inline int getDirection();
 	void update();
-	void commitMovement();
-	void updateInput();
+	inline void commitMovement();
+	inline void updateInput();
 	int menu_x, menu_y;
 	std::vector<SpecialCombo> *moves;
 	
@@ -50,6 +50,7 @@ private:
 	void up();
 	void basicAttack();
 	void parseMappedValues();
+	void doAction(int action);
 
 	Knight *knight;
 	std::vector<SDL_Point> *positions;
@@ -65,8 +66,7 @@ private:
 	Input playerInput;
 
 	int moves_amount;
-	int mp_action, mp_down, mp_jump, mp_left, mp_menu, mp_right, mp_up;
-	int sp_action, sp_down, sp_jump, sp_left, sp_menu, sp_right, sp_up;
+	int key_action, key_down, key_jump, key_left, key_menu, key_right, key_up;
 	int combo_one_state, player;
 	bool multiplayer, in_menu;
 	int facing_direction;

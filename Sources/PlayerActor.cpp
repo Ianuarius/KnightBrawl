@@ -61,40 +61,40 @@ void PlayerActor::updateAnimation()
 	// PUSHBACK
 
 	// SPECIAL_I
-	if ((*special_combos)[0].executing == true) {
+	if ((*special_combos)[knight->SPECIAL_I].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_I);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	(*special_combos)[0].executing = false;
+		 	(*special_combos)[knight->SPECIAL_I].executing = false;
 		 	currentAnimation->times_played = 0;
 		}
 	}
 	// SPECIAL_II
 
 	
-	if ((*special_combos)[1].executing == true) {
+	if ((*special_combos)[knight->SPECIAL_II].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_II);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	(*special_combos)[1].executing = false;
+		 	(*special_combos)[knight->SPECIAL_II].executing = false;
 		 	currentAnimation->times_played = 0;
 		}
 	}
 	// SPECIAL_III
-	if ((*special_combos)[2].executing == true) {
+	if ((*special_combos)[knight->SPECIAL_III].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_III);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	(*special_combos)[2].executing = false;
+		 	(*special_combos)[knight->SPECIAL_III].executing = false;
 		 	currentAnimation->times_played = 0;
 		}
 	}
 	// SPECIAL_IV
-	if ((*special_combos)[3].executing == true) {
+	if ((*special_combos)[knight->SPECIAL_IV].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_IV);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	(*special_combos)[3].executing = false;
+		 	(*special_combos)[knight->SPECIAL_IV].executing = false;
 		 	currentAnimation->times_played = 0;
 		}
 	}
