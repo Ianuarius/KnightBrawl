@@ -205,7 +205,8 @@
       <effect type="stun" duration="0.5"/>
       <damage value="7" />
       <control type="combo">
-        <key>throw</key>
+        <key>forward</key>
+        <key>action</key>
       </control>
     </attack>
 
@@ -227,6 +228,7 @@
       <effect type="damagereturn" power="15" format="pressed" time="0" />
       <control type="single">
         <key>up</key>
+        <key>action</key>
       </control>
     </block>
 		
