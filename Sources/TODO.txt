@@ -4,11 +4,11 @@ TODO(juha):
 [ ] Midair Basic attack
 [ ] Downthrust attack
 [ ] Uppercut attack
-[ ] Attack controls from XML
+[ ] Camera update with more than 2 players
 [ ] Attack hitboxes from XML
 [ ] Respawning Knights
-[ ] Character selection
-[ ] Camera update with more than 2 players
+[x] Attack controls from XML
+[x] Character selection
 [x] Knights in a vector
 [x] Make hitboxes for attack functionality
 [x] Have players take damage from colliding with attacks functionality
@@ -23,5 +23,5 @@ TODO(juha):
 	- Push each control to a vector
 [x] Save key combos to vectors functionality
 
-17:00
-	
+21.7.
+1h
