@@ -21,6 +21,7 @@ PlayerActor::PlayerActor(Window *window,
 void PlayerActor::updateAnimation()
 {
 	currentAnimation = knight->getAnimations(knight->IDLE);
+	moves = playerController->moves;
 	
 	if (playerController->velocity_x != 0) {
 		currentAnimation = knight->getAnimations(knight->RUN);
@@ -67,6 +68,7 @@ void PlayerActor::updateAnimation()
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
 		 	(*special_combos)[knight->SPECIAL_I].executing = false;
 		 	currentAnimation->times_played = 0;
+			playerController->executing_combo = false;
 		}
 	}
 	// SPECIAL_II
@@ -78,6 +80,7 @@ void PlayerActor::updateAnimation()
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
 		 	(*special_combos)[knight->SPECIAL_II].executing = false;
 		 	currentAnimation->times_played = 0;
+			playerController->executing_combo = false;
 		}
 	}
 	// SPECIAL_III
@@ -87,6 +90,7 @@ void PlayerActor::updateAnimation()
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
 		 	(*special_combos)[knight->SPECIAL_III].executing = false;
 		 	currentAnimation->times_played = 0;
+			playerController->executing_combo = false;
 		}
 	}
 	// SPECIAL_IV
@@ -96,10 +100,18 @@ void PlayerActor::updateAnimation()
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
 		 	(*special_combos)[knight->SPECIAL_IV].executing = false;
 		 	currentAnimation->times_played = 0;
+			playerController->executing_combo = false;
 		}
 	}
 	// THROW
 	// UPPERCUT
+	if ((*moves)[knight->UPPERCUT].executing) {
+		currentAnimation = knight->getAnimations(knight->UPPERCUT);
+			playerController->executing_combo = false;
+
+	}
+
+
 	if (knight->alive) {
 		currentAnimation->play(INFINITE_LOOP);
 	}

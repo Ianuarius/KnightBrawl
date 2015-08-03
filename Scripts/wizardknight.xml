@@ -131,7 +131,7 @@
     </attack>
 
     <attack name="uppercut" format="uppercut">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_air_attack.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
+      <animation filename="Graphics/Knights/wizardknight/wizard_knight_uppercut.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
       <control type="combo">
         <key pressed="true">down</key>
         <key>action</key>

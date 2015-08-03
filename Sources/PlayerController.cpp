@@ -26,6 +26,7 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	multiplayer(multiplayer),
 	knight(knight),
 	in_menu(false),
+	executing_combo(false),
 	player(player),
 	location(start_position),
 	boundbox(location.x - 25, location.y - 50, 50, 50),
@@ -224,9 +225,73 @@ void PlayerController::update()
 					(*moves)[i].state = 0;
 				}
 
-				if ((*moves)[i].keys.size() == (*moves)[i].state) {
+				bool continue_execution = false;
+
+				for (int j = 0; j < (*moves)[i].keys.size(); j++) {
+					if ((*moves)[i].keys[j].pressed == true) {
+
+						if ((*moves)[i].keys[j].keycode == knight->FORWARD &&
+							facing_direction == FACING_LEFT) {
+								
+							if (playerInput.isKeyPressed(key_left)) {
+								continue_execution = true;
+							}
+						} else if ((*moves)[i].keys[j].keycode == knight->BACKWARD &&
+							facing_direction == FACING_LEFT) {
+								
+							if (playerInput.isKeyPressed(key_right)) {
+								continue_execution = true;
+							}
+						}  else if ((*moves)[i].keys[j].keycode == knight->FORWARD &&
+							facing_direction == FACING_RIGHT) {
+								
+							if (playerInput.isKeyPressed(key_right)) {
+								continue_execution = true;
+							}
+						}  else if ((*moves)[i].keys[j].keycode == knight->BACKWARD &&
+							facing_direction == FACING_RIGHT) {
+								
+							if (playerInput.isKeyPressed(key_left)) {
+								continue_execution = true;
+							}
+						} else if ((*moves)[i].keys[j].keycode == knight->JUMP) {
+								
+							if (playerInput.isKeyPressed(key_jump)) {
+								continue_execution = true;
+							}
+						} else if ((*moves)[i].keys[j].keycode == knight->DOWN) {
+								
+							if (playerInput.isKeyPressed(key_down)) {
+								continue_execution = true;
+							}
+						} else if ((*moves)[i].keys[j].keycode == knight->UP) {
+								
+							if (playerInput.isKeyPressed(key_up)) {
+								continue_execution = true;
+							}
+						} else if ((*moves)[i].keys[j].keycode == knight->ACTION) {
+								
+							if (playerInput.isKeyPressed(key_action)) {
+								continue_execution = true;
+							}
+						}
+
+					} else {
+						continue_execution = true;
+					}
+				}
+
+				if (continue_execution == false) {
+					(*moves)[i].state = 0;
+				}
+
+				// TODO(juha): executed also with a simple attack
+
+				if ((*moves)[i].keys.size() == (*moves)[i].state &&
+					continue_execution == true) {
 					(*moves)[i].executing = true;
 					(*moves)[i].state = 0;
+					executing_combo = true;
 				}
 			}
 		}
@@ -266,18 +331,18 @@ void PlayerController::update()
 	}
 }
 
-inline void PlayerController::updateInput()
+void PlayerController::updateInput()
 {
 	playerInput.update();
 
 }
 
-inline int PlayerController::getDirection()
+int PlayerController::getDirection()
 {
 	return facing_direction;
 }
 
-inline void PlayerController::commitMovement()
+void PlayerController::commitMovement()
 {
 	location.x = desired.x + hitbox.w/2;
 	location.y = desired.y + hitbox.h;
@@ -339,7 +404,7 @@ void PlayerController::jump()
 
 void PlayerController::basicAttack()
 {
-	if (!in_menu) {
+	if (!in_menu && !executing_combo) {
 		attacking = true;
 	} else {
 

@@ -26,6 +26,7 @@ public:
 private:
 	Window *window;
 	PlayerController *playerController;
+	std::vector<SpecialCombo> *moves;
 	Camera *camera;
 	Knight *knight;
 	Animation *currentAnimation;

@@ -30,11 +30,12 @@ public:
 	PlayerController(SDL_Point start_position, 
 		bool multiplayer, int player, Knight *knight);
 
-	inline int getDirection();
+	int getDirection();
 	void update();
-	inline void commitMovement();
-	inline void updateInput();
+	void commitMovement();
+	void updateInput();
 	int menu_x, menu_y;
+	bool executing_combo;
 	std::vector<SpecialCombo> *moves;
 	
 	bool in_air, jumping, crouching, attacking;

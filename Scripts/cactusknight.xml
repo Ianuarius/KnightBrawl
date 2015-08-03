@@ -211,7 +211,7 @@
     </attack>
 
     <attack name="uppercut" format="uppercut">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/cactusknight/cactusknight_uppercut.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="10" width="10" height="20" frame="2"/>
       <effect type="uppercut" power="10" angle="0" />
       <effect type="stun" duration="0.5" />
