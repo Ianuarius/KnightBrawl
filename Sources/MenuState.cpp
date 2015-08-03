@@ -12,6 +12,10 @@ MenuState::MenuState(Window *window, Input *mainInput):
 {		
 }
 
+void MenuState::load(StateData *data)
+{
+	
+}
 stateStatus MenuState::update() 
 {
 	stateStatus status;
@@ -19,7 +23,7 @@ stateStatus MenuState::update()
 	status.prepend = false;
 
 		if (mainInput->keyPressed(SDL_SCANCODE_RETURN))	{
-			status.status = STATE_GAME;
+			status.status = STATE_C_SELECT;
 		}	
 
 		if(mainInput->keyPressed(SDL_SCANCODE_ESCAPE)) {
@@ -32,4 +36,9 @@ stateStatus MenuState::update()
 void MenuState::render() 
 {
 	menu.render(0,0);
+}
+
+StateData *MenuState::getStateData()
+{
+	return nullptr;
 }

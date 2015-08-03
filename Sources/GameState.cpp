@@ -12,42 +12,52 @@ GameState::GameState(Window *window, Input *mainInput):
 	level(nullptr),
 	font(new Font("ChicagoFLF.ttf", 10)),
 	playername1(new Text(font, Color("white"))),
-	playername2(new Text(font, Color("white")))
+	playername2(new Text(font, Color("white"))),
+	stateData(nullptr)
 {
 	timer.start();
-	SDL_Point start_point_1 = {36*16, 48*16};
-	SDL_Point start_point_2 = {46*16, 48*16};
-	SDL_Point start_point_3 = {56*16, 48*16};
+
+}
+
+void GameState::load(StateData *data)
+{
+	stateData = data;
+	
+	players = stateData->players;
 
 	bool multiplayer = true;
 
-	if (PLAYERS <= 1) {
+	if (players <= 1) {
 		multiplayer = false;
 	}
 
-	knights.push_back(new Knight(window, DRAGON_KNIGHT));
-	knights.push_back(new Knight(window, CACTUS_KNIGHT));
-	knights.push_back(new Knight(window, ROGUE_KNIGHT));
+	SDL_Point start_point_1 = {36*16, 48*16};
+	SDL_Point start_point_2 = {46*16, 48*16};
+	SDL_Point start_point_3 = {56*16, 48*16};
+	SDL_Point start_point_4 = {66*16, 48*16};
+
+	for (int i = 0; i < players; i++) {
+		knights.push_back(stateData->selection[i]);
+	}
 
 	startPoints.push_back(start_point_1);
 	startPoints.push_back(start_point_2);
 	startPoints.push_back(start_point_3);
+	startPoints.push_back(start_point_4);
 	
-	
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i, knights[i]));
 	}
 	
 	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerControllers);
 
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		playerActors.push_back(new PlayerActor(window, camera, playerControllers[i], knights[i]));
 	}
 	
 	level = new Level(window, camera);
 	level->load("Levels/tavern_small.tmx");
 }
-
 stateStatus GameState::update()
 {
 	stateStatus status;
@@ -58,29 +68,29 @@ stateStatus GameState::update()
 		status.status = STATE_QUIT;
 	}
 	
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		playerControllers[i]->update();
 	}
 	
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		playerControllers[i]->updateInput();
 	}
 
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		level->collides(playerControllers[i]);
 	}
 	
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		playerActors[i]->updateAnimation();
 	}
 	
 	SDL_Rect tmp_hb;
 	SDL_Rect wep_hb;
 	
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		wep_hb = playerControllers[i]->attack_hb;
 		
-		for (int j = 0; j < PLAYERS; j++) {
+		for (int j = 0; j < players; j++) {
 
 			if (i != j) {
 				tmp_hb = playerControllers[j]->hitbox;
@@ -94,13 +104,13 @@ stateStatus GameState::update()
 		}
 	}
 	
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		if (knights[i]->getHitpoints() <= 0) {
 			knights[i]->alive = false;
 		}
 	}
 	
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		if (knights[i]->alive == true) {
 			playerControllers[i]->commitMovement();
 		}
@@ -129,7 +139,7 @@ void GameState::render()
 	level->render(FG2_LAYER);
 	level->render(FG1_LAYER);
 
-	for (int i = 0; i < PLAYERS; i++) {
+	for (int i = 0; i < players; i++) {
 		playerActors[i]->render();
 	}
 	
@@ -163,4 +173,9 @@ void GameState::render()
 		playername1->print(window, knights[0]->getTruename(), 12, 2);
 		playername2->print(window, knights[1]->getTruename(), camera->getFrame().w - 104 - 2, 2);
 	}
+}
+
+StateData *GameState::getStateData()
+{
+	return nullptr;
 }

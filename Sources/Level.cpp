@@ -111,8 +111,8 @@ int Level::getTile(int x, int y)
 {
 	if (y >= 0 &&
 		x >= 0 &&
-		y < GameLayerData.size()*tileSize &&
-		x < GameLayerData[0].size()*tileSize)
+		y < (int)GameLayerData.size()*tileSize &&
+		x < (int)GameLayerData[0].size()*tileSize)
 	{
 		return (GameLayerData[y/tileSize][x/tileSize]);
 	}
@@ -264,7 +264,7 @@ void Level::render(int layer)
 	row_begin = data->begin() + start_tile_y;
 	row_end = data->end();
 	
-	if (start_tile_y + tiles_y < data->size()) {
+	if (start_tile_y + tiles_y < (int)data->size()) {
 		row_end = data->begin() + start_tile_y + tiles_y;
 	} else {
 		row_end = data->end();
@@ -273,7 +273,7 @@ void Level::render(int layer)
 	for (row = row_begin; row != row_end; ++row) {
 		std::vector<int>::iterator col_begin = row->begin() + start_tile_x;
 		std::vector<int>::iterator col_end = row->end();
-		if (start_tile_x + tiles_x < row->size()) {
+		if (start_tile_x + tiles_x < (int)row->size()) {
 			col_end = row->begin() + start_tile_x + tiles_x;
 		}
 

@@ -9,6 +9,7 @@
 
 #include <vector>
 #include "BaseState.h"
+#include "CharacterSelectState.h"
 #include "GameState.h"
 #include "Input.h"
 #include "MenuState.h"
@@ -27,9 +28,10 @@ public:
 
 protected:
 	Input *mainInput;
+	StateData *stateData;
 	Window *window;
 	std::vector<BaseState*> states;
-	bool glove;
+	bool love;
 };
 
 #endif // __STATEMANAGER_H_DEFINED__
