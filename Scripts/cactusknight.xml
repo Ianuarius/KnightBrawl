@@ -205,7 +205,8 @@
       <effect type="stun" duration="0.5"/>
       <damage value="7" />
       <control type="combo">
-        <key>forward</key>
+        <key pressed="true">forward</key>
+        <key>backward</key>
         <key>action</key>
       </control>
     </attack>
@@ -227,7 +228,7 @@
       <effect type="buff" stat="defense" power="50" format="pressed" time="0" />
       <effect type="damagereturn" power="15" format="pressed" time="0" />
       <control type="single">
-        <key>up</key>
+        <key pressed="true">up</key>
         <key>action</key>
       </control>
     </block>
@@ -248,7 +249,8 @@
       <effect type="buff" stat="defense" power="100" format="duration" time="1" />
       <effect type="movement" speed="15" range="30" angle="90" />
       <control type="combo">
-        <key pressed="true">block</key>
+        <key pressed="true">crouch</key>
+        <key>forward</key>
         <key>forward</key>
       </control>
     </dodge>
