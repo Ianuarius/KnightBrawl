@@ -14,16 +14,14 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 {
 	stateData = new StateData();
 	bool multiplayer = true;
-	players = 2;
+	players = 3;
 	stateData->players = players;
 	stateData->selection.reserve(players);
-	for (int i = 0; i < players; i++)
-	{
+	for (int i = 0; i < players; i++) {
 		stateData->selection.push_back(nullptr);
 	}
 	
-	for (int i = 0; i < players; i++)
-	{
+	for (int i = 0; i < players; i++) {
 		tags.push_back(new Text(player_tag, Color("white")));
 		tag_shadows.push_back(new Text(player_tag, Color("black")));
 	}
@@ -41,7 +39,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 
 	roster_result = roster_document.load_file("Scripts/roster.xml");
 	
-	row_length = 3;
+	row_length = 2;
 	row_count = 0;
 	int col_count = 0;
 	std::vector<Knight *> tmp_row;
@@ -79,8 +77,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	}
 	*/
 	
-	for (int i = 0; i < players; i++)
-	{
+	for (int i = 0; i < players; i++) {
 		SDL_Point tmp;
 		tmp.x = 0;
 		tmp.y = 0;
@@ -92,8 +89,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 		playerControllers.push_back(new PlayerController(multiplayer, i, &positions));
 	}
 	
-	for (int i = 0; i < players; i++)
-	{
+	for (int i = 0; i < players; i++) {
 		positions[i].x = playerControllers[i]->menu_x;
 		positions[i].y = playerControllers[i]->menu_y;
 	}

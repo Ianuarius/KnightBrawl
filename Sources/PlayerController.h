@@ -68,6 +68,7 @@ private:
 
 	int moves_amount;
 	int key_action, key_down, key_jump, key_left, key_menu, key_right, key_up;
+	bool basic_attack;
 	int combo_one_state, player;
 	bool multiplayer, in_menu;
 	int facing_direction;

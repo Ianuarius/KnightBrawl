@@ -71,9 +71,8 @@ void PlayerActor::updateAnimation()
 			playerController->executing_combo = false;
 		}
 	}
-	// SPECIAL_II
 
-	
+	// SPECIAL_II
 	if ((*special_combos)[knight->SPECIAL_II].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_II);
 
@@ -83,6 +82,7 @@ void PlayerActor::updateAnimation()
 			playerController->executing_combo = false;
 		}
 	}
+
 	// SPECIAL_III
 	if ((*special_combos)[knight->SPECIAL_III].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_III);
@@ -93,6 +93,7 @@ void PlayerActor::updateAnimation()
 			playerController->executing_combo = false;
 		}
 	}
+
 	// SPECIAL_IV
 	if ((*special_combos)[knight->SPECIAL_IV].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_IV);

@@ -48,6 +48,8 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	in_air =			true;
 	jumping =			false;
 	crouching =			false;
+	attacking =			false;
+	basic_attack =		false;
 	
 	for (int i = 0; i < SPECIAL_MOVES; ++i) {
 		combo_state.push_back(0);
@@ -190,7 +192,7 @@ void PlayerController::update()
 		if (playerInput.isKeyPressed(key_action) && playerInput.isKeyDown(key_action) && !in_menu) {
 			tmp_input = knight->ACTION;
 		}
-		basicAttack();
+		basic_attack = true;
 	}
 		
 	// MENU BUTTON
@@ -202,98 +204,109 @@ void PlayerController::update()
 		// NOTE(juha): Goes through all the special combos.
 		for (int i = 0; i < moves_amount; ++i) {
 			(*moves)[i].tmp_input = tmp_input;
-
+			
+			bool continue_execution = false;
 			if ((*moves)[i].keys.size() > 0) {
-				// NOTE(juha): If the player just turned, then the first
-				// key can be counted as forward instead of backward.
-				if ((*moves)[i].keys[0].keycode == knight->FORWARD &&
-					(*moves)[i].tmp_input == knight->BACKWARD &&
-					(*moves)[i].state == 0) {
-					(*moves)[i].tmp_input = knight->FORWARD;
-				}
+				
+				if ((*moves)[i].keys.size() > 1)
+				{
+					// NOTE(juha): If the player just turned, then the first
+					// key can be counted as forward instead of backward.
+					if ((*moves)[i].keys[0].keycode == knight->FORWARD &&
+						(*moves)[i].tmp_input == knight->BACKWARD &&
+						(*moves)[i].state == 0) {
+						(*moves)[i].tmp_input = knight->FORWARD;
+					}
 
-				// NOTE(juha): tmp_input 9999 means that no keys were pressed.
-				// NOTE(juha): If a right key was pressed, move combos that had that key
-				// to the next state. If nothing was pressed, do nothing. If the key
-				// wasn't a part of the combo, then return it to the beginning state.
-				if ((*moves)[i].keys[(*moves)[i].state].keycode == (*moves)[i].tmp_input &&
-					(*moves)[i].executing == false) {
-					(*moves)[i].state++;
-				} else if ((*moves)[i].tmp_input == 9999) {
-					// Do nothing.
-				} else {
-					(*moves)[i].state = 0;
-				}
-
-				bool continue_execution = false;
-
-				for (int j = 0; j < (*moves)[i].keys.size(); j++) {
-					if ((*moves)[i].keys[j].pressed == true) {
-
-						if ((*moves)[i].keys[j].keycode == knight->FORWARD &&
-							facing_direction == FACING_LEFT) {
-								
-							if (playerInput.isKeyPressed(key_left)) {
-								continue_execution = true;
-							}
-						} else if ((*moves)[i].keys[j].keycode == knight->BACKWARD &&
-							facing_direction == FACING_LEFT) {
-								
-							if (playerInput.isKeyPressed(key_right)) {
-								continue_execution = true;
-							}
-						}  else if ((*moves)[i].keys[j].keycode == knight->FORWARD &&
-							facing_direction == FACING_RIGHT) {
-								
-							if (playerInput.isKeyPressed(key_right)) {
-								continue_execution = true;
-							}
-						}  else if ((*moves)[i].keys[j].keycode == knight->BACKWARD &&
-							facing_direction == FACING_RIGHT) {
-								
-							if (playerInput.isKeyPressed(key_left)) {
-								continue_execution = true;
-							}
-						} else if ((*moves)[i].keys[j].keycode == knight->JUMP) {
-								
-							if (playerInput.isKeyPressed(key_jump)) {
-								continue_execution = true;
-							}
-						} else if ((*moves)[i].keys[j].keycode == knight->DOWN) {
-								
-							if (playerInput.isKeyPressed(key_down)) {
-								continue_execution = true;
-							}
-						} else if ((*moves)[i].keys[j].keycode == knight->UP) {
-								
-							if (playerInput.isKeyPressed(key_up)) {
-								continue_execution = true;
-							}
-						} else if ((*moves)[i].keys[j].keycode == knight->ACTION) {
-								
-							if (playerInput.isKeyPressed(key_action)) {
-								continue_execution = true;
-							}
-						}
-
+					// NOTE(juha): tmp_input 9999 means that no keys were pressed.
+					// NOTE(juha): If a right key was pressed, move combos that had that key
+					// to the next state. If nothing was pressed, do nothing. If the key
+					// wasn't a part of the combo, then return it to the beginning state.
+					if ((*moves)[i].keys[(*moves)[i].state].keycode == (*moves)[i].tmp_input &&
+						(*moves)[i].executing == false) {
+						(*moves)[i].state++;
+					} else if ((*moves)[i].tmp_input == 9999) {
+						// Do nothing.
 					} else {
-						continue_execution = true;
+						(*moves)[i].state = 0;
+					}
+				
+
+					for (int j = 0; j < (*moves)[i].keys.size(); j++) {
+						if ((*moves)[i].keys[j].pressed == true) {
+
+							if ((*moves)[i].keys[j].keycode == knight->FORWARD &&
+								facing_direction == FACING_LEFT) {
+								
+								if (playerInput.isKeyPressed(key_left)) {
+									continue_execution = true;
+								}
+							} else if ((*moves)[i].keys[j].keycode == knight->BACKWARD &&
+								facing_direction == FACING_LEFT) {
+								
+								if (playerInput.isKeyPressed(key_right)) {
+									continue_execution = true;
+								}
+							}  else if ((*moves)[i].keys[j].keycode == knight->FORWARD &&
+								facing_direction == FACING_RIGHT) {
+								
+								if (playerInput.isKeyPressed(key_right)) {
+									continue_execution = true;
+								}
+							}  else if ((*moves)[i].keys[j].keycode == knight->BACKWARD &&
+								facing_direction == FACING_RIGHT) {
+								
+								if (playerInput.isKeyPressed(key_left)) {
+									continue_execution = true;
+								}
+							} else if ((*moves)[i].keys[j].keycode == knight->JUMP) {
+								
+								if (playerInput.isKeyPressed(key_jump)) {
+									continue_execution = true;
+								}
+							} else if ((*moves)[i].keys[j].keycode == knight->DOWN) {
+								
+								if (playerInput.isKeyPressed(key_down)) {
+									continue_execution = true;
+								}
+							} else if ((*moves)[i].keys[j].keycode == knight->UP) {
+								
+								if (playerInput.isKeyPressed(key_up)) {
+									continue_execution = true;
+								}
+							} else if ((*moves)[i].keys[j].keycode == knight->ACTION) {
+								
+								if (playerInput.isKeyPressed(key_action)) {
+									continue_execution = true;
+								}
+							}
+
+						} else {
+							continue_execution = true;
+						}
+					}
+					
+
+					if (continue_execution == false) {
+						(*moves)[i].state = 0;
+					}
+
+					// TODO(juha): executed also with a simple attack
+
+					if ((*moves)[i].keys.size() == (*moves)[i].state &&
+						continue_execution == true) {
+						(*moves)[i].executing = true;
+						(*moves)[i].state = 0;
+						executing_combo = true;
+						printf("executing\n");
 					}
 				}
-
-				if (continue_execution == false) {
-					(*moves)[i].state = 0;
-				}
-
-				// TODO(juha): executed also with a simple attack
-
-				if ((*moves)[i].keys.size() == (*moves)[i].state &&
-					continue_execution == true) {
-					(*moves)[i].executing = true;
-					(*moves)[i].state = 0;
-					executing_combo = true;
-				}
 			}
+		}
+
+		if (basic_attack) {
+			basicAttack();
+			basic_attack = false;
 		}
 	
 		if (jumping) {
@@ -406,6 +419,7 @@ void PlayerController::basicAttack()
 {
 	if (!in_menu && !executing_combo) {
 		attacking = true;
+		basic_attack = false;
 	} else {
 
 	}
