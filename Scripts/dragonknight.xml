@@ -130,7 +130,6 @@
     <attack name="special1" format="ranged">
       <name>Fan of Spines</name>
       <animation filename="Graphics/Knights/dragonknight/dragonknight_special1.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <projectilespawner type="thorn" amount="5" angle="50" angleinterval="20" delay="0" delayinterval="0" />
       <control type="combo">
         <key>forward</key>
         <key>up</key>
@@ -142,7 +141,6 @@
     <attack name="special2" format="ranged">
       <name>Spiky Surprise</name>
       <animation filename="Graphics/Knights/dragonknight/dragonknight_special2.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <trapspawner type="spikysurprise" amount="1" angle="50" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
         <key>up</key>
         <key>down</key>
