@@ -89,6 +89,11 @@
 		<hitbox x="-13" y="-26" width="26" height="26" />
     <speed>5</speed> <!-- 5 default -->		
 	</stats>
+
+  <soundeffects>
+    <sound type="jump" filename="Sounds/jumping1.wav" />
+    <sound type="landing" filename="Sounds/landing1.wav" />
+  </soundeffects>
   
   <projectile name="thorn" type="linear" range="80" power="15" speed="50">
     <animation filename="Graphics/Knights/cactusknight/spine.png" framecount="1" width="5" height="5" startframe="0" framerate="8" loops="1"  />
@@ -268,6 +273,7 @@
       <control type="single">
         <key>jump</key>
       </control>
+      <sfx type="jump" play="1" start="0" />
 		</jump> <!-- 5 default -->
     
     <pushback name="pushback">
