@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<levels>
+  <file id="0" script="Levels/tavern_small.tmx" preview="Graphics/Level_Previews/tavern_small.png" tileset="Graphics/Tilesets/tavern_tileset.png" />
+  <file id="1" script="Levels/collision_test.tmx" preview="Graphics/Level_Previews/collision_test.png" tileset="Graphics/Tilesets/tavern_tileset.png" />
+  <file id="2" script="Levels/catacombs.tmx" preview="Graphics/Level_Previews/catacombs.png" tileset="Graphics/Tilesets/catacombs_tileset.png" />
+</levels>
