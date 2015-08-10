@@ -16,6 +16,31 @@ PlayerActor::PlayerActor(Window *window,
 	facing_direction(FACING_RIGHT),
 	special_combos(playerController->moves)
 {
+	vector<Sound>::iterator soundIterator;
+
+	for (soundIterator = knight->getSounds()->begin();
+		soundIterator != knight->getSounds()->end(); 
+		++soundIterator)
+	{
+		if (soundIterator->type.compare("landing") == 0) {
+			sfx_land.load(soundIterator->filename);
+		}
+
+		if (soundIterator->type.compare("jump") == 0) {
+			sfx_jump.load(soundIterator->filename);
+		}
+	}
+
+}
+
+void PlayerActor::updateSound()
+{
+	if (knight->falling == true) {
+		if (knight->is_landed == true) {
+			sfx_land.play(1);
+			knight->falling = false;
+		}
+	}
 }
 
 void PlayerActor::updateAnimation()
@@ -28,6 +53,10 @@ void PlayerActor::updateAnimation()
 	}
 	
 	if (playerController->jumping == true) {
+		currentAnimation = knight->getAnimations(knight->JUMP);
+	}
+
+	if (knight->falling == true) {
 		currentAnimation = knight->getAnimations(knight->JUMP);
 	}
 

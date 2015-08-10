@@ -15,6 +15,10 @@ Knight::Knight(Window *window, int knight_number):
 
 	alive = true;
 	hit = false;
+	jumping = false;
+	landing = false;
+	is_landed = false;
+	is_jumping = false;
 	
 	moves.resize(ANIMATION_MAX);
 
@@ -44,6 +48,8 @@ Knight::Knight(Window *window, int knight_number):
 	
 	pugi::xml_node tmp_node;
 	tmp_node = knight_document.child("knight");
+	
+	parseSounds(&tmp_node);
 
 	parseEffects(&tmp_node);
 
@@ -52,6 +58,21 @@ Knight::Knight(Window *window, int knight_number):
 
 	tmp_node = knight_document.child("knight").child("action");
 	parseActions(&tmp_node);
+}
+
+void Knight::parseSounds(pugi::xml_node *tmp_node)
+{
+	for(pugi::xml_node_iterator iterator = tmp_node->child("soundeffects").begin();
+			iterator != tmp_node->child("soundeffects").end();
+			++iterator)
+	{
+		Sound tmp_sound;
+
+		tmp_sound.filename = iterator->attribute("filename").value();
+		tmp_sound.type = iterator->attribute("type").value();
+
+		sounds.push_back(tmp_sound);
+	}
 }
 
 void Knight::parseEffects(pugi::xml_node *tmp_node)
@@ -433,36 +454,47 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 		if (tmp_combo.name.compare("basic") == 0) {
 			moves[ATTACK] = tmp_combo;
 		} else if (tmp_combo.name.compare("midair_basic") == 0) {
+			tmp_combo.disabled = true;
 			moves[MID_AIR_BASIC_ATTACK] = tmp_combo;
 		} else if (tmp_combo.name.compare("midair_downthrust") == 0) {
+			tmp_combo.disabled = true;
 			moves[DOWN_THRUST] = tmp_combo;
 		} else if (tmp_combo.name.compare("special1") == 0) {
 			moves[SPECIAL_I] = tmp_combo;
 		} else if (tmp_combo.name.compare("special2") == 0) {
+			tmp_combo.disabled = true;
 			moves[SPECIAL_II] = tmp_combo;
 		} else if (tmp_combo.name.compare("special3") == 0) {
+			tmp_combo.disabled = true;
 			moves[SPECIAL_III] = tmp_combo;
 		} else if (tmp_combo.name.compare("special4") == 0) {
+			tmp_combo.disabled = true;
 			moves[SPECIAL_IV] = tmp_combo;
 		} else if (tmp_combo.name.compare("throw") == 0) {
+			tmp_combo.disabled = true;
 			moves[THROW] = tmp_combo;
 		} else if (tmp_combo.name.compare("uppercut") == 0) {
 			moves[UPPERCUT] = tmp_combo;
 		} else if (tmp_combo.name.compare("block") == 0) {
+			tmp_combo.disabled = true;
 			moves[BLOCK] = tmp_combo;
 		} else if (tmp_combo.name.compare("crouch") == 0) {
 			moves[CROUCH] = tmp_combo;
 		} else if (tmp_combo.name.compare("death") == 0) {
+			tmp_combo.disabled = true;
 			moves[DEATH] = tmp_combo;
 		} else if (tmp_combo.name.compare("dodge") == 0) {
+			tmp_combo.disabled = true;
 			moves[DODGE] = tmp_combo;
 		} else if (tmp_combo.name.compare("hanging") == 0) {
+			tmp_combo.disabled = true;
 			moves[HANGING] = tmp_combo;
 		} else if (tmp_combo.name.compare("idle") == 0) {
 			moves[IDLE] = tmp_combo;
 		} else if (tmp_combo.name.compare("jump") == 0) {
 			moves[JUMP] = tmp_combo;
 		} else if (tmp_combo.name.compare("pushback") == 0) {
+			tmp_combo.disabled = true;
 			moves[PUSHBACK] = tmp_combo;
 		} else if (tmp_combo.name.compare("run") == 0) {
 			moves[RUN] = tmp_combo;
@@ -485,6 +517,13 @@ int Knight::getHitpoints()
 	return hitpoints;
 }
 
+void Knight::respawn()
+{
+	alive = true;
+	hitpoints = 100;
+	moves[DEATH].animation->times_played = 0;
+}
+
 Sprite *Knight::getDecal()
 {
 	return decal;
@@ -499,6 +538,10 @@ std::vector<SpecialCombo> *Knight::getMoves()
 	return &moves;
 }
 
+std::vector<Sound> *Knight::getSounds()
+{
+	return &sounds;
+}
 Animation *Knight::getAnimations(int animation)
 {
 	return moves[animation].animation;

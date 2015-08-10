@@ -30,7 +30,7 @@ public:
 	Level(Window *window, Camera *camera);
 	~Level();
 
-	void load(std::string level_name);
+	void load(std::string level_name, std::string new_tileset);
 	void render(int layer);
 	int getTile(int x, int y);
 	void collides(PlayerController *playerController);

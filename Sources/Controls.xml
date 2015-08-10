@@ -47,13 +47,13 @@
   </actionmap>
 
   <actionmap name="multiplayer" controller="3">
-    <action name="move_left" onPress="1" keyboard="" xboxpad="XI_DPAD_LEFT" />
-    <action name="move_right" onPress="1" keyboard="" xboxpad="XI_DPAD_RIGHT" />
-    <action name="crouch" onPress="1" keyboard="" xboxpad="XI_DPAD_DOWN" />
-    <action name="up" onPress="1" keyboard="" xboxpad="XI_DPAD_UP" />
-    <action name="jump" onPress="1" keyboard="" xboxpad="XI_BUTTON_A" />
-    <action name="action" onPress="1" keyboard="" xboxpad="XI_BUTTON_X" />
-    <action name="menu" onPress="1" keyboard="" xboxpad="XI_BUTTON_START" />
+    <action name="move_left" onPress="1" keyboard="Z" xboxpad="XI_DPAD_LEFT" />
+    <action name="move_right" onPress="1" keyboard="X" xboxpad="XI_DPAD_RIGHT" />
+    <action name="crouch" onPress="1" keyboard="C" xboxpad="XI_DPAD_DOWN" />
+    <action name="up" onPress="1" keyboard="V" xboxpad="XI_DPAD_UP" />
+    <action name="jump" onPress="1" keyboard="B" xboxpad="XI_BUTTON_A" />
+    <action name="action" onPress="1" keyboard="N" xboxpad="XI_BUTTON_X" />
+    <action name="menu" onPress="1" keyboard="ESCAPE" xboxpad="XI_BUTTON_START" />
   </actionmap>
 
 </profile>

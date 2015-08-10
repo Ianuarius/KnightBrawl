@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "PlayerController.h"
 #include "SDL.h"
+#include "SFX.h"
 #include "Texture.h"
 
 class PlayerActor
@@ -21,6 +22,7 @@ public:
 	void render();
 	int facing_direction;
 	void updateAnimation();
+	void updateSound();
 	std::vector<SpecialCombo> *special_combos;
 	
 private:
@@ -30,6 +32,7 @@ private:
 	Camera *camera;
 	Knight *knight;
 	Animation *currentAnimation;
+	SFX sfx_jump, sfx_land;
 };
 
 #endif //__PLAYERACTOR_H_DEFINED__

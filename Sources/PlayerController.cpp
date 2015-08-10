@@ -50,7 +50,7 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	crouching =			false;
 	attacking =			false;
 	basic_attack =		false;
-	
+
 	for (int i = 0; i < SPECIAL_MOVES; ++i) {
 		combo_state.push_back(0);
 	}
@@ -75,6 +75,8 @@ void PlayerController::parseMappedValues()
 		return;
 	}
 	
+
+
 	// NOTE(juha): Parsing the inputs from the mapped values.
 	if (!multiplayer) {
 		key_left = fieldTypeParser.ParseSomeEnum(SinglePlayerMappings.
@@ -115,7 +117,13 @@ void PlayerController::update()
 	velocity_y += GRAVITY * (16.f / 1000);
 	desired.y += (int)velocity_y;
 	crouching = false;
-
+	
+	if (velocity_y >= 3) {
+		in_air = true;
+		knight->falling = true;
+		knight->is_landed = false;
+	}
+	
 	if (velocity_y >= 7) {
 		velocity_y = 7;
 	}
@@ -126,7 +134,7 @@ void PlayerController::update()
 
 	// NOTE(juha): Reading the inputs for single player and multiplayer.
 	int tmp_input = 9999;
-	
+
 	// MOVE LEFT
 	if (playerInput.keyState(key_left)) {
 		if (playerInput.isKeyPressed(key_left) && playerInput.isKeyDown(key_left)) {
@@ -202,6 +210,17 @@ void PlayerController::update()
 	
 	if (!in_menu) {
 		// NOTE(juha): Goes through all the special combos.
+		
+		if (knight->alive == false) {
+			if (deathTimer.isStarted() == false) {
+				deathTimer.start();
+			}
+			if (deathTimer.getTicks() >= RESPAWN_TIME) {
+				knight->respawn();
+				deathTimer.stop();
+			}
+		}
+
 		for (int i = 0; i < moves_amount; ++i) {
 			(*moves)[i].tmp_input = tmp_input;
 			
@@ -295,10 +314,13 @@ void PlayerController::update()
 
 					if ((*moves)[i].keys.size() == (*moves)[i].state &&
 						continue_execution == true) {
-						(*moves)[i].executing = true;
+						if ((*moves)[i].disabled == false) {
+							(*moves)[i].executing = true;
+							executing_combo = true;
+							printf("executing\n");
+
+						}
 						(*moves)[i].state = 0;
-						executing_combo = true;
-						printf("executing\n");
 					}
 				}
 			}
@@ -366,6 +388,11 @@ void PlayerController::commitMovement()
 	hitbox.y = location.y + knight->hitbox.y;
 }
 
+Knight *PlayerController::getKnight()
+{
+	return knight;
+}
+
 // NOTE(juha): Collects all the action methods into one
 // Changes the PlayerController STATE instead of it having many different bools
 void PlayerController::doAction(int action)
@@ -409,6 +436,8 @@ void PlayerController::jump()
 			velocity_y -= knight->getJump();
 			in_air = true;
 			jumping = true;
+			knight->jumping = true;
+			knight->landing = false;
 		}
 	} else {
 

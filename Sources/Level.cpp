@@ -18,7 +18,7 @@ Level::~Level()
 	delete levelTileSheet;
 }
 
-void Level::load(std::string level_name)
+void Level::load(std::string level_name, std::string new_tileset)
 {					 
 	result = levelDocument.load_file(level_name.c_str());
 
@@ -39,10 +39,8 @@ void Level::load(std::string level_name)
 	GameLayer		= levelDocument.child("map").find_child_by_attribute("name", "GameLayer").child("data");
 	PlatformLayer	= levelDocument.child("map").find_child_by_attribute("name", "PlatformLayer").child("data");
 	
-	//std::string tileSet = levelDocument.child("map").child("tileset").child("image").attribute("source").value();
-	std::string tileSet = "Graphics/Tilesets/tavern_tileset.png";
 	
-	levelTileSheet = new Sprite(window, tileSet, tileSize, tileSize);
+	levelTileSheet = new Sprite(window, new_tileset, tileSize, tileSize);
 
 	int iteratorCount = 0;
 	std::vector<int> levelRow;
@@ -161,20 +159,20 @@ void Level::collides(PlayerController *playerController)
 
 			SDL_Rect tile = {(x_tile * tileSize), (y_tile * tileSize),
 							tileSize, tileSize};
-
+			
             // Correct desired position if tile is collidable and it has intersection
             // width desired
 			if (SDL_HasIntersection(&tile, &sdl_desired) &&
 				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
 
-					if (tile.x > playerController->desired.x) {
-                        // Correct right
-						playerController->desired.x = tile.x - playerController->hitbox.w;
-					} else {
-                        // Correct left
-						playerController->desired.x = tile.x + tile.w;
-					}
-			}
+				if (tile.x > playerController->desired.x) {
+                    // Correct right
+					playerController->desired.x = tile.x - playerController->hitbox.w;
+				} else {
+                    // Correct left
+					playerController->desired.x = tile.x + tile.w;
+				}
+			} 
 		}
 	}
 
@@ -189,12 +187,12 @@ void Level::collides(PlayerController *playerController)
     // Hyvänä tai huonona puolena; jos on liian reunalla tileä (1/4 desiredin koosta), entiteetti luiskahtaa
     // tileltä alas. RIP.
 
-    if (getTile(playerController->desired.BottomLeft().x + (playerController->desired.w / 4), playerController->desired.BottomLeft().y) != 0) {
-        bot_collision_tile = pointToTile(playerController->desired.BottomLeft().x + (playerController->desired.w / 4), playerController->desired.BottomLeft().y);
+    if (getTile(playerController->desired.BottomLeft().x + (playerController->desired.w / 16), playerController->desired.BottomLeft().y) != 0) {
+        bot_collision_tile = pointToTile(playerController->desired.BottomLeft().x + (playerController->desired.w / 16), playerController->desired.BottomLeft().y);
     }
 
-    if (getTile(playerController->desired.BottomRight().x - (playerController->desired.w / 4), playerController->desired.BottomRight().y) != 0) {
-        bot_collision_tile = pointToTile(playerController->desired.BottomRight().x - (playerController->desired.w / 4), playerController->desired.BottomRight().y);
+    if (getTile(playerController->desired.BottomRight().x - (playerController->desired.w / 16), playerController->desired.BottomRight().y) != 0) {
+        bot_collision_tile = pointToTile(playerController->desired.BottomRight().x - (playerController->desired.w / 16), playerController->desired.BottomRight().y);
     }
 
     if (!SDL_RectEmpty(&bot_collision_tile)) {
@@ -203,6 +201,8 @@ void Level::collides(PlayerController *playerController)
         if (playerController->velocity_y >= 0) {
             playerController->velocity_y = 0;
             playerController->in_air = false;
+			
+			playerController->getKnight()->is_landed = true;
         }
     }
 

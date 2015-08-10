@@ -18,6 +18,9 @@ public:
 
 	std::vector<Knight *> selection;
 	int players;
+	std::string level_path;
+	std::string level_tileset;
+	int start_x, start_y;
 
 private:
 };

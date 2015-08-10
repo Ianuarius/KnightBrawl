@@ -8,6 +8,25 @@
 
 std::vector<SFX*> SFX::all;
 
+SFX::SFX():
+	sfx(nullptr),
+	channel(0)
+{
+	SFX::all.push_back(this);
+
+}
+
+void SFX::load(std::string filepath)
+{
+	this->sfx = Mix_LoadWAV(filepath.c_str());
+	if (!this->sfx)
+	{
+		printf("Mix_LoadWAV: Couldn't load SFX\nMixer error: %s\n", Mix_GetError());
+	}
+	else
+		printf("SFX::load '%s'\n", this->filepath.c_str());
+}
+
 SFX::SFX(std::string filepath):
 	sfx(nullptr),
 	filepath(filepath),

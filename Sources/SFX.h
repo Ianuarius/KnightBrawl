@@ -20,8 +20,9 @@ public:
 	/// Initializes pretty much everything.
 	/// Yeah, don't bother calling any of the functions below unless
 	/// you want to override the SFX filepath.
+	SFX();
 	SFX(std::string filepath);
-
+	void load(std::string filepath);
 	virtual ~SFX();
 
 	/// Plays the loaded SFX once (or `times`).
@@ -32,7 +33,8 @@ public:
 	/// @note If called multiple times, will wait for it to
 	///       finish before playing again.
 	///
-	bool play(int times=1);
+	int times;
+	bool play(int new_times=1);
 
 	/// Pauses this sound effect.
 	void pause();

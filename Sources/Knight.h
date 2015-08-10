@@ -17,6 +17,7 @@
 #include "ProjectileSpawner.h"
 #include "PugiXML.h"
 #include "Rectangle.h"
+#include "Sound.h"
 #include "SpecialCombo.h"
 #include "TrapEffect.h"
 #include "TrapSpawner.h"
@@ -33,9 +34,13 @@ public:
 	std::string getTruename();
 	int getHitpoints();
 	void damage(int amount);
+	void respawn();
 	Rectangle hitbox;
-	bool alive, hit;
+	bool alive, hit, jumping, landing, falling;
 	std::vector<SpecialCombo> *getMoves();
+	std::vector<Sound> *getSounds();
+	
+	bool is_landed, is_jumping;
 	
 	enum moves {
 		FORWARD,
@@ -83,6 +88,7 @@ public:
 
 private:
 	int parseKey(std::string key);
+	void parseSounds(pugi::xml_node *tmp_node);
 	void parseEffects(pugi::xml_node *tmp_node);
 	Animation *parseAction(pugi::xml_node *tmp_node);
 	void parseActions(pugi::xml_node *tmp_node);
@@ -98,6 +104,7 @@ private:
 	std::vector<std::vector<Rectangle> > attack_hitboxes;
 	std::vector<Projectile> projectiles;
 	std::vector<ProjectileSpawner> projectile_spawners;
+	std::vector<Sound> sounds;
 	std::vector<SpecialCombo> moves;
 	std::vector<SpecialCombo> special_combos;
 	std::vector<TrapEffect> trap_effects;

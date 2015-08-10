@@ -30,6 +30,7 @@ public:
 	Rectangle hitbox;
 	Animation *animation;
 	
+	bool disabled;
 	std::string name;
 	std::string combo_name;
 	int format;

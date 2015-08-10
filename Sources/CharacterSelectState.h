@@ -38,18 +38,25 @@ private:
 	Input *mainInput;
 	Window *window;
 	GameState *game;
-	int players, row_length, row_count;
-	bool start;
-	bool gameover;
+	int players, roster_row_length, roster_row_count;
+	bool start, gameover, character_select, level_select;
 	StateData *stateData;
+	std::string selected_level;
+	std::string selected_tileset;
+	SDL_Point selected_start;
 	std::vector<SDL_Point> positions;
 	std::vector<Text *> tags;
 	std::vector<Text *> tag_shadows;
 	std::vector<std::string> tag_texts;
+	std::vector<SDL_Point> start_points;
 	std::vector<std::vector<Knight *> > knights;
+	std::vector<std::string> level_paths;
+	std::vector<std::string> level_tilesets;
+	std::vector<Sprite *> level_sprites;
+	
 	std::vector<PlayerController *> playerControllers;
-	pugi::xml_parse_result knight_result, roster_result;
-	pugi::xml_document knight_document, roster_document;
+	pugi::xml_parse_result knight_result, roster_result, level_result;
+	pugi::xml_document knight_document, roster_document, level_document;
 };
 
 #endif // __CHARACTERSELECTSTATE_H_DEFINED__

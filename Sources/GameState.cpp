@@ -30,11 +30,10 @@ void GameState::load(StateData *data)
 	if (players <= 1) {
 		multiplayer = false;
 	}
-
-	SDL_Point start_point_1 = {36*16, 48*16};
-	SDL_Point start_point_2 = {46*16, 48*16};
-	SDL_Point start_point_3 = {56*16, 48*16};
-	SDL_Point start_point_4 = {66*16, 48*16};
+	SDL_Point start_point_1 = {(stateData->start_x + 0) * 16, stateData->start_y * 16};
+	SDL_Point start_point_2 = {(stateData->start_x + 6) * 16, stateData->start_y * 16};
+	SDL_Point start_point_3 = {(stateData->start_x + 12) * 16, stateData->start_y * 16};
+	SDL_Point start_point_4 = {(stateData->start_x + 18) * 16, stateData->start_y * 16};
 
 	for (int i = 0; i < players; i++) {
 		knights.push_back(stateData->selection[i]);
@@ -56,8 +55,9 @@ void GameState::load(StateData *data)
 	}
 	
 	level = new Level(window, camera);
-	level->load("Levels/tavern_small.tmx");
+	level->load(stateData->level_path, stateData->level_tileset);
 }
+
 stateStatus GameState::update()
 {
 	stateStatus status;
@@ -82,6 +82,7 @@ stateStatus GameState::update()
 	
 	for (int i = 0; i < players; i++) {
 		playerActors[i]->updateAnimation();
+		playerActors[i]->updateSound();
 	}
 	
 	SDL_Rect tmp_hb;

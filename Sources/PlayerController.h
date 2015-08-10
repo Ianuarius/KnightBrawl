@@ -17,6 +17,8 @@
 #define GRAVITY 13
 #define SPECIAL_MOVES 4
 
+#define RESPAWN_TIME 3000
+
 #define FACING_RIGHT 1
 #define FACING_LEFT 2
 
@@ -34,6 +36,7 @@ public:
 	void update();
 	void commitMovement();
 	void updateInput();
+	Knight *getKnight();
 	int menu_x, menu_y;
 	bool executing_combo;
 	std::vector<SpecialCombo> *moves;
@@ -63,9 +66,8 @@ private:
 
 	std::vector<int> combo_state;
 	// std::vector<std::vector<int> > *special_combos;
-	Timer specialOneTimer;
+	Timer deathTimer;
 	Input playerInput;
-
 	int moves_amount;
 	int key_action, key_down, key_jump, key_left, key_menu, key_right, key_up;
 	bool basic_attack;
