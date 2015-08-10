@@ -6,4 +6,14 @@
   <knight id="2" script="Scripts/rogueknight.xml" />
   <knight id="3" script="Scripts/lanternknight.xml" />
   <knight id="4" script="Scripts/dragonknight.xml" />
+  <knight id="5" script="Scripts/arcticknight.xml" />
+  <knight id="6" script="Scripts/bardknight.xml" />
+  <knight id="7" script="Scripts/deathknight.xml" />
+  <knight id="8" script="Scripts/doomknight.xml" />
+  <knight id="9" script="Scripts/ghostknight.xml" />
+  <knight id="10" script="Scripts/knightknight.xml" />
+  <knight id="11" script="Scripts/popeknight.xml" />
+  <knight id="12" script="Scripts/raptorknight.xml" />
+  <knight id="13" script="Scripts/samuraiknight.xml" />
+  <knight id="14" script="Scripts/stormknight.xml" />
 </roster>
