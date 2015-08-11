@@ -49,7 +49,7 @@
                   pushback - Sends targets flying in a direction the effect is fired at. Requires power="pixels per second"
                   buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration, count or pressed" time="seconds if duration (0 infinite), 0 if pressed or how many attacks(1, 2, 3...)" power="percentage" 
                   damagereturn - Returns the dealt damage back to attacker. Requires format="duration, pressed or count" time="seconds if duration (0 infinite) or how many attacks(1, 2, 3...)" power="percentage"
-                  movement - launches the player in a direction. Requires speed="pixels" range="pixel" angle="degree"
+                  movement - launches the player in a direction. Requires speed="pixels" range="pixel" angle="degree" (
                     
   ***** CONTROL *****
   <control type="insert type">
