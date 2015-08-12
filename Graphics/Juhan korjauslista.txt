@@ -1,0 +1,8 @@
+Fix:
+
+* attackia ja hyppy‰ ei voi pit‰‰ pohjassa
+* ei kuolinanimaatiota kun hahmo kuolee kent‰n ulkopuolella
+* hahmovalinnassa decalien keskitys
+* hahmojen nimet hahmovalintaan
+* hahmo- ja levelivalintaan n‰pp‰invihjeet
+* tauko ennen pisteruutua

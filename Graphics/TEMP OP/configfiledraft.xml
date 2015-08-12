@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<config>
+  <lives>3</lives>
+  <hitpoints>100</hitpoints>
+  
+  <speedmultiplier>1</speedmultiplier> 
+  <jumpmultiplier>1</jumpmultiplier>
+
+  <fallingdamage>0</fallingdamage> <!-- per pixels fallen -->
+  <fallingdamageheight>10</fallingdamageheight> <!-- distance in pixels after falling damage is taken-->
+  
+  <criticalhitchance>0</criticalhitchance> <!-- percentage -->
+  <liferegen>0</liferegen> <!-- hit points / s -->
+  <knightcollision>0</knightcollision> <!-- do knights collide with each other -->
+  
+  <hitboxmultiplier>1</hitboxmultiplier> <!-- int -->
+  <blocking>0</blocking> <!-- boolean -->
+
+  <damagemultiplier>1</damagemultiplier>
+  <randomdamage>0</randomdamage> <!-- boolean -->
+  <randomdamagerange>0</randomdamagerange> <!-- percentage -->
+
+  <projectilemultiplier>1</projectilemultiplier> <!-- number of projectiles created -->
+</config>
+
