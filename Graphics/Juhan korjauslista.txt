@@ -5,3 +5,4 @@ Fix:
 * hahmovalinnassa decalien keskitys
 * hahmojen nimet hahmovalintaan
 * hahmo- ja levelivalintaan näppäinvihjeet
+* tauko ennen pisteruutua
