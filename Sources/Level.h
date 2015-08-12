@@ -33,6 +33,8 @@ public:
 	void load(std::string level_name, std::string new_tileset);
 	void render(int layer);
 	int getTile(int x, int y);
+	int getWidth();
+	int getHeight();
 	void collides(PlayerController *playerController);
 	SDL_Point start_position;
 	SDL_Rect pointToTile(int x, int y);

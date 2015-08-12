@@ -309,3 +309,13 @@ void Level::render(int layer)
 	}
 	*/
 }
+
+int Level::getWidth()
+{
+	return levelWidth * tileSize;
+}
+
+int Level::getHeight()
+{
+	return levelHeight * tileSize;
+}

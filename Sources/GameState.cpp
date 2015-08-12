@@ -11,9 +11,8 @@ GameState::GameState(Window *window, Input *mainInput):
 	camera(nullptr),
 	level(nullptr),
 	font(new Font("ChicagoFLF.ttf", 10)),
-	playername1(new Text(font, Color("white"))),
-	playername2(new Text(font, Color("white"))),
-	stateData(nullptr)
+	stateData(nullptr),
+	coin(window, "Graphics/GUI/coin2.png")
 {
 	timer.start();
 
@@ -24,6 +23,10 @@ void GameState::load(StateData *data)
 	stateData = data;
 	
 	players = stateData->players;
+
+	for (int i = 0; i < players; i++) {
+		playernames.push_back(new Text(font, Color("white")));
+	}
 
 	bool multiplayer = true;
 
@@ -64,6 +67,22 @@ stateStatus GameState::update()
 	status.status = STATE_CONTINUE;
 	status.prepend = false;
 	
+	int alive_knights = 0;
+
+	for (int i = 0; i < players; i++) {
+		if (knights[i]->getLives() > 0) {
+			alive_knights++;
+		}
+	}
+
+	if (alive_knights <= 1) {
+		status.status = STATE_VICTORY;
+
+		for (int i = 0; i < players; i++) {
+
+		}
+	}
+
 	if (mainInput->keyState(SDL_SCANCODE_ESCAPE)) {
 		status.status = STATE_QUIT;
 	}
@@ -97,9 +116,16 @@ stateStatus GameState::update()
 				tmp_hb = playerControllers[j]->hitbox;
 
 				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
-					knights[i]->hit == false) {
-					knights[j]->damage(15);
+					knights[i]->hit == false &&
+					knights[j]->alive == true) {
+					knights[j]->damage(50);
 					knights[i]->hit = true;
+					knights[i]->powerup();
+
+					if (knights[j]->getHitpoints() <= 0 &&
+						knights[j]->alive == true) {
+						stateData->player_kills[i]++;
+					}
 				}
 			}
 		}
@@ -107,7 +133,18 @@ stateStatus GameState::update()
 	
 	for (int i = 0; i < players; i++) {
 		if (knights[i]->getHitpoints() <= 0) {
-			knights[i]->alive = false;
+			knights[i]->kill();
+		}
+	}
+	
+	for (int i = 0; i < players; i++) {
+		if (playerControllers[i]->boundbox.x < 0 ||
+			playerControllers[i]->boundbox.x > level->getWidth() ||
+			playerControllers[i]->boundbox.y > level->getHeight()) {
+			knights[i]->kill();
+			playerControllers[i]->desired.x = startPoints[i].x;
+			playerControllers[i]->desired.y = startPoints[i].y;
+			playerControllers[i]->commitMovement();
 		}
 	}
 	
@@ -145,38 +182,81 @@ void GameState::render()
 	}
 	
 	bool draw_healthbars = true;
+	int middle_region = (camera->getFrame().w - ((104 + 8) * 2));
+	int middle_padding = (middle_region - (104 + 8) * 2) / 3;
+
+	std::vector<int> left_margins;
+
+	switch (players)
+	{
+	case 1:
+		left_margins.push_back(8);
+
+	case 2:
+		left_margins.push_back(8);
+		left_margins.push_back(camera->getFrame().w - 104 - 8);
+
+	case 3:
+		left_margins.push_back(8);
+		left_margins.push_back(camera->getFrame().w / 2 - 104 / 2);
+		left_margins.push_back(camera->getFrame().w - 104 - 8);
+		
+	case 4:
+		left_margins.push_back(8);
+		left_margins.push_back((104 + 8) + middle_padding);
+		left_margins.push_back(((104 + 8) + middle_padding) * 2);
+		left_margins.push_back(camera->getFrame().w - 104 - 8);
+
+	default:
+		break;
+	}
+
+	int top_margin = 12;
 	
 	if (draw_healthbars) {
-		window->drawRect(8,
-						 12,
-						 104,
-						 10,
-						 Color("black"));
-		
-		window->drawRect(10,
-						 14,
-						 knights[0]->getHitpoints(),
-						 6,
-						 Color("red"));
 
-		window->drawRect(camera->getFrame().w - 104 - 8,
-						 12,
-						 104,
-						 10,
-						 Color("black"));
+		for (int i = 0; i < players; i++) {
+			window->drawRect(left_margins[i],
+							 top_margin,
+							 104,
+							 10,
+							 Color("black"));
 		
-		window->drawRect(camera->getFrame().w - 104 - 6,
-						 14,
-						 knights[1]->getHitpoints(),
-						 6,
-						 Color("red"));
+			window->drawRect(left_margins[i] + 2,
+							 top_margin + 2,
+							 knights[i]->getHitpoints(),
+							 6,
+							 Color("red"));
+			
+			window->drawRect(left_margins[i],
+							 top_margin + 8,
+							 104,
+							 6,
+							 Color("black"));
+		
+			window->drawRect(left_margins[i] + 2,
+							 top_margin + 10,
+							 knights[i]->getSpecialPower(),
+							 2,
+							 Color(0xAABB77));
 
-		playername1->print(window, knights[0]->getTruename(), 12, 2);
-		playername2->print(window, knights[1]->getTruename(), camera->getFrame().w - 104 - 2, 2);
+			// top margin 12, 10, 6
+
+			for (int j = 0; j < knights[i]->getLives(); j++) {
+				coin.render(left_margins[i] + 2 + (j * 9),
+							top_margin + 16);
+			}
+
+			playernames[i]->print(window, knights[i]->getTruename(), left_margins[i] + 4, top_margin - 12);
+		}
 	}
 }
 
 StateData *GameState::getStateData()
-{
-	return nullptr;
+{	
+	for (int i = 0; i < players; i++) {
+		stateData->player_deaths[i] = knights[i]->getDeaths();
+	}
+	
+	return stateData;
 }

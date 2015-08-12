@@ -11,4 +11,6 @@ StateData::StateData():
 	level_tileset(""),
 	start_x(0), start_y(0)
 {
+	player_deaths.resize(4);
+	player_kills.resize(4);
 }

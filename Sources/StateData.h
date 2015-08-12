@@ -21,6 +21,9 @@ public:
 	std::string level_path;
 	std::string level_tileset;
 	int start_x, start_y;
+	std::vector<int> player_kills;
+	std::vector<int> player_deaths;
+	int lives;
 
 private:
 };

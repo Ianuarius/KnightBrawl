@@ -113,23 +113,25 @@ void PlayerController::parseMappedValues()
 
 void PlayerController::update()
 {
-	// NOTE(juha): Gravitational stuff
-	velocity_y += GRAVITY * (16.f / 1000);
-	desired.y += (int)velocity_y;
-	crouching = false;
+	if (!in_menu) {
+		// NOTE(juha): Gravitational stuff
+		velocity_y += GRAVITY * (16.f / 1000);
+		desired.y += (int)velocity_y;
+		crouching = false;
 	
-	if (velocity_y >= 3) {
-		in_air = true;
-		knight->falling = true;
-		knight->is_landed = false;
-	}
+		if (velocity_y >= 3) {
+			in_air = true;
+			knight->falling = true;
+			knight->is_landed = false;
+		}
 	
-	if (velocity_y >= 7) {
-		velocity_y = 7;
-	}
+		if (velocity_y >= 7) {
+			velocity_y = 7;
+		}
 	
-	if (!in_air) {
-		jumping = false;
+		if (!in_air) {
+			jumping = false;
+		}
 	}
 
 	// NOTE(juha): Reading the inputs for single player and multiplayer.

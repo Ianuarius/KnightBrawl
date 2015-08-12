@@ -26,13 +26,18 @@
 class Knight
 {
 public:
-	Knight(Window *window, int knight_number);
+	Knight(Window *window, int knight_number, int lives_total);
 	Animation *getAnimations(int animation);
 	float getSpeed();
 	float getJump();
+	int getLives();
+	int getDeaths();
+	void kill();
 	Sprite *getDecal();
 	std::string getTruename();
 	int getHitpoints();
+	int getSpecialPower();
+	void powerup();
 	void damage(int amount);
 	void respawn();
 	Rectangle hitbox;
@@ -101,6 +106,8 @@ private:
 	float speed;
 	float jump;
 	int hitpoints;
+	int specialpower;
+	int lives, deaths;
 	std::vector<std::vector<Rectangle> > attack_hitboxes;
 	std::vector<Projectile> projectiles;
 	std::vector<ProjectileSpawner> projectile_spawners;

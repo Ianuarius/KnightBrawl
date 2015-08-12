@@ -16,6 +16,10 @@
 #include "Text.h"
 #include "Texture.h"
 
+#define START		0
+#define OPTIONS		1
+#define QUIT		2
+
 class MenuState: public BaseState 
 {
 public:
@@ -26,12 +30,20 @@ public:
 	StateData *getStateData();
 
 private:
+	Font *font;
+	Text *version;
+	std::string version_number;
 	Texture menu;
+	Texture splash_texture;
+	Animation boxing_selector_idle;
+	Animation boxing_selector_hit;
 	Input *mainInput;
 	Window *window;
 	GameState *game;
+	int state;
 	bool start;
 	bool gameover;
+	bool splash;
 };
 
 #endif // __MENUSTATE_H_DEFINED__

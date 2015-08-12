@@ -5,15 +5,54 @@
 
 #include "VictoryState.h"
 
-VictoryState::VictoryState(Window *window):
+VictoryState::VictoryState(Window *window, Input *mainInput):
 	window(window),
-	victory(window, "victory_ph.png")
+	mainInput(mainInput),
+	title(new Font("ChicagoFLF.ttf", 24)),
+	values(new Font("ChicagoFLF.ttf", 16)),
+	knight_wins(new Text(title, Color(0x48B748))),
+	kills_text(new Text(values, Color(0xDEDEA6))),
+	deaths_text(new Text(values, Color(0xDEDEA6)))
 {	
 	timer.start();
+	player_rank.resize(4);
 }
 
 VictoryState::~VictoryState() 
 {
+}
+
+void VictoryState::load(StateData *data)
+{
+	stateData = data;
+	
+	for (int i = 0; i < stateData->players; i++) {
+
+		for (int j = 0; j < stateData->players; j++) {
+			if (i != j) {
+				if (stateData->player_kills[i] < stateData->player_kills[j]) {
+					player_rank[i]++;
+				} else if (stateData->player_kills[i] == stateData->player_kills[j] &&
+					stateData->player_deaths[i] > stateData->player_deaths[j]) {
+					player_rank[i]++;
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < stateData->players; i++) {
+
+		if (stateData->player_deaths[i] < stateData->lives) {
+			names.push_back(new Text(values, Color(0x48B748)));
+			kills.push_back(new Text(values, Color(0x48B748)));
+			deaths.push_back(new Text(values, Color(0x48B748)));
+			winner = i;
+		} else {
+			names.push_back(new Text(values, Color(0xB60D0D)));
+			kills.push_back(new Text(values, Color(0xB60D0D)));
+			deaths.push_back(new Text(values, Color(0xB60D0D)));
+		}
+	}
 }
 
 stateStatus VictoryState::update()
@@ -22,7 +61,7 @@ stateStatus VictoryState::update()
 	status.status = STATE_CONTINUE;
 	status.prepend = false;
 	
-	if (timer.getTicks() >= SLIDE_TIME) {
+	if (mainInput->keyPressed(SDL_SCANCODE_RETURN) || mainInput->keyPressed(SDL_SCANCODE_ESCAPE))	{
 		status.status = STATE_MENU;
 		return status;
 	}
@@ -32,6 +71,20 @@ stateStatus VictoryState::update()
 
 void VictoryState::render() 
 {
-	victory.render(0,0);
-	//backgrounds[slide_index]->render(0, 0);
+	knight_wins->print(window,		stateData->selection[winner]->getTruename() + " Wins!",		135, 70);
+	kills_text->print(window,		"Kills",			175, 120);
+	deaths_text->print(window,		"Deaths",			280, 120);
+
+	for (int i = 0; i < stateData->players; i++) {
+		names[player_rank[i]]->print(window, stateData->selection[player_rank[i]]->getTruename(), 70, 135 + (15 * player_rank[i]));
+		kills[player_rank[i]]->print(window, to_string(stateData->player_kills[player_rank[i]]), 190, 135 + (15 * player_rank[i]));
+		deaths[player_rank[i]]->print(window, to_string(stateData->player_deaths[player_rank[i]]), 305, 135 + (15 * player_rank[i]));
+	}
+
+}
+
+
+StateData *VictoryState::getStateData()
+{
+	return nullptr;
 }

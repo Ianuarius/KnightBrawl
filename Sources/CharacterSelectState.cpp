@@ -16,7 +16,8 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	bool multiplayer = true;
 	character_select = true;
 	level_select = false;
-	players = 2;
+	players = 4;
+	lives_total = 1;
 	stateData->players = players;
 	stateData->selection.reserve(players);
 	for (int i = 0; i < players; i++) {
@@ -71,7 +72,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	{
 		roster_col_count++;
 		roster_tmp_row.push_back(new Knight(window, 
-			atoi(iterator->attribute("id").value())));
+			atoi(iterator->attribute("id").value()), lives_total));
 
 		if (roster_col_count >= roster_row_length) {
 			knights.push_back(roster_tmp_row);
@@ -318,6 +319,7 @@ void CharacterSelectState::render()
 
 StateData *CharacterSelectState::getStateData()
 {
+	stateData->lives = lives_total;
 	stateData->level_path.assign(selected_level);
 	stateData->level_tileset.assign(selected_tileset);
 	stateData->start_x = selected_start.x;

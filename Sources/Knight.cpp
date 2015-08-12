@@ -5,10 +5,13 @@
 
 #include "Knight.h"
 
-Knight::Knight(Window *window, int knight_number):
+Knight::Knight(Window *window, int knight_number, int lives_total):
 	window(window),
 	hitbox(0, 0, 0, 0),
-	decal(nullptr)
+	decal(nullptr),
+	lives(lives_total),
+	deaths(0),
+	specialpower(0)
 {
 	roster_result = roster_document.load_file("Scripts/roster.xml");
 	attack_hitboxes.reserve(8);
@@ -460,6 +463,7 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 			tmp_combo.disabled = true;
 			moves[DOWN_THRUST] = tmp_combo;
 		} else if (tmp_combo.name.compare("special1") == 0) {
+			tmp_combo.disabled = true;
 			moves[SPECIAL_I] = tmp_combo;
 		} else if (tmp_combo.name.compare("special2") == 0) {
 			tmp_combo.disabled = true;
@@ -474,6 +478,7 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 			tmp_combo.disabled = true;
 			moves[THROW] = tmp_combo;
 		} else if (tmp_combo.name.compare("uppercut") == 0) {
+			tmp_combo.disabled = true;
 			moves[UPPERCUT] = tmp_combo;
 		} else if (tmp_combo.name.compare("block") == 0) {
 			tmp_combo.disabled = true;
@@ -481,7 +486,6 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 		} else if (tmp_combo.name.compare("crouch") == 0) {
 			moves[CROUCH] = tmp_combo;
 		} else if (tmp_combo.name.compare("death") == 0) {
-			tmp_combo.disabled = true;
 			moves[DEATH] = tmp_combo;
 		} else if (tmp_combo.name.compare("dodge") == 0) {
 			tmp_combo.disabled = true;
@@ -519,9 +523,11 @@ int Knight::getHitpoints()
 
 void Knight::respawn()
 {
-	alive = true;
-	hitpoints = 100;
-	moves[DEATH].animation->times_played = 0;
+	if (lives > 0) {
+		alive = true;
+		hitpoints = 100;
+		moves[DEATH].animation->times_played = 0;
+	}
 }
 
 Sprite *Knight::getDecal()
@@ -570,5 +576,39 @@ int Knight::parseKey(std::string key)
 		return JUMP;
 	} else {
 		return ACTION;
+	}
+}
+
+int Knight::getLives()
+{
+	return lives;
+}
+
+int Knight::getDeaths()
+{
+	return deaths;
+}
+
+void Knight::kill()
+{
+	if (alive) {
+		hitpoints = 0;
+		lives--;
+		alive = false;
+		deaths++;
+	}
+}
+
+int Knight::getSpecialPower()
+{
+	return specialpower;
+}
+
+void Knight::powerup()
+{
+	specialpower += 10;
+	
+	if (specialpower > 100) {
+		specialpower = 100;
 	}
 }

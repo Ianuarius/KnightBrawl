@@ -60,7 +60,13 @@ void StateManager::run()
 				pushState(new CharacterSelectState(window, mainInput));
 				new_state = true;
 				break;
-
+				
+			case STATE_VICTORY:
+				stateData = currentState->getStateData();
+				pushState(new VictoryState(window, mainInput));
+				new_state = true;
+				break;
+				
 			case STATE_QUIT:
 				love = false;
 				break;
