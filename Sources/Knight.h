@@ -32,7 +32,7 @@ public:
 	float getJump();
 	int getLives();
 	int getDeaths();
-	void kill();
+	void die();
 	Sprite *getDecal();
 	std::string getTruename();
 	int getHitpoints();
@@ -43,6 +43,7 @@ public:
 	Rectangle hitbox;
 	bool alive, hit, jumping, landing, falling;
 	std::vector<SpecialCombo> *getMoves();
+	std::vector<Projectile> *getProjectiles();
 	std::vector<Sound> *getSounds();
 	
 	bool is_landed, is_jumping;
@@ -110,7 +111,6 @@ private:
 	int lives, deaths;
 	std::vector<std::vector<Rectangle> > attack_hitboxes;
 	std::vector<Projectile> projectiles;
-	std::vector<ProjectileSpawner> projectile_spawners;
 	std::vector<Sound> sounds;
 	std::vector<SpecialCombo> moves;
 	std::vector<SpecialCombo> special_combos;

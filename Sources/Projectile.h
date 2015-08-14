@@ -27,18 +27,22 @@ public:
 
 	Projectile();
 	void defineAnimation(Animation *new_animation);
+	void update();
 	
 	Rectangle hitbox;
+	SDL_Point location;
 	Animation *animation;
 
 	std::string name;
 	int type;
+	int angle;
 	int range;
 	int power;
 	int speed;
 	int collision_type;
 	bool collision_destruct;
-	bool executing;
+	bool executing, hit;
+	int player;
 	int state;
 
 

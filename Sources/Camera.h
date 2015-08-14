@@ -15,7 +15,7 @@ class Camera
 {
 
 public:
-	Camera(int width, int height, std::vector<PlayerController *> *playerControllers);
+	Camera(int width, int height, std::vector<PlayerController *> *playerControllers, int players);
 	void update();
 	int getState();
 	SDL_Rect getFrame();
@@ -28,6 +28,7 @@ private:
 	enum Direction {RIGHT, LEFT};
 	SDL_Rect frame;
 	int camera_state;
+	int players;
 	int lerp(int a, int b);
 };
 

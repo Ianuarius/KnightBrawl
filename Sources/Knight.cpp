@@ -438,7 +438,7 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 				tmp_projectile_spawner.delay = atoi(action_it->child("projectilespawner").attribute("delay").value());
 				tmp_projectile_spawner.delay_interval = atoi(action_it->child("projectilespawner").attribute("delayinterval").value());
 				
-				projectile_spawners.push_back(tmp_projectile_spawner);
+				tmp_combo.projectile_spawners.push_back(tmp_projectile_spawner);
 			}
 			
 			if (tmp_string.compare("trapspawner") == 0) {
@@ -463,7 +463,7 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 			tmp_combo.disabled = true;
 			moves[DOWN_THRUST] = tmp_combo;
 		} else if (tmp_combo.name.compare("special1") == 0) {
-			tmp_combo.disabled = true;
+			tmp_combo.disabled = false;
 			moves[SPECIAL_I] = tmp_combo;
 		} else if (tmp_combo.name.compare("special2") == 0) {
 			tmp_combo.disabled = true;
@@ -544,6 +544,11 @@ std::vector<SpecialCombo> *Knight::getMoves()
 	return &moves;
 }
 
+std::vector<Projectile> *Knight::getProjectiles()
+{
+	return &projectiles;
+}
+
 std::vector<Sound> *Knight::getSounds()
 {
 	return &sounds;
@@ -559,7 +564,6 @@ void Knight::damage(int amount) {
 	if (hitpoints < 0) {
 		hitpoints = 0;
 	}
-
 }
 
 int Knight::parseKey(std::string key)
@@ -589,7 +593,7 @@ int Knight::getDeaths()
 	return deaths;
 }
 
-void Knight::kill()
+void Knight::die()
 {
 	if (alive) {
 		hitpoints = 0;

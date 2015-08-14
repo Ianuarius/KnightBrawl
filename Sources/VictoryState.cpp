@@ -29,6 +29,7 @@ void VictoryState::load(StateData *data)
 	for (int i = 0; i < stateData->players; i++) {
 
 		for (int j = 0; j < stateData->players; j++) {
+
 			if (i != j) {
 				if (stateData->player_kills[i] < stateData->player_kills[j]) {
 					player_rank[i]++;
@@ -39,6 +40,36 @@ void VictoryState::load(StateData *data)
 			}
 		}
 	}
+	
+
+	// NOTE(juha): Sorting functionality.
+	for (int i = 0; i < stateData->players; i++) {
+		bool not_ok = false;
+
+		for (int j = 0; j < stateData->players; j++) {
+			if (player_rank[j] == i) {
+				not_ok = false;
+				break;
+			} else {
+				not_ok = true;
+			}
+		}
+
+		if (not_ok) {
+			int counter = 0;
+			for (int j = 0; j < stateData->players; j++) {
+				if (player_rank[j] == i - 1) {
+					if (counter > 0) {
+						player_rank[j]++;
+					} else {
+						counter++;
+					}
+				}
+			}
+		}
+	}
+
+	winner = 9999;
 
 	for (int i = 0; i < stateData->players; i++) {
 
@@ -61,7 +92,8 @@ stateStatus VictoryState::update()
 	status.status = STATE_CONTINUE;
 	status.prepend = false;
 	
-	if (mainInput->keyPressed(SDL_SCANCODE_RETURN) || mainInput->keyPressed(SDL_SCANCODE_ESCAPE))	{
+	if (mainInput->keyPressed(SDL_SCANCODE_RETURN) || 
+		mainInput->keyPressed(SDL_SCANCODE_ESCAPE))	{
 		status.status = STATE_MENU;
 		return status;
 	}
@@ -71,18 +103,38 @@ stateStatus VictoryState::update()
 
 void VictoryState::render() 
 {
-	knight_wins->print(window,		stateData->selection[winner]->getTruename() + " Wins!",		135, 70);
-	kills_text->print(window,		"Kills",			175, 120);
-	deaths_text->print(window,		"Deaths",			280, 120);
-
-	for (int i = 0; i < stateData->players; i++) {
-		names[player_rank[i]]->print(window, stateData->selection[player_rank[i]]->getTruename(), 70, 135 + (15 * player_rank[i]));
-		kills[player_rank[i]]->print(window, to_string(stateData->player_kills[player_rank[i]]), 190, 135 + (15 * player_rank[i]));
-		deaths[player_rank[i]]->print(window, to_string(stateData->player_deaths[player_rank[i]]), 305, 135 + (15 * player_rank[i]));
+	if (winner == 9999) {
+		knight_wins->print(window, "It's a TIE!", 135, 70);
+	} else {
+		knight_wins->print(window, 
+			stateData->selection[winner]->getTruename() + " Wins!", 135, 70);
 	}
 
-}
 
+
+	kills_text->print(window, "Kills", 175, 120);
+	deaths_text->print(window, "Deaths", 280, 120);
+
+	for (int i = 0; i < stateData->players; i++) {
+		
+		for (int j = 0; j < stateData->players; j++) {
+
+			if (player_rank[j] == i) {
+				names[j]->print(window, 
+					stateData->selection[j]->getTruename(), 
+					70, 135 + (15 * i));
+
+				kills[j]->print(window, 
+					to_string(stateData->player_kills[j]), 
+					190, 135 + (15 * i));
+
+				deaths[j]->print(window, 
+					to_string(stateData->player_deaths[j]), 
+					305, 135 + (15 * i));
+			}
+		}
+	}
+}
 
 StateData *VictoryState::getStateData()
 {

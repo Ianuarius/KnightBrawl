@@ -7,7 +7,7 @@
 
 Projectile::Projectile():
 	Entity(),
-	executing(false),
+	executing(false), hit(false),
 	state(0),
 	hitbox(0, 0, 0, 0)
 {
@@ -17,4 +17,11 @@ Projectile::Projectile():
 void Projectile::defineAnimation(Animation *new_animation)
 {
 	animation = new_animation;
+}
+
+void Projectile::update()
+{
+	location.x += speed;
+	hitbox.x = location.x;
+	hitbox.y = location.y;
 }

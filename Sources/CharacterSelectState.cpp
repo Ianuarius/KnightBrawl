@@ -16,7 +16,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	bool multiplayer = true;
 	character_select = true;
 	level_select = false;
-	players = 4;
+	players = 2;
 	lives_total = 1;
 	stateData->players = players;
 	stateData->selection.reserve(players);

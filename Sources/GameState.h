@@ -48,9 +48,12 @@ private:
 	Timer timer;
 	Input *mainInput;
 	StateData *stateData;
+
+	void executeMoves(int knight, int move);
 	
 	int players;
 	std::vector<Knight *> knights;
+	std::vector<Projectile> projectiles;
 	std::vector<PlayerActor *> playerActors;
 	std::vector<PlayerController *> playerControllers;
 	std::vector<SDL_Point> startPoints;

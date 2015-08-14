@@ -211,8 +211,8 @@ void PlayerController::update()
 	
 	
 	if (!in_menu) {
-		// NOTE(juha): Goes through all the special combos.
-		
+
+		// NOTE(juha): respawn timer
 		if (knight->alive == false) {
 			if (deathTimer.isStarted() == false) {
 				deathTimer.start();
@@ -223,14 +223,14 @@ void PlayerController::update()
 			}
 		}
 
+		// NOTE(juha): Goes through all the special combos.
 		for (int i = 0; i < moves_amount; ++i) {
 			(*moves)[i].tmp_input = tmp_input;
 			
 			bool continue_execution = false;
 			if ((*moves)[i].keys.size() > 0) {
 				
-				if ((*moves)[i].keys.size() > 1)
-				{
+				if ((*moves)[i].keys.size() > 1) {
 					// NOTE(juha): If the player just turned, then the first
 					// key can be counted as forward instead of backward.
 					if ((*moves)[i].keys[0].keycode == knight->FORWARD &&
@@ -311,8 +311,6 @@ void PlayerController::update()
 					if (continue_execution == false) {
 						(*moves)[i].state = 0;
 					}
-
-					// TODO(juha): executed also with a simple attack
 
 					if ((*moves)[i].keys.size() == (*moves)[i].state &&
 						continue_execution == true) {

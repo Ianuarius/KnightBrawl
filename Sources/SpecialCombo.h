@@ -13,6 +13,7 @@
 #include "Effect.h"
 #include "Entity.h"
 #include "Key.h"
+#include "ProjectileSpawner.h"
 #include "Rectangle.h"
 
 class SpecialCombo : public Entity
@@ -26,6 +27,7 @@ public:
 	
 	SpecialCombo();
 	void defineAnimation(Animation *new_animation);
+	void execute();
 	
 	Rectangle hitbox;
 	Animation *animation;
@@ -35,12 +37,13 @@ public:
 	std::string combo_name;
 	int format;
 	int damage;
-	bool executing;
+	bool executing, start_execution;
 	int state;
 	std::vector<Key> keys;
 	std::vector<Effect> effects;
 	std::vector<AreaEffect> area_effects;
 	std::vector<BuffEffect> buff_effects;
+	std::vector<ProjectileSpawner> projectile_spawners;
 	int tmp_input;
 
 private:

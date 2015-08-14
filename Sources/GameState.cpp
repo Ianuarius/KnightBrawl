@@ -51,7 +51,7 @@ void GameState::load(StateData *data)
 		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i, knights[i]));
 	}
 	
-	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerControllers);
+	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerControllers, players);
 
 	for (int i = 0; i < players; i++) {
 		playerActors.push_back(new PlayerActor(window, camera, playerControllers[i], knights[i]));
@@ -104,27 +104,70 @@ stateStatus GameState::update()
 		playerActors[i]->updateSound();
 	}
 	
+	for (int i = 0; i < players; i++) {
+		for (int j = 0; j < knights[i]->getMoves()->size(); j++) {
+			executeMoves(i, j);
+		}
+	}
+
+	for (int i = 0; i < projectiles.size(); i++) {
+		projectiles[i].update();
+	}
+
 	SDL_Rect tmp_hb;
 	SDL_Rect wep_hb;
 	
-	for (int i = 0; i < players; i++) {
-		wep_hb = playerControllers[i]->attack_hb;
+	for (int attacking_knight = 0; 
+		attacking_knight < players; 
+		attacking_knight++) {
+		wep_hb = playerControllers[attacking_knight]->attack_hb;
 		
-		for (int j = 0; j < players; j++) {
+		for (int receiving_knight = 0; 
+			receiving_knight < players; 
+			receiving_knight++) {
 
-			if (i != j) {
-				tmp_hb = playerControllers[j]->hitbox;
+			if (attacking_knight != receiving_knight) {
+				tmp_hb = playerControllers[receiving_knight]->hitbox;
 
 				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
-					knights[i]->hit == false &&
-					knights[j]->alive == true) {
-					knights[j]->damage(50);
-					knights[i]->hit = true;
-					knights[i]->powerup();
+					knights[attacking_knight]->hit == false &&
+					knights[receiving_knight]->alive == true) {
+					knights[receiving_knight]->damage(50);
+					knights[attacking_knight]->hit = true;
+					knights[attacking_knight]->powerup();
 
-					if (knights[j]->getHitpoints() <= 0 &&
-						knights[j]->alive == true) {
-						stateData->player_kills[i]++;
+					if (knights[receiving_knight]->getHitpoints() <= 0 &&
+						knights[receiving_knight]->alive == true) {
+						stateData->player_kills[attacking_knight]++;
+						knights[receiving_knight]->die();
+					}
+				}
+			}
+		}
+	}
+	
+	for (int a_projectile = 0; 
+		a_projectile < projectiles.size(); 
+		a_projectile++) {
+		wep_hb = projectiles[a_projectile].hitbox;
+		
+		for (int receiving_knight = 0; 
+			receiving_knight < players; 
+			receiving_knight++) {
+
+			if (projectiles[a_projectile].player != receiving_knight) {
+				tmp_hb = playerControllers[receiving_knight]->hitbox;
+
+				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
+					projectiles[a_projectile].hit == false &&
+					knights[receiving_knight]->alive == true) {
+					knights[receiving_knight]->damage(50);
+					projectiles[a_projectile].hit = true;
+
+					if (knights[receiving_knight]->getHitpoints() <= 0 &&
+						knights[receiving_knight]->alive == true) {
+						stateData->player_kills[a_projectile]++;
+						knights[receiving_knight]->die();
 					}
 				}
 			}
@@ -132,16 +175,10 @@ stateStatus GameState::update()
 	}
 	
 	for (int i = 0; i < players; i++) {
-		if (knights[i]->getHitpoints() <= 0) {
-			knights[i]->kill();
-		}
-	}
-	
-	for (int i = 0; i < players; i++) {
 		if (playerControllers[i]->boundbox.x < 0 ||
 			playerControllers[i]->boundbox.x > level->getWidth() ||
 			playerControllers[i]->boundbox.y > level->getHeight()) {
-			knights[i]->kill();
+			knights[i]->die();
 			playerControllers[i]->desired.x = startPoints[i].x;
 			playerControllers[i]->desired.y = startPoints[i].y;
 			playerControllers[i]->commitMovement();
@@ -167,6 +204,32 @@ stateStatus GameState::update()
 	return status;
 }
 
+void GameState::executeMoves(int knight, int move)
+{
+	if (knights[knight]->getMoves()->at(move).executing) {
+
+		if (knights[knight]->getMoves()->at(move).start_execution == false) {
+
+			knights[knight]->getMoves()->at(move).start_execution = true;
+
+			// NOTE(juha): go through the projectile spawners
+			if (knights[knight]->getMoves()->at(move).projectile_spawners.size() > 0) {
+				Projectile tmp_projectile = knights[knight]->getProjectiles()->at(0);
+				tmp_projectile.location.x = playerControllers[knight]->location.x;
+				tmp_projectile.location.y = playerControllers[knight]->location.y -13;
+				tmp_projectile.player = knight;
+				tmp_projectile.animation->play(INFINITE_LOOP);
+				projectiles.push_back(tmp_projectile);
+			}
+		}
+	}
+
+	if (knights[knight]->getMoves()->at(move).executing == false &&
+		knights[knight]->getMoves()->at(move).start_execution == true) {
+		knights[knight]->getMoves()->at(move).start_execution = false;
+	}
+}
+
 void GameState::render()
 {
 	level->render(BG2_LAYER);
@@ -181,6 +244,13 @@ void GameState::render()
 		playerActors[i]->render();
 	}
 	
+	if (projectiles.size() > 0) {
+		for (int i = 0; i < projectiles.size(); i++) {
+			projectiles[i].animation->render(projectiles[i].location.x - camera->getFrame().x,
+											 projectiles[i].location.y - camera->getFrame().y);
+		}
+	}
+
 	bool draw_healthbars = true;
 	int middle_region = (camera->getFrame().w - ((104 + 8) * 2));
 	int middle_padding = (middle_region - (104 + 8) * 2) / 3;
