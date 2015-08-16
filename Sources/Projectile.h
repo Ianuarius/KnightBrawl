@@ -7,6 +7,7 @@
 #define __PROJECTILE_H_DEFINED__
 
 #include <vector>
+#include <math.h>
 #include "Entity.h"
 #include "Rectangle.h"
 
@@ -27,7 +28,7 @@ public:
 
 	Projectile();
 	void defineAnimation(Animation *new_animation);
-	void update();
+	void update(int direction);
 	
 	Rectangle hitbox;
 	SDL_Point location;

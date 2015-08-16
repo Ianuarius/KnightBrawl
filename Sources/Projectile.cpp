@@ -19,9 +19,19 @@ void Projectile::defineAnimation(Animation *new_animation)
 	animation = new_animation;
 }
 
-void Projectile::update()
+void Projectile::update(int direction)
 {
-	location.x += speed;
+	double new_x = speed * cos(angle);
+	double new_y = speed * sin(angle);
+	
+	if (direction == 1) {
+		location.x += new_x;
+	} else {
+		location.x -= new_x;
+	}
+
+	location.y += new_y;
+
 	hitbox.x = location.x;
 	hitbox.y = location.y;
 }

@@ -111,7 +111,7 @@ stateStatus GameState::update()
 	}
 
 	for (int i = 0; i < projectiles.size(); i++) {
-		projectiles[i].update();
+		projectiles[i].update(playerControllers[projectiles[i].player]->getDirection());
 	}
 
 	SDL_Rect tmp_hb;
@@ -217,6 +217,7 @@ void GameState::executeMoves(int knight, int move)
 				Projectile tmp_projectile = knights[knight]->getProjectiles()->at(0);
 				tmp_projectile.location.x = playerControllers[knight]->location.x;
 				tmp_projectile.location.y = playerControllers[knight]->location.y -13;
+				tmp_projectile.angle = 50;
 				tmp_projectile.player = knight;
 				tmp_projectile.animation->play(INFINITE_LOOP);
 				projectiles.push_back(tmp_projectile);
