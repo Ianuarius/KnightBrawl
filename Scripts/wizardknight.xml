@@ -96,6 +96,11 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="fireball" type="linear" range="80" power="25" speed="6">
+    <animation filename="Graphics/Knights/wizardknight/wizard_knight_special1_fireball.png" framecount="4" width="42" height="25" startframe="0" framerate="8" loops="0"  />
+    <collision collision="all" collisiondestruct="true" />
+    <hitbox x="22" y="7" width="14" height="13" />
+  </projectile>
 
   <action>
 
@@ -128,13 +133,13 @@
     </attack>
 
     <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
+      <name>Fireball</name>
       <animation filename="Graphics/Knights/wizardknight/wizard_knight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="fireball" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
+        <key>up</key>
+        <key>backward</key>
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
-        <key>action</key>
       </control>
     </attack>
 
