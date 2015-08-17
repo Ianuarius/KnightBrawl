@@ -36,6 +36,7 @@ public:
 	int getWidth();
 	int getHeight();
 	void collides(PlayerController *playerController);
+	void collides(Projectile *projectile);
 	SDL_Point start_position;
 	SDL_Rect pointToTile(int x, int y);
 

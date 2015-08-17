@@ -127,12 +127,9 @@
       </control>
     </attack>
 
-    <attack name="special1" format="buff">
-      <name>Stand Your Ground</name>
+    <attack name="special1" format="ranged">
+      <name>Fan of Spines</name>
       <animation filename="Graphics/Knights/samuraiknight/samurai_knight_special1.png" framecount="6" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <effect type="slow" duration="5" power="100" />
-      <effect type="buff" stat="defense" format="duration" time="5" power="50" />
-      <effect type="buff" stat="attack" format="duration" time="5" power="50" />
       <control type="combo">
         <key>forward</key>
         <key>up</key>

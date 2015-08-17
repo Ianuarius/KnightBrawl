@@ -96,7 +96,7 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
-  <projectile name="flameball" type="arc" range="150" dropspeed="2" power="25" speed="5">
+  <projectile name="flameball" type="arc" range="150" dropspeed="1" power="25" speed="4">
     <animation filename="Graphics/Knights/lanternknight/lantern_knight_special1_flame.png" framecount="3" width="25" height="25" startframe="0" framerate="3" loops="0" yoffset="-26" />
     <collision collision="wall" collisiondestruct="true" />
     <hitbox x="11" y="10" width="9" height="8" />
@@ -136,11 +136,12 @@
     <attack name="special1" format="ranged">
       <name>Flametoss</name>
       <animation filename="Graphics/Knights/lanternknight/lantern_knight_special1.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <projectilespawner type="flameball" amount="1" angle="25" angleinterval="0" delay="0" delayinterval="0" />
+      <projectilespawner type="flameball" amount="1" angle="45" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
         <key>down</key>
         <key>up</key>
         <key>forward</key>
+        <key>action</key>
       </control>
     </attack>
 

@@ -95,8 +95,8 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
   
-  <projectile name="thorn" type="linear" range="80" power="15" speed="6">
-    <animation filename="Graphics/Knights/cactusknight/spine.png" framecount="1" width="5" height="5" startframe="0" framerate="8" loops="1"  />
+  <projectile name="thorn" type="linear" range="80" power="15" speed="3">
+    <animation filename="Graphics/Knights/cactusknight/spine.png" framecount="1" width="5" height="5" startframe="0" framerate="8" loops="1" yoffset="-13" />
     <collision collision="wall" collisiondestruct="true" />
     <hitbox x="10" y="-10" width="3" height="3" />
   </projectile>
@@ -148,7 +148,7 @@
 		<attack name="special1" format="ranged">
       <name>Fan of Spines</name>
       <animation filename="Graphics/Knights/cactusknight/cactusknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <projectilespawner type="thorn" amount="5" angle="50" angleinterval="20" delay="0" delayinterval="0" />
+      <projectilespawner type="thorn" amount="5" angle="0" angleinterval="20" delay="0" delayinterval="0" />
       <control type="combo">
         <key>forward</key>
         <key>up</key>
