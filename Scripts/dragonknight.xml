@@ -96,6 +96,11 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="breath" type="linear" range="0" dropspeed="0" power="25" speed="0">
+    <animation filename="Graphics/Knights/dragonknight/dragonknight_special1_breath.png" framecount="5" width="40" height="20" startframe="0" framerate="8" loops="1" yoffset="-25" />
+    <collision collision="none" collisiondestruct="false" />
+    <hitbox x="0" y="0" width="40" height="20" />
+  </projectile>
 
   <action>
 
@@ -130,10 +135,10 @@
     <attack name="special1" format="ranged">
       <name>Fan of Spines</name>
       <animation filename="Graphics/Knights/dragonknight/dragonknight_special1.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="breath" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
+        <key>forward</key>
         <key>action</key>
       </control>
     </attack>
