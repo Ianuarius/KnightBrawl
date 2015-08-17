@@ -96,8 +96,8 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
-  <projectile name="fireball" type="linear" range="80" power="25" speed="5">
-    <animation filename="Graphics/Knights/wizardknight/wizard_knight_special1_fireball.png" framecount="4" width="42" height="25" startframe="0" framerate="4" loops="0" yoffset="-12" />
+  <projectile name="fireball" type="linear" range="200" power="25" speed="5">
+    <animation filename="Graphics/Knights/wizardknight/wizard_knight_special1_fireball.png" framecount="4" width="42" height="25" startframe="0" framerate="4" loops="0" yoffset="-25" />
     <collision collision="all" collisiondestruct="true" />
     <hitbox x="22" y="7" width="14" height="13" />
   </projectile>
