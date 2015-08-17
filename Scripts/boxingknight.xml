@@ -101,7 +101,7 @@
   <action>
 
     <attack name="basic" format="strike">
-      <animation filename="Graphics/Knights/boxingknight/boxingknight_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <damage value="7" />
       <control type="single">
@@ -110,7 +110,7 @@
     </attack>
 
     <attack name="midair_basic" format="strike">
-      <animation filename="Graphics/Knights/boxingknight/boxingknight_air_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <damage value="7" />
       <control type="single">
@@ -119,7 +119,7 @@
     </attack>
 
     <attack name="midair_downthrust" format="strike">
-      <animation filename="Graphics/Knights/boxingknight/boxingknight_downthrust.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_downthrust.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="-3" y="-10" width="10" height="20" frame="1"/>
       <damage value="10" />
       <control type="combo">
@@ -130,7 +130,7 @@
 
     <attack name="special1" format="strike">
       <name>Helm Buster</name>
-      <animation filename="Graphics/Knights/boxingknight/boxingknight_special1.png" framecount="8" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_special1.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <hitbox x="10" y="-10" width="10" height="20" frame="3"/>
       <hitbox x="10" y="-10" width="10" height="20" frame="4"/>
@@ -223,7 +223,7 @@
     </crouch>
 
     <death name="death">
-      <animation filename="Graphics/Knights/boxingknight/boxingknight_death.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_death.png" framecount="29" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </death>
 
     <dodge name="dodge">

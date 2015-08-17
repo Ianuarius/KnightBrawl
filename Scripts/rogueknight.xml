@@ -139,7 +139,7 @@
 
     <attack name="special1" format="ranged">
       <name>Poison Dagger</name>
-      <animation filename="Graphics/Knights/rogueknight/rogue_knight_special4.png" framecount="8" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/rogueknight/rogue_knight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <projectilespawner type="dagger" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
         <key>forward</key>
