@@ -11,6 +11,8 @@
 #include "Entity.h"
 #include "Rectangle.h"
 
+#define PI		3.14159265358979323846
+
 class Projectile : public Entity
 {
 public:
@@ -28,7 +30,7 @@ public:
 
 	Projectile();
 	void defineAnimation(Animation *new_animation);
-	void update(int direction);
+	void update();
 	
 	Rectangle hitbox;
 	SDL_Point location;
@@ -36,10 +38,15 @@ public:
 
 	std::string name;
 	int type;
+	int direction;
 	int angle;
 	int range;
 	int power;
 	int speed;
+	int y_offset, x_offset;
+	int loops;
+	int drop_speed;
+	bool collision;
 	int collision_type;
 	bool collision_destruct;
 	bool executing, hit;

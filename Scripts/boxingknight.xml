@@ -81,53 +81,36 @@
 -->
 
 <knight>
-	<stats>	
-		<truename>Pepito</truename>
-    <knightname>Cactus Knight</knightname>
-    <decal filename="Graphics/Decals/cactusknight.png" width="30" height="30" />
-		<hitpoints>100</hitpoints>
-		<hitbox x="-13" y="-26" width="26" height="26" />
-    <speed>5</speed> <!-- 5 default -->		
-	</stats>
+  <stats>
+    <truename>O'Malley</truename>
+    <knightname>Boxing Knight</knightname>
+    <decal filename="Graphics/Decals/boxingknight.png" width="30" height="30" />
+    <hitpoints>100</hitpoints>
+    <hitbox x="-13" y="-26" width="26" height="26" />
+    <speed>5</speed>
+    <!-- 5 default -->
+  </stats>
 
   <soundeffects>
     <sound type="jump" filename="Sounds/jumping1.wav" />
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
-  
-  <projectile name="thorn" type="linear" range="80" power="15" speed="3">
-    <animation filename="Graphics/Knights/cactusknight/spine.png" framecount="1" width="5" height="5" startframe="0" framerate="8" loops="1" yoffset="-13" />
-    <collision collision="wall" collisiondestruct="true" />
-    <hitbox x="10" y="-10" width="3" height="3" />
-  </projectile>
-  
-  <projectile name="thorn_arc" type="arc" range="80" power="15" speed="25">
-    <animation filename="Graphics/Knights/cactusknight/spine.png" framecount="1" width="5" height="5" startframe="0" framerate="8" loops="1"  />
-    <collision collision="wall" collisiondestruct="true" />
-    <hitbox x="10" y="-10" width="3" height="3" />
-  </projectile>
-  
-  <trapeffect name="spikysurprise">
-    <animation filename="Graphics/Knights/cactusknight/spiketrap.png" framecount="3" width="20" height="10" startframe="0" framerate="8" loops="1" />
-    <collision collision="all" collisiondestruct="true" />
-    <hitbox x="10" y="-10" width="20" height="10" /> 
-    <damage value="10" />
-    <effect type="pushback" power="5" />
-  </trapeffect>
 
-	<action>
+  
 
-		<attack name="basic" format="strike">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+  <action>
+
+    <attack name="basic" format="strike">
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <damage value="7" />
       <control type="single">
         <key>action</key>
       </control>
-		</attack>
+    </attack>
 
     <attack name="midair_basic" format="strike">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <damage value="7" />
       <control type="single">
@@ -136,7 +119,7 @@
     </attack>
 
     <attack name="midair_downthrust" format="strike">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_downthrust.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_downthrust.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="-3" y="-10" width="10" height="20" frame="1"/>
       <damage value="10" />
       <control type="combo">
@@ -145,10 +128,15 @@
       </control>
     </attack>
 
-		<attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <projectilespawner type="thorn" amount="5" angle="0" angleinterval="20" delay="0" delayinterval="0" />
+    <attack name="special1" format="strike">
+      <name>Helm Buster</name>
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_special1.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitbox x="10" y="-10" width="10" height="20" frame="3"/>
+      <hitbox x="10" y="-10" width="10" height="20" frame="4"/>
+      <effect type="movement" speed="30" range="60" angle="0"/>
+      <effect type="pushback" power="30" angle="170" />
+      <damage value="30" />
       <control type="combo">
         <key>forward</key>
         <key>up</key>
@@ -159,52 +147,41 @@
 
     <attack name="special2" format="ranged">
       <name>Spiky Surprise</name>
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_special2.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />      
-      <trapspawner type="spikysurprise" amount="1" angle="50" angleinterval="0" delay="0" delayinterval="0" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_special2.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="combo">
         <key>up</key>
         <key>down</key>
         <key>forward</key>
         <key>action</key>
       </control>
-		</attack>
-		
-		<attack name="special3" format="strike">
-      <name>Thorn Shield</name>
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_special3.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <buffeffect name="thornshield">
-        <animation filename="Graphics/Knights/cactusknight/thornshield.png" framecount="" width="" height="" startframe="" framerate="" loops="0" />
-        <collision collision="player" collisiondestruct="false" />
-        <hitbox x="-25" y="-25" width="50" height="50" />
-        <effect type="damagereturn" power="50" format="duration" time="7" />
-        <effect type="buff" stat="defense" power="50" format="duration" time="7" />
-      </buffeffect>
-      <control type="combo">
-        <key>down</key>
-        <key>up</key>
-        <key>action</key>
-      </control> 
     </attack>
-		
-		<attack name="special4" format="strike">
+
+    <attack name="special3" format="strike">
+      <name>Spin To Win</name>
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_special3.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="10" />
+      <hitbox x="" y="" width ="" height="" frame="" />
+      <effect />
+      <control type="combo">
+        <key>down</key>
+        <key>up</key>
+        <key>action</key>
+      </control>
+    </attack>
+
+    <attack name="special4" format="strike">
       <name>Stinging Spin</name>
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_special4.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="2" />
-      <areaeffect name="stingingspin">
-        <hitbox x="-25" y="-25" width="50" height="50" />
-        <damage value="15"/>
-      </areaeffect>
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="2" />
       <effect type="movement" speed="25" range="50" angle="90"  />
-      <projectilespawner type="thorn_arc" amount="4" angle="300" angleinterval="0" delay="0" delayinterval="0.5" />
       <control type="combo">
         <key>down</key>
         <key>up</key>
         <key>forward</key>
         <key>action</key>
       </control>
-		</attack>
-	
+    </attack>
+
     <attack name="throw" format="throw">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_throw.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_throw.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <effect type="throw" power="10" angle="50" />
       <effect type="stun" duration="0.5"/>
@@ -217,7 +194,7 @@
     </attack>
 
     <attack name="uppercut" format="uppercut">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_uppercut.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_uppercut.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="10" width="10" height="20" frame="2"/>
       <effect type="uppercut" power="10" angle="0" />
       <effect type="stun" duration="0.5" />
@@ -229,7 +206,7 @@
     </attack>
 
     <block name="block">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_block.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_block.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <effect type="buff" stat="defense" power="50" format="pressed" time="0" />
       <effect type="damagereturn" power="15" format="pressed" time="0" />
       <control type="single">
@@ -237,20 +214,20 @@
         <key>action</key>
       </control>
     </block>
-		
+
     <crouch name="crouch">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_crouch.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_crouch.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="single">
         <key>down</key>
       </control>
     </crouch>
 
     <death name="death">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_death.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_death.png" framecount="29" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </death>
 
     <dodge name="dodge">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_dodge.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_dodge.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <effect type="buff" stat="defense" power="100" format="duration" time="1" />
       <effect type="movement" speed="15" range="30" angle="90" />
       <control type="combo">
@@ -261,35 +238,36 @@
     </dodge>
 
     <hanging name="hanging">
-        <animation filename="Graphics/Knights/cactusknight/cactusknight_hanging.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_hanging.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </hanging>
-    
+
     <idle name="idle">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_idle.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_idle.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </idle>
-    
-		<jump height="5" name="jump">
-			<animation filename="Graphics/Knights/cactusknight/cactusknight_jump.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+
+    <jump height="5" name="jump">
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_jump.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="single">
         <key>jump</key>
       </control>
       <sfx type="jump" play="1" start="0" />
-		</jump> <!-- 5 default -->
-    
+    </jump>
+    <!-- 5 default -->
+
     <pushback name="pushback">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_pushback.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_pushback.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </pushback>
-      
+
     <run name="run">
-      <animation filename="Graphics/Knights/cactusknight/cactusknight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/boxingknight/boxingknight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="single">
-        <key>forward</key>        
+        <key>forward</key>
       </control>
     </run>
 
-		
-	</action>
-  
+
+  </action>
+
   <dialog>
     <comment id="1">This is gonna sting a bit</comment>
     <comment id="2">Taste Cactusia's fury!</comment>

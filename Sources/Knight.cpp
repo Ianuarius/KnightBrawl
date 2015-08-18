@@ -117,6 +117,7 @@ void Knight::parseEffects(pugi::xml_node *tmp_node)
 				tmp_projectile.type = tmp_projectile.TYPE_MISC;
 			}
 			tmp_projectile.range = atoi(iterator->attribute("range").value());
+			tmp_projectile.drop_speed = atoi(iterator->attribute("dropspeed").value());
 			tmp_projectile.power = atoi(iterator->attribute("power").value());
 			tmp_projectile.speed = atoi(iterator->attribute("speed").value());
 
@@ -128,6 +129,9 @@ void Knight::parseEffects(pugi::xml_node *tmp_node)
 				atoi(iterator->child("animation").attribute("framecount").value()),
 				atoi(iterator->child("animation").attribute("framerate").value()));
 			tmp_projectile.defineAnimation(tmp_animation);
+
+			tmp_projectile.y_offset = atoi(iterator->child("animation").attribute("yoffset").value());
+			tmp_projectile.loops = atoi(iterator->child("animation").attribute("loops").value());
 
 			tmp_type_string = iterator->child("collision").attribute("collision").value();
 			if (tmp_type_string.compare("all") == 0) {

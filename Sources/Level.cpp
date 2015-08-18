@@ -211,6 +211,59 @@ void Level::collides(PlayerController *playerController)
 	}
 }
 
+void Level::collides(Projectile *projectile)
+{
+	// Top collision
+    if (getTile(projectile->hitbox.Center().x, projectile->hitbox.y) != 0) {
+        SDL_Rect top_collision_tile = pointToTile(projectile->hitbox.Center().x, projectile->hitbox.y);
+
+        projectile->collision = true;
+    }
+
+    // Horizontal collision=
+	SDL_Point min_tile_pos = {std::min(projectile->hitbox.TopLeft().x, projectile->hitbox.TopLeft().x) / tileSize,
+							  std::min(projectile->hitbox.TopLeft().y, projectile->hitbox.TopLeft().y) / tileSize};
+
+	SDL_Point max_tile_pos = {std::max(projectile->hitbox.BottomRight().x, projectile->hitbox.BottomRight().x) / tileSize,
+                              std::max(projectile->hitbox.BottomRight().y, projectile->hitbox.BottomRight().y) / tileSize};
+
+    // Cast entity->hitbox to SDL_Rect since SDL_HasIntersection requires it
+    SDL_Rect sdl_hitbox = (SDL_Rect) projectile->hitbox;
+
+    // Loop through all tiles considered for collision
+	for (int y_tile = min_tile_pos.y; y_tile < max_tile_pos.y; y_tile++) {
+		for (int x_tile = min_tile_pos.x; x_tile <= max_tile_pos.x; x_tile++) {
+
+			SDL_Rect tile = {(x_tile * tileSize), (y_tile * tileSize),
+							tileSize, tileSize};
+			
+            // Correct hitbox position if tile is collidable and it has intersection
+            // width hitbox
+			if (SDL_HasIntersection(&tile, &sdl_hitbox) &&
+				getTile(x_tile * tileSize, y_tile * tileSize) != 0) {
+					
+				projectile->collision = true;
+			}
+		}
+	}
+
+	// Bottom collision
+    SDL_Rect bot_collision_tile = {0, 0, 0, 0};
+
+    if (getTile(projectile->hitbox.BottomLeft().x + (projectile->hitbox.w / 16), projectile->hitbox.BottomLeft().y) != 0) {
+        bot_collision_tile = pointToTile(projectile->hitbox.BottomLeft().x + (projectile->hitbox.w / 16), projectile->hitbox.BottomLeft().y);
+    }
+
+    if (getTile(projectile->hitbox.BottomRight().x - (projectile->hitbox.w / 16), projectile->hitbox.BottomRight().y) != 0) {
+        bot_collision_tile = pointToTile(projectile->hitbox.BottomRight().x - (projectile->hitbox.w / 16), projectile->hitbox.BottomRight().y);
+    }
+
+    if (!SDL_RectEmpty(&bot_collision_tile)) {
+        projectile->collision = true;
+    }
+
+}
+
 void Level::render(int layer)
 {
 	std::vector<std::vector<int>>::iterator row;

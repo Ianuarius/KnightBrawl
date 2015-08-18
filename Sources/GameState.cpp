@@ -111,8 +111,17 @@ stateStatus GameState::update()
 	}
 
 	for (int i = 0; i < projectiles.size(); i++) {
-		projectiles[i].update(playerControllers[projectiles[i].player]->getDirection());
+		projectiles[i].update();
+		level->collides(&projectiles[i]);
 	}
+	
+	for (int i = 0; i < projectiles.size(); i++) {
+		
+		if (projectiles[i].collision == true) {
+			projectiles.erase(projectiles.begin() + i);
+		}
+	}
+
 
 	SDL_Rect tmp_hb;
 	SDL_Rect wep_hb;
@@ -132,7 +141,7 @@ stateStatus GameState::update()
 				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
 					knights[attacking_knight]->hit == false &&
 					knights[receiving_knight]->alive == true) {
-					knights[receiving_knight]->damage(50);
+					knights[receiving_knight]->damage(5);
 					knights[attacking_knight]->hit = true;
 					knights[attacking_knight]->powerup();
 
@@ -166,7 +175,7 @@ stateStatus GameState::update()
 
 					if (knights[receiving_knight]->getHitpoints() <= 0 &&
 						knights[receiving_knight]->alive == true) {
-						stateData->player_kills[a_projectile]++;
+						stateData->player_kills[projectiles[a_projectile].player]++;
 						knights[receiving_knight]->die();
 					}
 				}
@@ -214,13 +223,19 @@ void GameState::executeMoves(int knight, int move)
 
 			// NOTE(juha): go through the projectile spawners
 			if (knights[knight]->getMoves()->at(move).projectile_spawners.size() > 0) {
-				Projectile tmp_projectile = knights[knight]->getProjectiles()->at(0);
-				tmp_projectile.location.x = playerControllers[knight]->location.x;
-				tmp_projectile.location.y = playerControllers[knight]->location.y -13;
-				tmp_projectile.angle = 50;
-				tmp_projectile.player = knight;
-				tmp_projectile.animation->play(INFINITE_LOOP);
-				projectiles.push_back(tmp_projectile);
+				
+				ProjectileSpawner tmp_pspawner = knights[knight]->getMoves()->at(move).projectile_spawners[0];
+
+				for (int i = 0; i < tmp_pspawner.amount; i++) {
+					Projectile tmp_projectile = knights[knight]->getProjectiles()->at(0);
+					tmp_projectile.direction = playerControllers[knight]->getDirection();
+					tmp_projectile.location.x = playerControllers[knight]->location.x + tmp_projectile.x_offset;
+					tmp_projectile.location.y = playerControllers[knight]->location.y + tmp_projectile.y_offset;
+					tmp_projectile.angle = tmp_pspawner.angle + (tmp_pspawner.angle_interval * i);
+					tmp_projectile.player = knight;
+					tmp_projectile.animation->play(INFINITE_LOOP);
+					projectiles.push_back(tmp_projectile);
+				}
 			}
 		}
 	}
@@ -247,6 +262,13 @@ void GameState::render()
 	
 	if (projectiles.size() > 0) {
 		for (int i = 0; i < projectiles.size(); i++) {
+
+			if (projectiles[i].direction == 2) {
+				projectiles[i].animation->flip = true;
+			} else  {
+				projectiles[i].animation->flip = false;
+			}
+
 			projectiles[i].animation->render(projectiles[i].location.x - camera->getFrame().x,
 											 projectiles[i].location.y - camera->getFrame().y);
 		}
