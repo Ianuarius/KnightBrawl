@@ -229,8 +229,8 @@ void GameState::executeMoves(int knight, int move)
 				for (int i = 0; i < tmp_pspawner.amount; i++) {
 					Projectile tmp_projectile = knights[knight]->getProjectiles()->at(0);
 					tmp_projectile.direction = playerControllers[knight]->getDirection();
-					tmp_projectile.location.x = playerControllers[knight]->location.x + tmp_projectile.x_offset;
-					tmp_projectile.location.y = playerControllers[knight]->location.y + tmp_projectile.y_offset;
+					tmp_projectile.x_coordinate = playerControllers[knight]->location.x + tmp_projectile.x_offset;
+					tmp_projectile.y_coordinate = playerControllers[knight]->location.y + tmp_projectile.y_offset;
 					tmp_projectile.angle = tmp_pspawner.angle + (tmp_pspawner.angle_interval * i);
 					tmp_projectile.player = knight;
 					tmp_projectile.animation->play(INFINITE_LOOP);

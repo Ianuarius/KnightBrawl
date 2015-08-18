@@ -44,6 +44,7 @@ public:
 	int power;
 	int speed;
 	int y_offset, x_offset;
+	double x_coordinate, y_coordinate;
 	int loops;
 	int drop_speed;
 	bool collision;

@@ -447,7 +447,7 @@ void PlayerController::jump()
 {
 	if (!in_menu) {
 		if (in_air == false) {
-			velocity_y -= knight->getJump();
+			velocity_y -= knight->getJump() + 0.4;
 			in_air = true;
 			jumping = true;
 			knight->jumping = true;
