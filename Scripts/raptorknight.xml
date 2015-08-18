@@ -96,6 +96,11 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="glob" type="arc" range="600" dropspeed="1" power="25" speed="5">
+    <animation filename="Graphics/Knights/raptorknight/raptorknight_special1_glob.png" framecount="3" width="25" height="15" startframe="0" framerate="6" loops="0" yoffset="-25" />
+    <collision collision="wall" collisiondestruct="true" />
+    <hitbox x="2" y="2" width="17" height="10" />
+  </projectile>
 
   <action>
 
@@ -128,12 +133,12 @@
     </attack>
 
     <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
-      <animation filename="Graphics/Knights/raptorknight/raptorknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <name>Vemon Spit</name>
+      <animation filename="Graphics/Knights/raptorknight/raptorknight_special1.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="glob" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
+        <key>backward</key>
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
         <key>action</key>
       </control>
     </attack>
@@ -161,7 +166,7 @@
 
     <attack name="special4" format="strike">
       <name>Stinging Spin</name>
-      <animation filename="Graphics/Knights/raptorknight/raptorknight_special4.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="2" />
+      <animation filename="Graphics/Knights/raptorknight/raptorknight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="2" />
       <effect type="movement" speed="25" range="50" angle="90"  />
       <control type="combo">
         <key>down</key>

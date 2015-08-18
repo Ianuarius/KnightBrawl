@@ -127,13 +127,15 @@
       </control>
     </attack>
 
-    <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
+    <attack name="special1" format="strike">
+      <name>Sphere Barrage</name>
       <animation filename="Graphics/Knights/stormknight/storm_knight_special1.png" framecount="7" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <hitbox x="10" y="-10" width="10" height="20" frame="4"/>
+      <damage value="20" />
       <control type="combo">
+        <key>down</key>
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
+        <key>down</key>
         <key>action</key>
       </control>
     </attack>

@@ -127,20 +127,25 @@
       </control>
     </attack>
 
-    <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
-      <animation filename="Graphics/Knights/samuraiknight/samurai_knight_special1.png" framecount="6" width="50" height="50" startframe="0" framerate="8" loops="1" />
+    <attack name="special1" format="strike">
+      <name>Slash Dash</name>
+      <animation filename="Graphics/Knights/samuraiknight/samurai_knight_special1.png" framecount="4" width="50" height="50" startframe="0" framerate="4" loops="1" />
+      <damage value="10" />
+      <hitbox x="10" y="-10" width="10" height="20" frame="0"/>
+      <hitbox x="10" y="-10" width="10" height="20" frame="1"/>
+      <hitbox x="10" y="-10" width="10" height="20" frame="3"/>
+      <effect type="movement" speed="25" range="100" angle="0"  />
       <control type="combo">
+        <key>up</key>
+        <key>down</key>
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
         <key>action</key>
       </control>
     </attack>
 
     <attack name="special2" format="ranged">
       <name>Spiky Surprise</name>
-      <animation filename="Graphics/Knights/samuraiknight/samurai_knight_special2.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/samuraiknight/samurai_knight_special2.png" framecount="6" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="combo">
         <key>up</key>
         <key>down</key>
