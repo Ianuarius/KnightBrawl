@@ -96,7 +96,7 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
-  <projectile name="flameball" type="arc" range="150" dropspeed="2" power="25" speed="5">
+  <projectile name="flameball" type="arc" range="1000" dropspeed="2" power="25" speed="5">
     <animation filename="Graphics/Knights/lanternknight/lantern_knight_special1_flame.png" framecount="3" width="25" height="25" startframe="0" framerate="3" loops="0" yoffset="-26" />
     <collision collision="wall" collisiondestruct="true" />
     <hitbox x="11" y="10" width="9" height="8" />

@@ -96,6 +96,11 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="chain" type="linear" range="300" dropspeed="1" power="25" speed="5">
+    <animation filename="Graphics/Knights/ghostknight/ghost_knight_special1_chain.png" framecount="3" width="25" height="25" startframe="0" framerate="6" loops="0" yoffset="-25" />
+    <collision collision="all" collisiondestruct="true" />
+    <hitbox x="5" y="9" width="19" height="10" />
+  </projectile>
 
   <action>
 
@@ -128,12 +133,13 @@
     </attack>
 
     <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
+      <name>Chain Fling</name>
       <animation filename="Graphics/Knights/ghostknight/ghost_knight_special1.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="chain" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
+        <key>up</key>
+        <key>down</key>
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
         <key>action</key>
       </control>
     </attack>

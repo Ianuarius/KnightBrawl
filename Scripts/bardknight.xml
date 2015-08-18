@@ -127,13 +127,13 @@
       </control>
     </attack>
 
-    <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
-      <animation filename="Graphics/Knights/bardknight/bard_knight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+    <attack name="special1" format="strike">
+      <name>Harp Smash</name>
+      <animation filename="Graphics/Knights/bardknight/bard_knight_special1.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <hitbox x="10" y="-20" width="10" height="30" frame="4"/>
       <control type="combo">
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
+        <key>forward</key>
         <key>action</key>
       </control>
     </attack>
@@ -161,7 +161,7 @@
 
     <attack name="special4" format="strike">
       <name>Stinging Spin</name>
-      <animation filename="Graphics/Knights/bardknight/bard_knight_special4.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="2" />
+      <animation filename="Graphics/Knights/bardknight/bard_knight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="2" />
       <effect type="movement" speed="25" range="50" angle="90"  />
       <control type="combo">
         <key>down</key>

@@ -96,6 +96,11 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="slash" type="linear" range="600" power="25" speed="5">
+    <animation filename="Graphics/Knights/deathknight/deathknight_projectile.png" framecount="4" width="30" height="40" startframe="0" framerate="8" loops="0" yoffset="-25" />
+    <collision collision="wall" collisiondestruct="true" />
+    <hitbox x="11" y="5" width="14" height="31" />
+  </projectile>
 
   <action>
 
@@ -128,12 +133,13 @@
     </attack>
 
     <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
+      <name>Sickle Wind</name>
       <animation filename="Graphics/Knights/deathknight/deathknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="slash" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
+        <key>up</key>
+        <key>up</key>
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
         <key>action</key>
       </control>
     </attack>

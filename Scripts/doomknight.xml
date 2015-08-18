@@ -96,6 +96,11 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="splat" type="linear" range="150" power="25" speed="3">
+    <animation filename="Graphics/Knights/doomknight/doomknight_special1_splat.png" framecount="5" width="50" height="50" startframe="0" framerate="5" loops="1" yoffset="0" />
+    <collision collision="none" collisiondestruct="false" />
+    <hitbox x="10" y="15" width="40" height="35" />
+  </projectile>
 
   <action>
 
@@ -128,19 +133,19 @@
     </attack>
 
     <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
-      <animation filename="Graphics/Knights/doomknight/doomknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <name>Earth Shatter</name>
+      <animation filename="Graphics/Knights/doomknight/doomknight_special1.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="combo">
+        <key>up</key>
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
+        <key>forward</key>
         <key>action</key>
       </control>
     </attack>
 
     <attack name="special2" format="ranged">
       <name>Spiky Surprise</name>
-      <animation filename="Graphics/Knights/doomknight/doomknight_special2.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/doomknight/doomknight_special2.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="combo">
         <key>up</key>
         <key>down</key>

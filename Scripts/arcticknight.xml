@@ -96,6 +96,11 @@
     <sound type="landing" filename="Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="spear" type="linear" range="500" power="25" speed="6">
+    <animation filename="Graphics/Knights/warcticknight/arcticknight_special1_spear.png" framecount="3" width="50" height="15" startframe="0" framerate="6" loops="0" yoffset="-30" />
+    <collision collision="all" collisiondestruct="true" />
+    <hitbox x="6" y="4" width="424" height="5" />
+  </projectile>
 
   <action>
 
@@ -128,12 +133,12 @@
     </attack>
 
     <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
+      <name>Throw Spear</name>
       <animation filename="Graphics/Knights/arcticknight/arcticknight_special1.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="spear" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
+        <key>backward</key>
         <key>forward</key>
-        <key>up</key>
-        <key>up</key>
         <key>action</key>
       </control>
     </attack>

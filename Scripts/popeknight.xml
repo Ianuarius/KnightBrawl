@@ -127,13 +127,14 @@
       </control>
     </attack>
 
-    <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
-      <animation filename="Graphics/Knights/popeknight/popeknight_special1.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+    <attack name="special1" format="strike">
+      <name>Bless the Child</name>
+      <animation filename="Graphics/Knights/popeknight/popeknight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <hitbox x="10" y="-10" width="10" height="20" frame="3"/>
+      <damage value="20" />
       <control type="combo">
-        <key>forward</key>
         <key>up</key>
-        <key>up</key>
+        <key>down</key>
         <key>action</key>
       </control>
     </attack>
@@ -151,7 +152,7 @@
 
     <attack name="special3" format="strike">
       <name>Thorn Shield</name>
-      <animation filename="Graphics/Knights/popeknight/popeknight_special3.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="Graphics/Knights/popeknight/popeknight_special3.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="combo">
         <key>down</key>
         <key>up</key>
