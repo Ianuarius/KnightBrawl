@@ -141,18 +141,27 @@ stateStatus CharacterSelectState::update()
 		
 		if (playerControllers[i]->in_game == false) {
 
-			do {
-				for (int j = 0; j < max_players; j++) {
-					if (playerControllers[i]->menu_x == positions[j].x &&
-						playerControllers[i]->menu_y == positions[j].y &&
-						i != j) {
+			for (int j = 0; j < max_players; j++) {
 
-						playerControllers[i]->menu_x = j;
-
-						positions[i].x = playerControllers[i]->menu_x;
-					}
+				if (playerControllers[i]->menu_x == positions[j].x &&
+					playerControllers[i]->menu_y == positions[j].y &&
+					i != j) {
+						for (int k = 0; k < 4; k ++) {
+							bool filled = false;
+							for (int l = 0; l < max_players; l++) {
+								if (playerControllers[l]->menu_x == k) {
+									filled = true;
+									break;
+								}
+							}
+							if (filled == false) {
+								playerControllers[i]->menu_x = k;
+								break;
+							}
+						}
+					positions[i].x = playerControllers[i]->menu_x;
 				}
-			} while (intruder == true);
+			}
 		}
 	}
 	
