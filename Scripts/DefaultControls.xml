@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<profile version="0">
+  
+  <platforms>
+    <PC keyboard="1" xboxpad="1" />
+  </platforms>
+
+  <actionmap name="singleplayer" controller="0">
+    <action name="move_left" onPress="1" keyboard="LEFT" xboxpad="XI_DPAD_LEFT" />
+    <action name="move_right" onPress="1" keyboard="RIGHT" xboxpad="XI_DPAD_RIGHT" />
+    <action name="crouch" onPress="1" keyboard="DOWN" xboxpad="XI_DPAD_DOWN" />
+    <action name="up" onPress="1" keyboard="UP" xboxpad="XI_DPAD_UP" />
+    <action name="jump" onPress="1" keyboard="X" xboxpad="XI_BUTTON_A" />
+    <action name="action" onPress="1" keyboard="Z" xboxpad="XI_BUTTON_X" />
+    <action name="menu" onPress="1" keyboard="RETURN" xboxpad="XI_BUTTON_START" />
+  </actionmap>
+
+  <actionmap name="multiplayer" controller="0">
+    <action name="move_left" onPress="1" keyboard="J" xboxpad="XI_DPAD_LEFT" />
+    <action name="move_right" onPress="1" keyboard="L" xboxpad="XI_DPAD_RIGHT" />
+    <action name="crouch" onPress="1" keyboard="K" xboxpad="XI_DPAD_DOWN" />
+    <action name="up" onPress="1" keyboard="I" xboxpad="XI_DPAD_UP" />
+    <action name="jump" onPress="1" keyboard="W" xboxpad="XI_BUTTON_A" />
+    <action name="action" onPress="1" keyboard="Q" xboxpad="XI_BUTTON_X" />
+    <action name="menu" onPress="1" keyboard="ESCAPE" xboxpad="XI_BUTTON_START" />
+  </actionmap>
+
+  <actionmap name="multiplayer" controller="1">
+    <action name="move_left" onPress="1" keyboard="KP_4" xboxpad="XI_DPAD_LEFT" />
+    <action name="move_right" onPress="1" keyboard="KP_6" xboxpad="XI_DPAD_RIGHT" />
+    <action name="crouch" onPress="1" keyboard="KP_5" xboxpad="XI_DPAD_DOWN" />
+    <action name="up" onPress="1" keyboard="KP_8" xboxpad="XI_DPAD_UP" />
+    <action name="jump" onPress="1" keyboard="END" xboxpad="XI_BUTTON_A" />
+    <action name="action" onPress="1" keyboard="DELETE" xboxpad="XI_BUTTON_X" />
+    <action name="menu" onPress="1" keyboard="" xboxpad="XI_BUTTON_START" />
+  </actionmap>
+
+  <actionmap name="multiplayer" controller="2">
+    <action name="move_left" onPress="1" keyboard="" xboxpad="XI_DPAD_LEFT" />
+    <action name="move_right" onPress="1" keyboard="" xboxpad="XI_DPAD_RIGHT" />
+    <action name="crouch" onPress="1" keyboard="" xboxpad="XI_DPAD_DOWN" />
+    <action name="up" onPress="1" keyboard="" xboxpad="XI_DPAD_UP" />
+    <action name="jump" onPress="1" keyboard="" xboxpad="XI_BUTTON_A" />
+    <action name="action" onPress="1" keyboard="" xboxpad="XI_BUTTON_X" />
+    <action name="menu" onPress="1" keyboard="" xboxpad="XI_BUTTON_START" />
+  </actionmap>
+
+  <actionmap name="multiplayer" controller="3">
+    <action name="move_left" onPress="1" keyboard="" xboxpad="XI_DPAD_LEFT" />
+    <action name="move_right" onPress="1" keyboard="" xboxpad="XI_DPAD_RIGHT" />
+    <action name="crouch" onPress="1" keyboard="" xboxpad="XI_DPAD_DOWN" />
+    <action name="up" onPress="1" keyboard="" xboxpad="XI_DPAD_UP" />
+    <action name="jump" onPress="1" keyboard="" xboxpad="XI_BUTTON_A" />
+    <action name="action" onPress="1" keyboard="" xboxpad="XI_BUTTON_X" />
+    <action name="menu" onPress="1" keyboard="" xboxpad="XI_BUTTON_START" />
+  </actionmap>
+
+</profile>

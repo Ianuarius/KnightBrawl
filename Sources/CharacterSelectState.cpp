@@ -8,8 +8,8 @@
 CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	window(window),
 	mainInput(mainInput),
-	font(new Font("ChicagoFLF.ttf", 16)),
-	player_tag(new Font("ChicagoFLF.ttf", 8)),
+	font(new Font("../Fonts/ChicagoFLF.ttf", 16)),
+	player_tag(new Font("../Fonts/ChicagoFLF.ttf", 8)),
 	header(new Text(font, Color("white")))
 {
 	stateData = new StateData();
@@ -17,7 +17,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	character_select = true;
 	level_select = false;
 	players = 2;
-	lives_total = 1;
+	lives_total = 3;
 	stateData->players = players;
 	stateData->selection.reserve(players);
 	for (int i = 0; i < players; i++) {
@@ -40,8 +40,8 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 		- 
 	*/
 
-	roster_result = roster_document.load_file("Scripts/roster.xml");
-	level_result = level_document.load_file("Scripts/levels.xml");
+	roster_result = roster_document.load_file("../Scripts/roster.xml");
+	level_result = level_document.load_file("../Scripts/levels.xml");
 
 	
 	for(pugi::xml_node_iterator iterator = level_document.child("levels").begin();

@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Sources\Animation.h" />
+    <ClInclude Include="..\Sources\AreaEffect.h" />
+    <ClInclude Include="..\Sources\BaseState.h" />
+    <ClInclude Include="..\Sources\BuffEffect.h" />
+    <ClInclude Include="..\Sources\Camera.h" />
+    <ClInclude Include="..\Sources\CharacterSelectState.h" />
+    <ClInclude Include="..\Sources\Color.h" />
+    <ClInclude Include="..\Sources\Effect.h" />
+    <ClInclude Include="..\Sources\Entity.h" />
+    <ClInclude Include="..\Sources\Font.h" />
+    <ClInclude Include="..\Sources\GameState.h" />
+    <ClInclude Include="..\Sources\Input.h" />
+    <ClInclude Include="..\Sources\Key.h" />
+    <ClInclude Include="..\Sources\Keymap.h" />
+    <ClInclude Include="..\Sources\Knight.h" />
+    <ClInclude Include="..\Sources\Level.h" />
+    <ClInclude Include="..\Sources\MenuState.h" />
+    <ClInclude Include="..\Sources\Music.h" />
+    <ClInclude Include="..\Sources\PlayerActor.h" />
+    <ClInclude Include="..\Sources\PlayerController.h" />
+    <ClInclude Include="..\Sources\Projectile.h" />
+    <ClInclude Include="..\Sources\ProjectileSpawner.h" />
+    <ClInclude Include="..\Sources\PugiXML.h" />
+    <ClInclude Include="..\Sources\Rectangle.h" />
+    <ClInclude Include="..\Sources\ScoreState.h" />
+    <ClInclude Include="..\Sources\SDL.h" />
+    <ClInclude Include="..\Sources\SFX.h" />
+    <ClInclude Include="..\Sources\Sound.h" />
+    <ClInclude Include="..\Sources\SpecialCombo.h" />
+    <ClInclude Include="..\Sources\Sprite.h" />
+    <ClInclude Include="..\Sources\StateData.h" />
+    <ClInclude Include="..\Sources\StateManager.h" />
+    <ClInclude Include="..\Sources\Text.h" />
+    <ClInclude Include="..\Sources\Texture.h" />
+    <ClInclude Include="..\Sources\Timer.h" />
+    <ClInclude Include="..\Sources\TrapEffect.h" />
+    <ClInclude Include="..\Sources\TrapSpawner.h" />
+    <ClInclude Include="..\Sources\VictoryState.h" />
+    <ClInclude Include="..\Sources\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Sources\Animation.cpp" />
+    <ClCompile Include="..\Sources\AreaEffect.cpp" />
+    <ClCompile Include="..\Sources\BuffEffect.cpp" />
+    <ClCompile Include="..\Sources\Camera.cpp" />
+    <ClCompile Include="..\Sources\CharacterSelectState.cpp" />
+    <ClCompile Include="..\Sources\Color.cpp" />
+    <ClCompile Include="..\Sources\Effect.cpp" />
+    <ClCompile Include="..\Sources\Font.cpp" />
+    <ClCompile Include="..\Sources\GameState.cpp" />
+    <ClCompile Include="..\Sources\Input.cpp" />
+    <ClCompile Include="..\Sources\Key.cpp" />
+    <ClCompile Include="..\Sources\Knight.cpp" />
+    <ClCompile Include="..\Sources\Level.cpp" />
+    <ClCompile Include="..\Sources\main.cpp" />
+    <ClCompile Include="..\Sources\MenuState.cpp" />
+    <ClCompile Include="..\Sources\Music.cpp" />
+    <ClCompile Include="..\Sources\PlayerActor.cpp" />
+    <ClCompile Include="..\Sources\PlayerController.cpp" />
+    <ClCompile Include="..\Sources\Projectile.cpp" />
+    <ClCompile Include="..\Sources\ProjectileSpawner.cpp" />
+    <ClCompile Include="..\Sources\PugiXML.cpp" />
+    <ClCompile Include="..\Sources\Rectangle.cpp" />
+    <ClCompile Include="..\Sources\ScoreState.cpp" />
+    <ClCompile Include="..\Sources\SDL.cpp" />
+    <ClCompile Include="..\Sources\SFX.cpp" />
+    <ClCompile Include="..\Sources\Sound.cpp" />
+    <ClCompile Include="..\Sources\SpecialCombo.cpp" />
+    <ClCompile Include="..\Sources\Sprite.cpp" />
+    <ClCompile Include="..\Sources\StateData.cpp" />
+    <ClCompile Include="..\Sources\StateManager.cpp" />
+    <ClCompile Include="..\Sources\Text.cpp" />
+    <ClCompile Include="..\Sources\Texture.cpp" />
+    <ClCompile Include="..\Sources\Timer.cpp" />
+    <ClCompile Include="..\Sources\TrapEffect.cpp" />
+    <ClCompile Include="..\Sources\TrapSpawner.cpp" />
+    <ClCompile Include="..\Sources\VictoryState.cpp" />
+    <ClCompile Include="..\Sources\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Scripts\arcticknight.xml" />
+    <Xml Include="..\Scripts\bardknight.xml" />
+    <Xml Include="..\Scripts\boxingknight.xml" />
+    <Xml Include="..\Scripts\cactusknight.xml" />
+    <Xml Include="..\Scripts\cockknight.xml" />
+    <Xml Include="..\Scripts\Controls.xml" />
+    <Xml Include="..\Scripts\deathknight.xml" />
+    <Xml Include="..\Scripts\DefaultControls.xml" />
+    <Xml Include="..\Scripts\doomknight.xml" />
+    <Xml Include="..\Scripts\dragonknight.xml" />
+    <Xml Include="..\Scripts\ghostknight.xml" />
+    <Xml Include="..\Scripts\knightknight.xml" />
+    <Xml Include="..\Scripts\lanternknight.xml" />
+    <Xml Include="..\Scripts\levels.xml" />
+    <Xml Include="..\Scripts\popeknight.xml" />
+    <Xml Include="..\Scripts\raptorknight.xml" />
+    <Xml Include="..\Scripts\rogueknight.xml" />
+    <Xml Include="..\Scripts\roster.xml" />
+    <Xml Include="..\Scripts\samuraiknight.xml" />
+    <Xml Include="..\Scripts\skeletonknight.xml" />
+    <Xml Include="..\Scripts\stormknight.xml" />
+    <Xml Include="..\Scripts\wizardknight.xml" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D89DBCF5-ED4C-4AFD-981B-CF2D94062857}</ProjectGuid>
+    <RootNamespace>KnightDev</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>E:\Projects\KnightDev\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Projects\KnightDev\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\Ianuarius\Documents\Projects\KnightDev\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Ianuarius\Documents\Projects\KnightDev\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2_image.lib;SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EntryPointSymbol>main</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

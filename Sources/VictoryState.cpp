@@ -8,8 +8,8 @@
 VictoryState::VictoryState(Window *window, Input *mainInput):
 	window(window),
 	mainInput(mainInput),
-	title(new Font("ChicagoFLF.ttf", 24)),
-	values(new Font("ChicagoFLF.ttf", 16)),
+	title(new Font("../Fonts/ChicagoFLF.ttf", 24)),
+	values(new Font("../Fonts/ChicagoFLF.ttf", 16)),
 	knight_wins(new Text(title, Color(0x48B748))),
 	kills_text(new Text(values, Color(0xDEDEA6))),
 	deaths_text(new Text(values, Color(0xDEDEA6)))

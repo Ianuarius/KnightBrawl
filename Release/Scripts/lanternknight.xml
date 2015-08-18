@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--  
+ 
+  ----- ATTACK -----
+  <attack name="insert name" format="insert format"
+  Attack formats: strike - Creates a quick hitbox that damages enemies it hits.
+                  throw - When in contact with enemy hitbox, it will propell it in the facing direction.
+                  uppercut - Creates a hitbox that launches targets in air when in contact.
+                  ranged - Fires a hitbox that flies through the air
+                  buff - Doesn't create a hitbox, rather gives the user an effect
+                  aoe - Creates a large hitbox that stays in place for a certain amount of time. Sometimes follows the user.
+                  
+  ----- PROJECTILE -----               
+  <projectile type="insert projectile type" +following parameters+>
+  Projectile types: linear - fires a projectile in a straight line
+                    arc - fires a projectile that obeys gravity, making it's trajectory decline instead of following a straight line
+                    Parameters: angle="degree, 0 is up, 90 straight forward and so on" range="maximum range in pixels" power="damage done in numeral value" speed="pixels (traveled in second)" delay="seconds (0 is immediate)" collision="player/wall/all (determines what the projectile will collide with and thus destruct"  
+                    
+  ----- EFFECT -----
+  <effect type="insert effect type" +following parameters+ > 
+  Effect types:   slow - Debuff that slows targets. Requires duration="seconds" power="percentage"
+                  stun - Debuff that incapacitates targets. Requires duration="seconds"
+                  burn - Debuff that damages the target periodically. Requires duration="seconds" power="damage per tick" tickrate="seconds"
+                  pushback - Sends targets flying in a direction the effect is fired at. Requires power="pixels per second"
+                  buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration or count" time="seconds if duration (0 infinite) or how many attacks(1, 2, 3...)" power="percentage" 
+                  damagereturn - Returns the dealt damage back to attacker. Requires format="duration or count" time="seconds if duration (0 infinite) or how many attacks(1, 2, 3...)" power="percentage"
+  
+  ----- CONTROL -----
+  <control type="insert type">
+  Control types:  single - requires only one key to be pushed
+                  combo - requires all keys to be pushed in top-down order within a short time
+                  
+  <key>insert key</key>
+  Additional parameters:  inair="true" - has to be performed mid-air
+                          pressed="true" - button has to be pressed dow
+                          
+  Keys:   action - attack button
+          up - doesn't do anything else than exist for combo reasons
+          down - crouch
+          forward - left or right
+          jump - jump
+-->
+
+<knight>
+	<stats>	
+		<truename>Solifer</truename>
+    <knightname>Lantern Knight</knightname>
+    <decal filename="Graphics/Decals/lanternknight.png" width="30" height="30" />
+		<hitpoints>100</hitpoints>
+		<hitbox x="-13" y="-26" width="26" height="26" />
+		<jump>5</jump>
+		<speed>5</speed> <!-- 5 default -->		
+	</stats>
+  
+	<action>
+
+		<attack name="basic" format="strike">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
+      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <damage value="7" />
+      <control type="single">
+        <key>action</key>
+      </control>
+		</attack>
+
+    <attack name="midair_basic" format="strike">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_midair_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
+      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <damage value="7" />
+      <control type="single">
+        <key inair="true">action</key>
+      </control>
+    </attack>
+
+    <attack name="midair_downthrust" format="strike">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_downthrust.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
+      <hitbox x="-3" y="-10" width="10" height="20" frame="1"/>
+      <damage value="10" />
+      <control type="combo">
+        <key pressed="true">down</key>
+        <key inair="true">action</key>
+      </control>
+    </attack>
+
+		<attack name="special1" format="strike">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
+      <effect type="slow" duration="3000" power="50" />
+      <control type="combo">
+        <key>forward</key>
+        <key>up</key>
+        <key>up</key>
+        <key>action</key>
+      </control>
+    </attack>
+
+    <attack name="special2" format="strike">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_special2.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
+      <control type="combo">
+        <key>up</key>
+        <key>down</key>
+        <key>forward</key>
+        <key>action</key>
+      </control>
+		</attack>
+		
+		<attack name="special3" format="strike">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_special3.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
+      <control type="combo">
+        <key>down</key>
+        <key>up</key>
+        <key>action</key>
+      </control> 
+    </attack>
+		
+		<attack name="special4" format="strike">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_special4.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
+      <control type="combo">
+        <key>forward</key>
+        <key>up</key>
+        <key>up</key>
+        <key>action</key>
+      </control>
+		</attack>
+	
+    <attack name="throw" format="throw">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_throw.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
+      <control type="combo">
+        <key>throw</key>
+      </control>
+    </attack>
+
+    <attack name="uppercut" format="uppercut">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_uppercut.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
+      <control type="combo">
+        <key pressed="true">down</key>
+        <key>action</key>
+      </control>
+    </attack>
+
+    <block>
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_block.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
+      <control type="single">
+        <key>block</key>
+      </control>
+    </block>
+		
+    <crouch>
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_crouch.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
+      <control type="single">
+        <key>down</key>
+      </control>
+    </crouch>
+
+    <death>
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_death.png" framecount="3" width="50" height="50" startframe="0" framerate="8" />
+    </death>
+
+    <dodge>
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_dodge.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
+      <control type="single">
+        <key>dodge</key>
+      </control>
+    </dodge>
+
+    <hanging>      
+        <animation filename="Graphics/Knights/lanternknight/lantern_knight_hanging.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
+    </hanging>
+    
+    <idle>
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_idle.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
+    </idle>
+    
+		<jump height="5">
+			<animation filename="Graphics/Knights/lanternknight/lantern_knight_jump.png" framecount="1" width="50" height="50" startframe="0" framerate="8" />
+      <control type="single">
+        <key>jump</key>
+      </control>
+		</jump> <!-- 5 default -->
+
+    
+    <pushback>
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_pushback.png" framecount="2" width="50" height="50" startframe="0" framerate="8" />
+    </pushback>
+      
+    <run speed="5">
+      <animation filename="Graphics/Knights/lanternknight/lantern_knight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" />
+      <control type="single">
+        <key>forward</key>        
+      </control>
+    </run>
+
+		
+	</action>
+</knight>

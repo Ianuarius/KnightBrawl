@@ -10,9 +10,9 @@ GameState::GameState(Window *window, Input *mainInput):
 	mainInput(mainInput),
 	camera(nullptr),
 	level(nullptr),
-	font(new Font("ChicagoFLF.ttf", 10)),
+	font(new Font("../Fonts/ChicagoFLF.ttf", 10)),
 	stateData(nullptr),
-	coin(window, "Graphics/GUI/coin2.png")
+	coin(window, "../Graphics/GUI/coin2.png")
 {
 	timer.start();
 
