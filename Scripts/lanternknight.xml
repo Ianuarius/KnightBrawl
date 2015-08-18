@@ -141,6 +141,7 @@
         <key>down</key>
         <key>up</key>
         <key>forward</key>
+        <key>action</key>
       </control>
     </attack>
 

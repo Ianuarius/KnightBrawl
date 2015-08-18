@@ -140,6 +140,7 @@
         <key>up</key>
         <key>backward</key>
         <key>forward</key>
+        <key>action</key>
       </control>
     </attack>
 

@@ -137,8 +137,8 @@
       <animation filename="Graphics/Knights/doomknight/doomknight_special1.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="combo">
         <key>up</key>
-        <key>forward</key>
-        <key>forward</key>
+        <key>down</key>
+        <key>down</key>
         <key>action</key>
       </control>
     </attack>
