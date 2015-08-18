@@ -38,7 +38,7 @@ private:
 	Input *mainInput;
 	Window *window;
 	GameState *game;
-	int players, roster_row_length, roster_row_count, lives_total;
+	int active_players, max_players, roster_row_length, roster_row_count, lives_total;
 	bool start, gameover, character_select, level_select;
 	StateData *stateData;
 	std::string selected_level;

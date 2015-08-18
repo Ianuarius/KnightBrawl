@@ -16,15 +16,12 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	bool multiplayer = true;
 	character_select = true;
 	level_select = false;
-	players = 2;
+	active_players = 2;
+	max_players = 4;
 	lives_total = 3;
-	stateData->players = players;
-	stateData->selection.reserve(players);
-	for (int i = 0; i < players; i++) {
-		stateData->selection.push_back(nullptr);
-	}
+	stateData->selection.resize(active_players);
 	
-	for (int i = 0; i < players; i++) {
+	for (int i = 0; i < max_players; i++) {
 		tags.push_back(new Text(player_tag, Color("white")));
 		tag_shadows.push_back(new Text(player_tag, Color("black")));
 	}
@@ -33,12 +30,6 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	tag_texts.push_back("P2");
 	tag_texts.push_back("P3");
 	tag_texts.push_back("P4");
-
-	/*
-		TODO(juha): Go thru the roster
-		- for every row make new knight with that id
-		- 
-	*/
 
 	roster_result = roster_document.load_file("../Scripts/roster.xml");
 	level_result = level_document.load_file("../Scripts/levels.xml");
@@ -87,7 +78,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 		roster_row_count++;
 	}
 
-	for (int i = 0; i < players; i++) {
+	for (int i = 0; i < max_players; i++) {
 		SDL_Point tmp;
 		tmp.x = 0;
 		tmp.y = 0;
@@ -95,17 +86,21 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	}
 
 	// TODO(juha): Difference for initialized players and playing players.
-	for (int i = 0; i < players; i++) {
+	for (int i = 0; i < max_players; i++) {
 		playerControllers.push_back(new PlayerController(multiplayer, 
 														 i, 
 														 &positions));
 	}
 	
-	for (int i = 0; i < players; i++) {
+	for (int i = 0; i < max_players; i++) {
 		positions[i].x = playerControllers[i]->menu_x;
 		positions[i].y = playerControllers[i]->menu_y;
+		playerControllers[i]->setPlayers(&active_players);
 	}
-
+	
+	for (int i = 0; i < active_players; i++) {
+		playerControllers[i]->in_game = true;
+	}
 }
 
 void CharacterSelectState::load(StateData *data)
@@ -134,19 +129,39 @@ stateStatus CharacterSelectState::update()
 			status.status = STATE_QUIT;
 		}
 		
-	for (int i = 0; i < players; i++) {
+	for (int i = 0; i < max_players; i++) {
 		playerControllers[i]->update();
 	}
+	
+	stateData->selection.resize(active_players);
+	
+	bool intruder = false;
 
+	for (int i = 0; i < max_players; i++) {
+		
+		if (playerControllers[i]->in_game == false) {
+
+			do {
+				for (int j = 0; j < max_players; j++) {
+					if (playerControllers[i]->menu_x == positions[j].x &&
+						playerControllers[i]->menu_y == positions[j].y &&
+						i != j) {
+
+						playerControllers[i]->menu_x = j;
+
+						positions[i].x = playerControllers[i]->menu_x;
+					}
+				}
+			} while (intruder == true);
+		}
+	}
+	
 	menuMovement();
 
-	for (int i = 0; i < players; i++)
-	{
+	for (int i = 0; i < active_players; i++) {
 		positions[i].x = playerControllers[i]->menu_x;
 		positions[i].y = playerControllers[i]->menu_y;
 	}
-
-
 	return status;
 }
 
@@ -154,13 +169,15 @@ void CharacterSelectState::menuMovement()
 {
 	if (character_select) {
 		bool intruder = false;
-		for (int i = 0; i < players; i++) {
+		for (int i = 0; i < active_players; i++) {
 		
 			do {
 				for (int j = 0; j < (int)positions.size(); j++) {
 
 					if (playerControllers[i]->menu_x == positions[j].x &&
 						playerControllers[i]->menu_y == positions[j].y &&
+						playerControllers[i]->in_game == true &&
+						playerControllers[j]->in_game == true &&
 						i != j) {
 
 						if (playerControllers[i]->menu_x > positions[i].x) {
@@ -181,7 +198,7 @@ void CharacterSelectState::menuMovement()
 			} while (intruder == true);
 		}
 
-		for (int i = 0; i < players; i++) {
+		for (int i = 0; i < active_players; i++) {
 			if (playerControllers[i]->menu_x >= 0 &&
 				playerControllers[i]->menu_x < (int)knights[0].size() &&
 				playerControllers[i]->menu_y >= 0 &&
@@ -204,44 +221,22 @@ void CharacterSelectState::menuMovement()
 		bool intruder = false;
 		int level_rows = 1;
 
-		do {
-			if (playerControllers[0]->menu_x == positions[0].x &&
-				playerControllers[0]->menu_y == positions[0].y) {
-					
-				if (playerControllers[0]->menu_x > positions[0].x) {
-					playerControllers[0]->menu_x += 1;
-				} else if (playerControllers[0]->menu_x < positions[0].x) {
-					playerControllers[0]->menu_x -= 1;
-				} else if (playerControllers[0]->menu_y > positions[0].y) {
-					playerControllers[0]->menu_y += 1;
-				} else if (playerControllers[0]->menu_y < positions[0].y) {
-					playerControllers[0]->menu_y -= 1;
-				}
-				intruder = true;
-				break;
-			} else {
-				intruder = false;
-			}
-		} while (intruder == true);
-		
-		for (int i = 0; i < players; i++) {
-			if (playerControllers[0]->menu_x >= 0 &&
-				playerControllers[0]->menu_x < (int)level_paths.size() &&
-				playerControllers[0]->menu_y >= 0 &&
-				playerControllers[0]->menu_y < level_rows) {
+		if (playerControllers[0]->menu_x >= 0 &&
+			playerControllers[0]->menu_x < (int)level_paths.size() &&
+			playerControllers[0]->menu_y >= 0 &&
+			playerControllers[0]->menu_y < level_rows) {
 			
-				if (playerControllers[0]->menu_x > 
-					(int)knights[playerControllers[0]->menu_y].size() - 1) {
-					playerControllers[0]->menu_x = positions[0].x;
-					playerControllers[0]->menu_y = positions[0].y;
-				} else {
-					positions[0].x = playerControllers[0]->menu_x;
-					positions[0].y = playerControllers[0]->menu_y;
-				}
-			} else {
+			if (playerControllers[0]->menu_x > 
+				(int)knights[playerControllers[0]->menu_y].size() - 1) {
 				playerControllers[0]->menu_x = positions[0].x;
 				playerControllers[0]->menu_y = positions[0].y;
+			} else {
+				positions[0].x = playerControllers[0]->menu_x;
+				positions[0].y = playerControllers[0]->menu_y;
 			}
+		} else {
+			playerControllers[0]->menu_x = positions[0].x;
+			playerControllers[0]->menu_y = positions[0].y;
 		}
 
 		selected_level = level_paths[positions[0].x];
@@ -259,7 +254,7 @@ void CharacterSelectState::render()
 			for (int j = 0; j < (int)knights[i].size(); ++j) {	
 				if (knights[i][j]) {
 
-					for (int k = 0; k < players; k++) {
+					for (int k = 0; k < active_players; k++) {
 						if (j == positions[k].x && i == positions[k].y) {
 							knights[i][j]->getDecal()->setIndex(0);
 							stateData->selection[k] = knights[i][j];
@@ -275,7 +270,7 @@ void CharacterSelectState::render()
 			}
 		}
 	
-		for (int i = 0; i < players; i++)
+		for (int i = 0; i < active_players; i++)
 		{
 			tag_shadows[i]->print(window, tag_texts[i], 
 				MARGIN_LEFT + 17 + positions[i].x * 30,
@@ -300,7 +295,7 @@ void CharacterSelectState::render()
 		}
 
 	/*
-		for (int i = 0; i < players; i++)
+		for (int i = 0; i < max_players; i++)
 		{
 			tag_shadows[i]->print(window, tag_texts[i], 
 				MARGIN_LEFT + 17 + positions[i].x * 30,
@@ -319,6 +314,7 @@ void CharacterSelectState::render()
 
 StateData *CharacterSelectState::getStateData()
 {
+	stateData->players = active_players;
 	stateData->lives = lives_total;
 	stateData->level_path.assign(selected_level);
 	stateData->level_tileset.assign(selected_tileset);

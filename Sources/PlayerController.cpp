@@ -20,6 +20,7 @@ PlayerController::PlayerController(bool multiplayer, int player, std::vector<SDL
 	menu_x(0 + player), menu_y(0)
 {	
 	parseMappedValues();
+	in_game = false;
 }
 
 PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
@@ -57,6 +58,11 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	parseMappedValues();
 
 	moves_amount = knight->ANIMATION_MAX;
+}
+
+void PlayerController::setPlayers(int *active_players)
+{
+	players = active_players;
 }
 
 void PlayerController::parseMappedValues()
@@ -199,9 +205,17 @@ void PlayerController::update()
 		
 	// ACTION BUTTON
 	if (playerInput.keyState(key_action)) {
-		if (playerInput.isKeyPressed(key_action) && playerInput.isKeyDown(key_action) && !in_menu) {
-			tmp_input = knight->ACTION;
+		if (playerInput.isKeyPressed(key_action) && playerInput.isKeyDown(key_action)) {
+			if (!in_menu) {
+				tmp_input = knight->ACTION;
+			} else {
+				if (in_game == false) {
+					in_game = true;
+					*players += 1;
+				}
+			}
 		}
+
 		basic_attack = true;
 	}
 		

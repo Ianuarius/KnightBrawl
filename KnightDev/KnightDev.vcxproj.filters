@@ -19,6 +19,9 @@
     <Filter Include="Resource Files\Other">
       <UniqueIdentifier>{a24c7eba-36c9-4c58-b6cc-29db6ccdc536}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Documents">
+      <UniqueIdentifier>{0195d310-6ac2-410a-86dd-eea4567c6161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\Animation.h">
@@ -319,5 +322,10 @@
     <Xml Include="..\Scripts\DefaultControls.xml">
       <Filter>Resource Files\Other</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Docs\TODO.txt">
+      <Filter>Resource Files\Documents</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -34,11 +34,12 @@ public:
 
 	int getDirection();
 	void update();
+	void setPlayers(int *active_players);
 	void commitMovement();
 	void updateInput();
 	Knight *getKnight();
 	int menu_x, menu_y;
-	bool executing_combo;
+	bool executing_combo, in_game;
 	std::vector<SpecialCombo> *moves;
 	
 	bool in_air, jumping, crouching, attacking;
@@ -69,6 +70,7 @@ private:
 	Timer deathTimer;
 	Input playerInput;
 	int moves_amount;
+	int *players;
 	int key_action, key_down, key_jump, key_left, key_menu, key_right, key_up;
 	bool basic_attack;
 	int combo_one_state, player;

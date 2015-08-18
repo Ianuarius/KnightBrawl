@@ -114,6 +114,9 @@
     <Xml Include="..\Scripts\stormknight.xml" />
     <Xml Include="..\Scripts\wizardknight.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Docs\TODO.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D89DBCF5-ED4C-4AFD-981B-CF2D94062857}</ProjectGuid>
     <RootNamespace>KnightDev</RootNamespace>
