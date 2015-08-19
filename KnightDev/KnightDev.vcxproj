@@ -91,16 +91,22 @@
     <ClCompile Include="..\Sources\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\Scripts\arcticknight.xml" />
+    <Xml Include="..\Scripts\arcticknight.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\Scripts\bardknight.xml" />
     <Xml Include="..\Scripts\boxingknight.xml" />
     <Xml Include="..\Scripts\cactusknight.xml" />
     <Xml Include="..\Scripts\cockknight.xml" />
     <Xml Include="..\Scripts\Controls.xml" />
-    <Xml Include="..\Scripts\deathknight.xml" />
+    <Xml Include="..\Scripts\deathknight.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\Scripts\DefaultControls.xml" />
     <Xml Include="..\Scripts\doomknight.xml" />
-    <Xml Include="..\Scripts\dragonknight.xml" />
+    <Xml Include="..\Scripts\dragonknight.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\Scripts\ghostknight.xml" />
     <Xml Include="..\Scripts\knightknight.xml" />
     <Xml Include="..\Scripts\lanternknight.xml" />
