@@ -108,7 +108,7 @@
   </projectile>
   
   <trapeffect name="spikysurprise">
-    <animation filename="Graphics/Knights/cactusknight/spiketrap.png" framecount="3" width="20" height="10" startframe="0" framerate="8" loops="1" />
+    <animation filename="Graphics/Knights/cactusknight/cactustrap.png" framecount="3" width="20" height="10" startframe="0" framerate="8" loops="1" />
     <collision collision="all" collisiondestruct="true" />
     <hitbox x="10" y="-10" width="20" height="10" /> 
     <damage value="10" />
