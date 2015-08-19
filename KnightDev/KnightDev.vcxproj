@@ -146,8 +146,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\Projects\KnightDev\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Projects\KnightDev\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>K:\Projektit\KnightDev\SDL2\include;E:\Projects\KnightDev\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>K:\Projektit\KnightDev\SDL2\lib\x86;E:\Projects\KnightDev\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\Ianuarius\Documents\Projects\KnightDev\SDL2\include;$(IncludePath)</IncludePath>

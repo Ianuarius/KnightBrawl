@@ -22,6 +22,7 @@ Knight::Knight(Window *window, int knight_number, int lives_total):
 	landing = false;
 	is_landed = false;
 	is_jumping = false;
+	out_of_bounds = false;
 	
 	moves.resize(ANIMATION_MAX);
 
@@ -529,6 +530,7 @@ void Knight::respawn()
 {
 	if (lives > 0) {
 		alive = true;
+		out_of_bounds = false;
 		hitpoints = 100;
 		moves[DEATH].animation->times_played = 0;
 	}

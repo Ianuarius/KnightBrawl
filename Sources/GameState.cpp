@@ -100,6 +100,18 @@ stateStatus GameState::update()
 	}
 	
 	for (int i = 0; i < players; i++) {
+		if (playerControllers[i]->boundbox.x < 0 ||
+			playerControllers[i]->boundbox.x > level->getWidth() ||
+			playerControllers[i]->boundbox.y > level->getHeight()) {
+			knights[i]->out_of_bounds = true;
+			knights[i]->die();
+			playerControllers[i]->desired.x = startPoints[i].x;
+			playerControllers[i]->desired.y = startPoints[i].y;
+			playerControllers[i]->commitMovement();
+		}
+	}
+	
+	for (int i = 0; i < players; i++) {
 		playerActors[i]->updateAnimation();
 		playerActors[i]->updateSound();
 	}
@@ -184,32 +196,13 @@ stateStatus GameState::update()
 	}
 	
 	for (int i = 0; i < players; i++) {
-		if (playerControllers[i]->boundbox.x < 0 ||
-			playerControllers[i]->boundbox.x > level->getWidth() ||
-			playerControllers[i]->boundbox.y > level->getHeight()) {
-			knights[i]->die();
-			playerControllers[i]->desired.x = startPoints[i].x;
-			playerControllers[i]->desired.y = startPoints[i].y;
-			playerControllers[i]->commitMovement();
-		}
-	}
-	
-	for (int i = 0; i < players; i++) {
 		if (knights[i]->alive == true) {
 			playerControllers[i]->commitMovement();
 		}
 	}
 	
-	
 	mainInput->update();
-
 	camera->update();
-
-	// NOTE(juha): prints player location to console
-	/*
-	printf("Player x: %d - Player y: %d\n", 
-		playerControllers[0]->location.x, playerControllers[0]->location.y);
-	*/
 	return status;
 }
 

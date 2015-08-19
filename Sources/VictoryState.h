@@ -36,13 +36,14 @@ private:
 	std::vector<Text *> kills;
 	std::vector<Text *> deaths;
 	std::vector<int> player_rank;
-	Text *knight_wins,
+	Text *knight_wins, *flawless_text,
 		*kills_text, *deaths_text;
 
 	Window *window;
 	Input *mainInput;
 	Text slideShowText();
 	// Texture victory;
+	bool flawless;
 	int slide_index, winner;
 	Timer timer;
 	StateData *stateData;
