@@ -4,9 +4,9 @@ TODO(juha):
 [ ] Midair Basic attack
 [ ] Downthrust attack
 [ ] Uppercut attack
-[ ] Camera update with more than 2 players
-[ ] Attack hitboxes from XML
-[ ] Respawning Knights
+[x] Camera update with more than 2 players
+[x] Attack hitboxes from XML
+[x] Respawning Knights
 [x] Attack controls from XML
 [x] Character selection
 [x] Knights in a vector
