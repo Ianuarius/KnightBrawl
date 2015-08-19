@@ -133,15 +133,12 @@
     </attack>
 
     <attack name="special1" format="ranged">
-<<<<<<< HEAD
       <name>Fan of Spines</name>
       <animation filename="../Graphics/Knights/rogueknight/rogue_knight_special1.png" framecount="8" width="50" height="50" startframe="0" framerate="8" loops="1" />
-=======
       <name>Poison Dagger</name>
       <animation filename="Graphics/Knights/rogueknight/rogue_knight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <projectilespawner type="dagger" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <effect type="slow" duration="4" power="50" />
->>>>>>> master
       <control type="combo">
         <key>up</key>
         <key>forward</key>
