@@ -96,6 +96,11 @@
     <sound type="landing" filename="../Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="dagger" type="linear" range="80" power="45" speed="3">
+    <animation filename="Graphics/Knights/rogueknight/rogue_knight_special4_dagger.png" framecount="1" width="5" height="5" startframe="0" framerate="8" loops="1" yoffset="-13" />
+    <collision collision="wall" collisiondestruct="true" />
+    <hitbox x="3" y="-3" width="12" height="4" />
+  </projectile>
 
   <action>
 
@@ -128,11 +133,18 @@
     </attack>
 
     <attack name="special1" format="ranged">
+<<<<<<< HEAD
       <name>Fan of Spines</name>
       <animation filename="../Graphics/Knights/rogueknight/rogue_knight_special1.png" framecount="8" width="50" height="50" startframe="0" framerate="8" loops="1" />
+=======
+      <name>Poison Dagger</name>
+      <animation filename="Graphics/Knights/rogueknight/rogue_knight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="dagger" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
+      <effect type="slow" duration="4" power="50" />
+>>>>>>> master
       <control type="combo">
-        <key>forward</key>
         <key>up</key>
+        <key>forward</key>
         <key>up</key>
         <key>action</key>
       </control>
@@ -161,7 +173,11 @@
 
     <attack name="special4" format="strike">
       <name>Stinging Spin</name>
+<<<<<<< HEAD
       <animation filename="../Graphics/Knights/rogueknight/rogue_knight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="2" />
+=======
+      <animation filename="Graphics/Knights/rogueknight/rogue_knight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="2" />
+>>>>>>> master
       <effect type="movement" speed="25" range="50" angle="90"  />
       <control type="combo">
         <key>down</key>
