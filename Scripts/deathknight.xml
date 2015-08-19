@@ -97,7 +97,7 @@
   </soundeffects>
 
   <projectile name="slash" type="linear" range="600" power="25" speed="5">
-    <animation filename="Graphics/Knights/deathknight/deathknight_projectile.png" framecount="4" width="30" height="40" startframe="0" framerate="8" loops="0" yoffset="-25" />
+    <animation filename="Graphics/Knights/deathknight/deathknight_projectile.png" framecount="4" width="30" height="40" startframe="0" framerate="8" loops="0" yoffset="-30" />
     <collision collision="wall" collisiondestruct="true" />
     <hitbox x="11" y="5" width="14" height="31" />
   </projectile>

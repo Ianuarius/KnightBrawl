@@ -1,12 +1,21 @@
 ﻿body {
     font-family: 'Trebuchet MS';
     color: #f1e7e7;
-    background-color: #110b0b;
+    background-color: #1e1e1e;
+}
+
+ol {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 ol > li {
     font-weight: bold;
-    font-size: large;
+    font-size: larger;
+    display: inline;
+    float: left;
+    width: 30%;
 }
 
 ul {
@@ -15,6 +24,17 @@ ul {
 }
 
 li {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    list-style: none;
+}
+
+img {
+   width: 15%;
+   height: 15%;
+   float: left;
+   position: relative;
+   top: -2.81251em;
+}
+
+.ability {
+    color: #c14414;
 }

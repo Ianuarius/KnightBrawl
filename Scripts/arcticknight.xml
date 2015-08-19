@@ -97,7 +97,7 @@
   </soundeffects>
 
   <projectile name="spear" type="linear" range="500" power="25" speed="6">
-    <animation filename="Graphics/Knights/warcticknight/arcticknight_special1_spear.png" framecount="3" width="50" height="15" startframe="0" framerate="6" loops="0" yoffset="-30" />
+    <animation filename="Graphics/Knights/arcticknight/arcticknight_special1_spear.png" framecount="3" width="50" height="15" startframe="0" framerate="6" loops="0" yoffset="-30" />
     <collision collision="all" collisiondestruct="true" />
     <hitbox x="6" y="4" width="424" height="5" />
   </projectile>
