@@ -20,7 +20,7 @@
   ***** PROJECTILE ***** 
 
   <projectile name="insert name" type="linear or arc" range="pixels" power="numeral" speed="pixels/second" delay="seconds">
-  <animation filename="Graphics/Knights/exampleknight/exampleknight_animation.png"  />
+  <animation filename="../Graphics/Knights/exampleknight/exampleknight_animation.png"  />
   <collision collision="player/wall/all" collisiondestruct="boolean" />
   <effect type="insert effect type" +following parameters+ />
   
@@ -84,7 +84,7 @@
   <stats>
     <truename>Conundrum</truename>
     <knightname>Wizard Knight</knightname>
-    <decal filename="Graphics/Decals/wizardknight.png" width="30" height="30" />
+    <decal filename="../Graphics/Decals/wizardknight.png" width="30" height="30" />
     <hitpoints>100</hitpoints>
     <hitbox x="-13" y="-26" width="26" height="26" />
     <speed>5</speed>
@@ -92,12 +92,12 @@
   </stats>
 
   <soundeffects>
-    <sound type="jump" filename="Sounds/jumping1.wav" />
-    <sound type="landing" filename="Sounds/landing1.wav" />
+    <sound type="jump" filename="../Sounds/jumping1.wav" />
+    <sound type="landing" filename="../Sounds/landing1.wav" />
   </soundeffects>
 
   <projectile name="fireball" type="linear" range="600" power="25" speed="5">
-    <animation filename="Graphics/Knights/wizardknight/wizard_knight_special1_fireball.png" framecount="4" width="42" height="25" startframe="0" framerate="4" loops="0" yoffset="-25" />
+    <animation filename="../Graphics/Knights/wizardknight/wizard_knight_special1_fireball.png" framecount="4" width="42" height="25" startframe="0" framerate="4" loops="0" yoffset="-25" />
     <collision collision="all" collisiondestruct="true" />
     <hitbox x="22" y="7" width="14" height="13" />
   </projectile>
@@ -105,7 +105,7 @@
   <action>
 
     <attack name="basic" format="strike">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <damage value="7" />
       <control type="single">
@@ -114,7 +114,7 @@
     </attack>
 
     <attack name="midair_basic" format="strike">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <damage value="7" />
       <control type="single">
@@ -123,7 +123,7 @@
     </attack>
 
     <attack name="midair_downthrust" format="strike">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_downthrust.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_downthrust.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="-3" y="-10" width="10" height="20" frame="1"/>
       <damage value="10" />
       <control type="combo">
@@ -134,7 +134,7 @@
 
     <attack name="special1" format="ranged">
       <name>Fireball</name>
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <projectilespawner type="fireball" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="combo">
         <key>up</key>
@@ -146,7 +146,7 @@
 
     <attack name="special2" format="ranged">
       <name>Spiky Surprise</name>
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_special2.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_special2.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="combo">
         <key>up</key>
         <key>down</key>
@@ -157,7 +157,7 @@
 
     <attack name="special3" format="strike">
       <name>Thorn Shield</name>
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_special3.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_special3.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="combo">
         <key>down</key>
         <key>up</key>
@@ -167,7 +167,7 @@
 
     <attack name="special4" format="strike">
       <name>Stinging Spin</name>
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_special4.png" framecount="7" width="50" height="50" startframe="0" framerate="8" loops="2" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_special4.png" framecount="7" width="50" height="50" startframe="0" framerate="8" loops="2" />
       <effect type="movement" speed="25" range="50" angle="90"  />
       <control type="combo">
         <key>down</key>
@@ -178,7 +178,7 @@
     </attack>
 
     <attack name="throw" format="throw">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_throw.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_throw.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <effect type="throw" power="10" angle="50" />
       <effect type="stun" duration="0.5"/>
@@ -191,7 +191,7 @@
     </attack>
 
     <attack name="uppercut" format="uppercut">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_uppercut.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_uppercut.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="10" width="10" height="20" frame="2"/>
       <effect type="uppercut" power="10" angle="0" />
       <effect type="stun" duration="0.5" />
@@ -203,7 +203,7 @@
     </attack>
 
     <block name="block">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_block.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_block.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <effect type="buff" stat="defense" power="50" format="pressed" time="0" />
       <effect type="damagereturn" power="15" format="pressed" time="0" />
       <control type="single">
@@ -213,18 +213,18 @@
     </block>
 
     <crouch name="crouch">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_crouch.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_crouch.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="single">
         <key>down</key>
       </control>
     </crouch>
 
     <death name="death">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_death.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_death.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </death>
 
     <dodge name="dodge">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_dodge.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_dodge.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <effect type="buff" stat="defense" power="100" format="duration" time="1" />
       <effect type="movement" speed="15" range="30" angle="90" />
       <control type="combo">
@@ -235,15 +235,15 @@
     </dodge>
 
     <hanging name="hanging">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_hanging.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_hanging.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </hanging>
 
     <idle name="idle">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_idle.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_idle.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </idle>
 
     <jump height="5" name="jump">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_jump.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_jump.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="single">
         <key>jump</key>
       </control>
@@ -252,11 +252,11 @@
     <!-- 5 default -->
 
     <pushback name="pushback">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_pushback.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_pushback.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </pushback>
 
     <run name="run">
-      <animation filename="Graphics/Knights/wizardknight/wizard_knight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/wizardknight/wizard_knight_run.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <control type="single">
         <key>forward</key>
       </control>
