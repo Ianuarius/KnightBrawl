@@ -18,7 +18,7 @@ MenuState::MenuState(Window *window, Input *mainInput):
 	state(0),
 	font(new Font("../Fonts/Coval.ttf", 9)),
 	version(new Text(font, Color("white"))),
-	version_number("v0.3a")
+	version_number("v0.3b")
 {		
 }
 

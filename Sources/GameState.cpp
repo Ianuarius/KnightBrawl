@@ -12,6 +12,7 @@ GameState::GameState(Window *window, Input *mainInput):
 	level(nullptr),
 	font(new Font("../Fonts/ChicagoFLF.ttf", 10)),
 	stateData(nullptr),
+	victory_counter(0),
 	coin(window, "../Graphics/GUI/coin2.png")
 {
 	timer.start();
@@ -76,7 +77,11 @@ stateStatus GameState::update()
 	}
 
 	if (alive_knights <= 1) {
-		status.status = STATE_VICTORY;
+		victory_counter++;
+
+		if (victory_counter > 120) {
+			status.status = STATE_VICTORY;
+		}
 
 		for (int i = 0; i < players; i++) {
 
@@ -133,7 +138,6 @@ stateStatus GameState::update()
 			projectiles.erase(projectiles.begin() + i);
 		}
 	}
-
 
 	SDL_Rect tmp_hb;
 	SDL_Rect wep_hb;

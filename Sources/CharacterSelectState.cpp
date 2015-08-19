@@ -9,6 +9,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	window(window),
 	mainInput(mainInput),
 	font(new Font("../Fonts/ChicagoFLF.ttf", 16)),
+	playerfont(new Font("../Fonts/ChicagoFLF.ttf", 12)),
 	player_tag(new Font("../Fonts/ChicagoFLF.ttf", 8)),
 	header(new Text(font, Color("white")))
 {
@@ -24,12 +25,34 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	for (int i = 0; i < max_players; i++) {
 		tags.push_back(new Text(player_tag, Color("white")));
 		tag_shadows.push_back(new Text(player_tag, Color("black")));
+		player_identifiers.push_back(new Text(playerfont, Color(0x4B692F)));
+		player_names.push_back(new Text(playerfont, Color("white")));
 	}
 	
 	tag_texts.push_back("P1");
 	tag_texts.push_back("P2");
 	tag_texts.push_back("P3");
 	tag_texts.push_back("P4");
+	
+	id_texts.push_back("Player 1");
+	id_texts.push_back("Player 2");
+	id_texts.push_back("Player 3");
+	id_texts.push_back("Player 4");
+	
+	SDL_Point tmp_point;
+	tmp_point.x = 80;
+	tmp_point.y = 100;
+	id_positions.push_back(tmp_point);
+	tmp_point.x = 420;
+	tmp_point.y = 100;
+	id_positions.push_back(tmp_point);
+	tmp_point.x = 80;
+	tmp_point.y = 150;
+	id_positions.push_back(tmp_point);
+	tmp_point.x = 420;
+	tmp_point.y = 150;
+	id_positions.push_back(tmp_point);
+
 
 	roster_result = roster_document.load_file("../Scripts/roster.xml");
 	level_result = level_document.load_file("../Scripts/levels.xml");
@@ -288,6 +311,14 @@ void CharacterSelectState::render()
 			tags[i]->print(window, tag_texts[i],
 				MARGIN_LEFT + 18 + positions[i].x * 30,
 				MARGIN_TOP  + 2  + positions[i].y * 30);
+			
+			player_identifiers[i]->print(window, id_texts[i],
+				id_positions[i].x,
+				id_positions[i].y);
+			
+			player_names[i]->print(window, stateData->selection[i]->getTruename(),
+				id_positions[i].x,
+				id_positions[i].y + 15);
 		}
 	} else if (level_select) {
 		header->print(window, "Choose your might", 170, (int)(MARGIN_TOP / 2));
@@ -299,26 +330,10 @@ void CharacterSelectState::render()
 				level_sprites[k]->setIndex(1);
 			}
 			
-			level_sprites[k]->render(MARGIN_LEFT + 80 * k, 
+			level_sprites[k]->render(MARGIN_LEFT + 80 * k,
 									 MARGIN_TOP  + 45 * 0);
 		}
-
-	/*
-		for (int i = 0; i < max_players; i++)
-		{
-			tag_shadows[i]->print(window, tag_texts[i], 
-				MARGIN_LEFT + 17 + positions[i].x * 30,
-				MARGIN_TOP  + 3  + positions[i].y * 30);
-		
-			tags[i]->print(window, tag_texts[i],
-				MARGIN_LEFT + 18 + positions[i].x * 30,
-				MARGIN_TOP  + 2  + positions[i].y * 30);
-		}
-
-		*/
 	}
-	
-
 }
 
 StateData *CharacterSelectState::getStateData()
