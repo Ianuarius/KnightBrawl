@@ -31,12 +31,15 @@ void Projectile::update()
 	double new_y = speed * sin(angle * PI / 180);
 	
 	if (direction == 1) {
-		location.x += new_x;
+		x_coordinate += new_x;
 	} else {
-		location.x -= new_x;
+		x_coordinate -= new_x;
 	}
 
-	location.y -= new_y;
+	y_coordinate -= new_y;
+
+	location.x = x_coordinate;
+	location.y = y_coordinate;
 
 	hitbox.x = location.x;
 	hitbox.y = location.y;

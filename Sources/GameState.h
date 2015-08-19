@@ -52,6 +52,7 @@ private:
 	void executeMoves(int knight, int move);
 	
 	int players;
+	int victory_counter;
 	std::vector<Knight *> knights;
 	std::vector<Projectile> projectiles;
 	std::vector<PlayerActor *> playerActors;

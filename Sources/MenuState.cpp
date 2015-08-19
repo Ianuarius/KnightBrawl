@@ -9,16 +9,16 @@ MenuState::MenuState(Window *window, Input *mainInput):
 	window(window),
 	mainInput(mainInput),
 	splash(true),
-	menu(window, "Graphics/GUI/titlescreen.png"),
-	splash_texture(window, "Graphics/GUI/splash_screen.png"),
-	boxing_selector_idle(window, "Graphics/Knights/boxingknight/boxingknight_idle.png",
+	menu(window, "../Graphics/GUI/titlescreen.png"),
+	splash_texture(window, "../Graphics/GUI/splash_screen.png"),
+	boxing_selector_idle(window, "../Graphics/Knights/boxingknight/boxingknight_idle.png",
 	50, 50, 0, 2, 8),
-	boxing_selector_hit(window, "Graphics/Knights/boxingknight/boxingknight_attack.png",
+	boxing_selector_hit(window, "../Graphics/Knights/boxingknight/boxingknight_attack.png",
 	50, 50, 0, 2, 8),
 	state(0),
-	font(new Font("Coval.ttf", 9)),
+	font(new Font("../Fonts/Coval.ttf", 9)),
 	version(new Text(font, Color("white"))),
-	version_number("v0.3a")
+	version_number("v0.3b")
 {		
 }
 

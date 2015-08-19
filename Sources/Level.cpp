@@ -148,7 +148,7 @@ void Level::collides(PlayerController *playerController)
 							  std::min(playerController->hitbox.TopLeft().y, playerController->desired.TopLeft().y) / tileSize};
 
 	SDL_Point max_tile_pos = {std::max(playerController->hitbox.BottomRight().x, playerController->desired.BottomRight().x) / tileSize,
-                              std::max(playerController->hitbox.BottomRight().y, playerController->desired.BottomRight().y) / tileSize};
+                             (std::max(playerController->hitbox.BottomRight().y, playerController->desired.BottomRight().y) + 10) / tileSize};
 
     // Cast entity->desired to SDL_Rect since SDL_HasIntersection requires it
     SDL_Rect sdl_desired = (SDL_Rect) playerController->desired;

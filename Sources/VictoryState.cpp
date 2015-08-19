@@ -8,14 +8,16 @@
 VictoryState::VictoryState(Window *window, Input *mainInput):
 	window(window),
 	mainInput(mainInput),
-	title(new Font("ChicagoFLF.ttf", 24)),
-	values(new Font("ChicagoFLF.ttf", 16)),
+	title(new Font("../Fonts/ChicagoFLF.ttf", 24)),
+	values(new Font("../Fonts/ChicagoFLF.ttf", 16)),
 	knight_wins(new Text(title, Color(0x48B748))),
 	kills_text(new Text(values, Color(0xDEDEA6))),
+	flawless_text(new Text(values, Color(0xFF3333))),
 	deaths_text(new Text(values, Color(0xDEDEA6)))
 {	
 	timer.start();
 	player_rank.resize(4);
+	flawless = false;
 }
 
 VictoryState::~VictoryState() 
@@ -78,6 +80,9 @@ void VictoryState::load(StateData *data)
 			kills.push_back(new Text(values, Color(0x48B748)));
 			deaths.push_back(new Text(values, Color(0x48B748)));
 			winner = i;
+			if (stateData->player_deaths[i] == 0) {
+				flawless = true;
+			}
 		} else {
 			names.push_back(new Text(values, Color(0xB60D0D)));
 			kills.push_back(new Text(values, Color(0xB60D0D)));
@@ -110,7 +115,9 @@ void VictoryState::render()
 			stateData->selection[winner]->getTruename() + " Wins!", 135, 70);
 	}
 
-
+	if (flawless) {
+		flawless_text->print(window, "Flawless Victory", 155, 95);
+	}
 
 	kills_text->print(window, "Kills", 175, 120);
 	deaths_text->print(window, "Deaths", 280, 120);

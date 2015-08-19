@@ -13,7 +13,7 @@ Knight::Knight(Window *window, int knight_number, int lives_total):
 	deaths(0),
 	specialpower(0)
 {
-	roster_result = roster_document.load_file("Scripts/roster.xml");
+	roster_result = roster_document.load_file("../Scripts/roster.xml");
 	attack_hitboxes.reserve(8);
 
 	alive = true;
@@ -22,6 +22,7 @@ Knight::Knight(Window *window, int knight_number, int lives_total):
 	landing = false;
 	is_landed = false;
 	is_jumping = false;
+	out_of_bounds = false;
 	
 	moves.resize(ANIMATION_MAX);
 
@@ -47,7 +48,7 @@ Knight::Knight(Window *window, int knight_number, int lives_total):
 	/* NOTE(juha): example code
 	atoi(levelDocument.child("map").attribute("height").value());
 	levelDocument.child("map").find_child_by_attribute("name", "Background2").child("data");
-	tmp = new Animation(window, "Graphics/Knights/wizard_knight_run.png", 50, 50, 0, 4, 8);*/
+	tmp = new Animation(window, "../Graphics/Knights/wizard_knight_run.png", 50, 50, 0, 4, 8);*/
 	
 	pugi::xml_node tmp_node;
 	tmp_node = knight_document.child("knight");
@@ -529,6 +530,7 @@ void Knight::respawn()
 {
 	if (lives > 0) {
 		alive = true;
+		out_of_bounds = false;
 		hitpoints = 100;
 		moves[DEATH].animation->times_played = 0;
 	}

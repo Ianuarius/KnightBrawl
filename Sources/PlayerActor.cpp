@@ -151,6 +151,10 @@ void PlayerActor::updateAnimation()
 	if (knight->alive == false) {
 		currentAnimation = knight->getAnimations(knight->DEATH);
 
+		if (knight->out_of_bounds) {
+			currentAnimation->times_played = 1;
+		}
+
 		if (currentAnimation->times_played == 0) {
 			currentAnimation->play(1);
 		}

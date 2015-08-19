@@ -41,7 +41,7 @@ public:
 	void damage(int amount);
 	void respawn();
 	Rectangle hitbox;
-	bool alive, hit, jumping, landing, falling;
+	bool alive, hit, jumping, landing, falling, out_of_bounds;
 	std::vector<SpecialCombo> *getMoves();
 	std::vector<Projectile> *getProjectiles();
 	std::vector<Sound> *getSounds();

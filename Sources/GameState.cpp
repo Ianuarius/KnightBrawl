@@ -10,9 +10,10 @@ GameState::GameState(Window *window, Input *mainInput):
 	mainInput(mainInput),
 	camera(nullptr),
 	level(nullptr),
-	font(new Font("ChicagoFLF.ttf", 10)),
+	font(new Font("../Fonts/ChicagoFLF.ttf", 10)),
 	stateData(nullptr),
-	coin(window, "Graphics/GUI/coin2.png")
+	victory_counter(0),
+	coin(window, "../Graphics/GUI/coin2.png")
 {
 	timer.start();
 
@@ -76,7 +77,11 @@ stateStatus GameState::update()
 	}
 
 	if (alive_knights <= 1) {
-		status.status = STATE_VICTORY;
+		victory_counter++;
+
+		if (victory_counter > 120) {
+			status.status = STATE_VICTORY;
+		}
 
 		for (int i = 0; i < players; i++) {
 
@@ -97,6 +102,18 @@ stateStatus GameState::update()
 
 	for (int i = 0; i < players; i++) {
 		level->collides(playerControllers[i]);
+	}
+	
+	for (int i = 0; i < players; i++) {
+		if (playerControllers[i]->boundbox.x < 0 ||
+			playerControllers[i]->boundbox.x > level->getWidth() ||
+			playerControllers[i]->boundbox.y > level->getHeight()) {
+			knights[i]->out_of_bounds = true;
+			knights[i]->die();
+			playerControllers[i]->desired.x = startPoints[i].x;
+			playerControllers[i]->desired.y = startPoints[i].y;
+			playerControllers[i]->commitMovement();
+		}
 	}
 	
 	for (int i = 0; i < players; i++) {
@@ -121,7 +138,6 @@ stateStatus GameState::update()
 			projectiles.erase(projectiles.begin() + i);
 		}
 	}
-
 
 	SDL_Rect tmp_hb;
 	SDL_Rect wep_hb;
@@ -184,32 +200,13 @@ stateStatus GameState::update()
 	}
 	
 	for (int i = 0; i < players; i++) {
-		if (playerControllers[i]->boundbox.x < 0 ||
-			playerControllers[i]->boundbox.x > level->getWidth() ||
-			playerControllers[i]->boundbox.y > level->getHeight()) {
-			knights[i]->die();
-			playerControllers[i]->desired.x = startPoints[i].x;
-			playerControllers[i]->desired.y = startPoints[i].y;
-			playerControllers[i]->commitMovement();
-		}
-	}
-	
-	for (int i = 0; i < players; i++) {
 		if (knights[i]->alive == true) {
 			playerControllers[i]->commitMovement();
 		}
 	}
 	
-	
 	mainInput->update();
-
 	camera->update();
-
-	// NOTE(juha): prints player location to console
-	/*
-	printf("Player x: %d - Player y: %d\n", 
-		playerControllers[0]->location.x, playerControllers[0]->location.y);
-	*/
 	return status;
 }
 
@@ -229,8 +226,8 @@ void GameState::executeMoves(int knight, int move)
 				for (int i = 0; i < tmp_pspawner.amount; i++) {
 					Projectile tmp_projectile = knights[knight]->getProjectiles()->at(0);
 					tmp_projectile.direction = playerControllers[knight]->getDirection();
-					tmp_projectile.location.x = playerControllers[knight]->location.x + tmp_projectile.x_offset;
-					tmp_projectile.location.y = playerControllers[knight]->location.y + tmp_projectile.y_offset;
+					tmp_projectile.x_coordinate = playerControllers[knight]->location.x + tmp_projectile.x_offset;
+					tmp_projectile.y_coordinate = playerControllers[knight]->location.y + tmp_projectile.y_offset;
 					tmp_projectile.angle = tmp_pspawner.angle + (tmp_pspawner.angle_interval * i);
 					tmp_projectile.player = knight;
 					tmp_projectile.animation->play(INFINITE_LOOP);
