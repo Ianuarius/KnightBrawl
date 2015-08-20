@@ -52,6 +52,15 @@ void GameState::load(StateData *data)
 		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i, knights[i]));
 	}
 	
+	if (stateData->ControllerIndex == 2) {
+		playerControllers[2]->setGamepad(stateData->ControllerHandles[0]);
+		playerControllers[3]->setGamepad(stateData->ControllerHandles[1]);
+	} else if (stateData->ControllerIndex == 1) {
+		playerControllers[3]->setGamepad(stateData->ControllerHandles[0]);
+	} else if (stateData->ControllerIndex == 0) {
+		// nobody gamepads rip
+	}
+
 	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerControllers, players);
 
 	for (int i = 0; i < players; i++) {
@@ -89,7 +98,7 @@ stateStatus GameState::update()
 	}
 
 	if (mainInput->keyState(SDL_SCANCODE_ESCAPE)) {
-		status.status = STATE_QUIT;
+		status.status = STATE_MENU;
 	}
 	
 	for (int i = 0; i < players; i++) {

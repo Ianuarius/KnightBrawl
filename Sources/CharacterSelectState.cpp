@@ -52,7 +52,21 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	tmp_point.x = 420;
 	tmp_point.y = 150;
 	id_positions.push_back(tmp_point);
+	
+	SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
 
+	int MaxJoysticks = SDL_NumJoysticks();
+	ControllerIndex = 0;
+	for(int JoystickIndex=0; JoystickIndex < MaxJoysticks; ++JoystickIndex) {
+		if (!SDL_IsGameController(JoystickIndex)) {
+			continue;
+		}
+		if (ControllerIndex >= MAX_CONTROLLERS) {
+			break;
+		}
+		ControllerHandles[ControllerIndex] = SDL_GameControllerOpen(JoystickIndex);
+		ControllerIndex++;
+	}
 
 	roster_result = roster_document.load_file("../Scripts/roster.xml");
 	level_result = level_document.load_file("../Scripts/levels.xml");
@@ -108,13 +122,21 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 		positions.push_back(tmp);
 	}
 
-	// TODO(juha): Difference for initialized players and playing players.
 	for (int i = 0; i < max_players; i++) {
 		playerControllers.push_back(new PlayerController(multiplayer, 
 														 i, 
 														 &positions));
 	}
 	
+	if (ControllerIndex == 2) {
+		playerControllers[2]->setGamepad(ControllerHandles[0]);
+		playerControllers[3]->setGamepad(ControllerHandles[1]);
+	} else if (ControllerIndex == 1) {
+		playerControllers[3]->setGamepad(ControllerHandles[0]);
+	} else if (ControllerIndex == 0) {
+		// nobody gamepads rip
+	}
+
 	for (int i = 0; i < max_players; i++) {
 		positions[i].x = playerControllers[i]->menu_x;
 		positions[i].y = playerControllers[i]->menu_y;
@@ -311,14 +333,23 @@ void CharacterSelectState::render()
 			tags[i]->print(window, tag_texts[i],
 				MARGIN_LEFT + 18 + positions[i].x * 30,
 				MARGIN_TOP  + 2  + positions[i].y * 30);
-			
+		}
+		
+		for (int i = 0; i < max_players; i++)
+		{
 			player_identifiers[i]->print(window, id_texts[i],
 				id_positions[i].x,
 				id_positions[i].y);
-			
-			player_names[i]->print(window, stateData->selection[i]->getTruename(),
-				id_positions[i].x,
-				id_positions[i].y + 15);
+
+			if (playerControllers[i]->in_game == true) {
+				player_names[i]->print(window, stateData->selection[i]->getTruename(),
+					id_positions[i].x,
+					id_positions[i].y + 15);
+			} else {
+				player_names[i]->print(window, "PRESS ACTION",
+					id_positions[i].x,
+					id_positions[i].y + 15);
+			}
 		}
 	} else if (level_select) {
 		header->print(window, "Choose your might", 170, (int)(MARGIN_TOP / 2));
@@ -339,6 +370,10 @@ void CharacterSelectState::render()
 StateData *CharacterSelectState::getStateData()
 {
 	stateData->players = active_players;
+	for (int i = 0; i < ControllerIndex; ++i) {
+		stateData->ControllerHandles[i] = ControllerHandles[i];
+	}
+	stateData->ControllerIndex = ControllerIndex;
 	stateData->lives = lives_total;
 	stateData->level_path.assign(selected_level);
 	stateData->level_tileset.assign(selected_tileset);

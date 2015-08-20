@@ -22,6 +22,8 @@
 #define FACING_RIGHT 1
 #define FACING_LEFT 2
 
+const int JOYSTICK_DEAD_ZONE = 8000;
+
 class PlayerController
 {
 public:
@@ -38,11 +40,13 @@ public:
 	void commitMovement();
 	void updateInput();
 	Knight *getKnight();
+	void setGamepad(SDL_GameController *NewControllerHandle);
+
 	int menu_x, menu_y;
 	bool executing_combo, in_game;
 	std::vector<SpecialCombo> *moves;
 	
-	bool in_air, jumping, crouching, attacking;
+	bool in_air, jumping, crouching, attacking, gamepad_ready;
 	float velocity_x, velocity_y;
 	SDL_Point location;
 	Rectangle boundbox, hitbox, desired, attack_hb;
@@ -57,7 +61,9 @@ private:
 	void parseMappedValues();
 	void doAction(int action);
 
+	bool controller_locked;
 	Knight *knight;
+	SDL_GameController *ControllerHandle;
 	std::vector<SDL_Point> *positions;
 	EnumParser<SDL_Scancode> fieldTypeParser;
 	pugi::xml_document controlsDocument;
@@ -72,6 +78,8 @@ private:
 	int moves_amount;
 	int *players;
 	int key_action, key_down, key_jump, key_left, key_menu, key_right, key_up;
+	bool AButton_up, XButton_up, Up_up, Down_up, Left_up, Right_up;
+	bool AButton, XButton, Up, Down, Left, Right;
 	bool basic_attack;
 	int combo_one_state, player;
 	bool multiplayer, in_menu;

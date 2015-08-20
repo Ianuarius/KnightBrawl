@@ -133,8 +133,6 @@
     </attack>
 
     <attack name="special1" format="ranged">
-      <name>Fan of Spines</name>
-      <animation filename="../Graphics/Knights/rogueknight/rogue_knight_special1.png" framecount="8" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <name>Poison Dagger</name>
       <animation filename="../Graphics/Knights/rogueknight/rogue_knight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <projectilespawner type="dagger" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
@@ -170,11 +168,7 @@
 
     <attack name="special4" format="strike">
       <name>Stinging Spin</name>
-<<<<<<< HEAD
-      <animation filename="../Graphics/Knights/rogueknight/rogue_knight_special4.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="2" />
-=======
       <animation filename="../Graphics/Knights/rogueknight/rogue_knight_special1.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="2" />
->>>>>>> master
       <effect type="movement" speed="25" range="50" angle="90"  />
       <control type="combo">
         <key>down</key>

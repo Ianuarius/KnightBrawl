@@ -96,7 +96,9 @@
     </Xml>
     <Xml Include="..\Scripts\bardknight.xml" />
     <Xml Include="..\Scripts\boxingknight.xml" />
-    <Xml Include="..\Scripts\cactusknight.xml" />
+    <Xml Include="..\Scripts\cactusknight.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\Scripts\cockknight.xml" />
     <Xml Include="..\Scripts\Controls.xml" />
     <Xml Include="..\Scripts\deathknight.xml">
@@ -113,7 +115,9 @@
     <Xml Include="..\Scripts\levels.xml" />
     <Xml Include="..\Scripts\popeknight.xml" />
     <Xml Include="..\Scripts\raptorknight.xml" />
-    <Xml Include="..\Scripts\rogueknight.xml" />
+    <Xml Include="..\Scripts\rogueknight.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\Scripts\roster.xml" />
     <Xml Include="..\Scripts\samuraiknight.xml" />
     <Xml Include="..\Scripts\skeletonknight.xml" />
