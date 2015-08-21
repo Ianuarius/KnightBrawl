@@ -16,4 +16,8 @@
   <knight id="12" script="../Scripts/raptorknight.xml" />
   <knight id="13" script="../Scripts/samuraiknight.xml" />
   <knight id="14" script="../Scripts/stormknight.xml" />
+  <knight id="15" script="../Scripts/boxingknight.xml" />
+  <knight id="16" script="../Scripts/miamiknight.xml" />
+  <knight id="17" script="../Scripts/cockknight.xml" />
+  <knight id="18" script="../Scripts/skeletonknight.xml" />
 </roster>
