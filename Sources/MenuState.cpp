@@ -65,7 +65,9 @@ stateStatus MenuState::update()
 	}
 
 	if(mainInput->keyPressed(SDL_SCANCODE_ESCAPE)) {
-		status.status = STATE_QUIT;
+		if (!splash) {
+			status.status = STATE_QUIT;
+		}
 	}
 
 	return status;

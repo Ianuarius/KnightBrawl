@@ -259,7 +259,7 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 		} else {
 			tmp_combo.format = tmp_combo.TYPE_MISC;
 		}
-			
+		
 		// NOTE(juha): Goes through all the properties for an action
 		for(pugi::xml_node_iterator property_it = action_it->begin();
 			property_it != action_it->end();
@@ -607,6 +607,11 @@ void Knight::die()
 		alive = false;
 		deaths++;
 	}
+}
+
+void Knight::executeCombo(int power)
+{
+	specialpower -= power;
 }
 
 int Knight::getSpecialPower()

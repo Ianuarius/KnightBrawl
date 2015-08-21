@@ -37,6 +37,7 @@ public:
 	std::string getTruename();
 	int getHitpoints();
 	int getSpecialPower();
+	void executeCombo(int power);
 	void powerup();
 	void damage(int amount);
 	void respawn();

@@ -8,6 +8,8 @@
 
 #include "Knight.h"
 
+#define MAX_CONTROLLERS 2
+
 class StateData
 {
 public:
@@ -23,7 +25,8 @@ public:
 	int start_x, start_y;
 	std::vector<int> player_kills;
 	std::vector<int> player_deaths;
-	int lives;
+	int lives, ControllerIndex;
+	SDL_GameController *ControllerHandles[MAX_CONTROLLERS];
 
 private:
 };

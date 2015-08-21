@@ -10,6 +10,7 @@ GameState::GameState(Window *window, Input *mainInput):
 	mainInput(mainInput),
 	camera(nullptr),
 	level(nullptr),
+	ost("../Music/knight_brawl.ogg"),
 	font(new Font("../Fonts/ChicagoFLF.ttf", 10)),
 	stateData(nullptr),
 	victory_counter(0),
@@ -19,9 +20,14 @@ GameState::GameState(Window *window, Input *mainInput):
 
 }
 
+GameState::~GameState()
+{
+}
+
 void GameState::load(StateData *data)
 {
 	stateData = data;
+	bool music = false;
 	
 	players = stateData->players;
 
@@ -52,6 +58,15 @@ void GameState::load(StateData *data)
 		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i, knights[i]));
 	}
 	
+	if (stateData->ControllerIndex == 2 && stateData->players == 4) {
+		playerControllers[2]->setGamepad(stateData->ControllerHandles[0]);
+		playerControllers[3]->setGamepad(stateData->ControllerHandles[1]);
+	} else if (stateData->ControllerIndex == 1 && stateData->players == 3) {
+		playerControllers[3]->setGamepad(stateData->ControllerHandles[0]);
+	} else if (stateData->ControllerIndex == 0) {
+		// nobody gamepads rip
+	}
+
 	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerControllers, players);
 
 	for (int i = 0; i < players; i++) {
@@ -60,6 +75,10 @@ void GameState::load(StateData *data)
 	
 	level = new Level(window, camera);
 	level->load(stateData->level_path, stateData->level_tileset);
+
+	if (music) {
+		ost.play();
+	}
 }
 
 stateStatus GameState::update()
@@ -80,6 +99,7 @@ stateStatus GameState::update()
 		victory_counter++;
 
 		if (victory_counter > 120) {
+			ost.stop();
 			status.status = STATE_VICTORY;
 		}
 
@@ -89,7 +109,8 @@ stateStatus GameState::update()
 	}
 
 	if (mainInput->keyState(SDL_SCANCODE_ESCAPE)) {
-		status.status = STATE_QUIT;
+		ost.stop();
+		status.status = STATE_MENU;
 	}
 	
 	for (int i = 0; i < players; i++) {
@@ -157,7 +178,8 @@ stateStatus GameState::update()
 				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
 					knights[attacking_knight]->hit == false &&
 					knights[receiving_knight]->alive == true) {
-					knights[receiving_knight]->damage(5);
+					knights[receiving_knight]->damage(
+						(int)(playerControllers[attacking_knight]->getKnight()->getMoves()->at(3).damage) * 2);
 					knights[attacking_knight]->hit = true;
 					knights[attacking_knight]->powerup();
 
@@ -186,7 +208,7 @@ stateStatus GameState::update()
 				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
 					projectiles[a_projectile].hit == false &&
 					knights[receiving_knight]->alive == true) {
-					knights[receiving_knight]->damage(50);
+					knights[receiving_knight]->damage((int)(projectiles[a_projectile].power) * 2);
 					projectiles[a_projectile].hit = true;
 
 					if (knights[receiving_knight]->getHitpoints() <= 0 &&

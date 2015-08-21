@@ -16,9 +16,11 @@
 #include "PlayerController.h"
 #include "Text.h"
 #include "Sprite.h"
+#include "SDL.h"
 
 #define MARGIN_TOP	100
 #define MARGIN_LEFT	200
+#define MAX_CONTROLLERS 2
 
 class CharacterSelectState: public BaseState 
 {
@@ -39,26 +41,33 @@ private:
 	Window *window;
 	GameState *game;
 	int active_players, max_players, roster_row_length, roster_row_count, lives_total;
+	int ControllerIndex;
 	bool start, gameover, character_select, level_select;
 	StateData *stateData;
 	std::string selected_level;
 	std::string selected_tileset;
 	SDL_Point selected_start;
+
+	SDL_GameController *ControllerHandles[MAX_CONTROLLERS];
+	std::vector<PlayerController *> playerControllers;
+
 	std::vector<SDL_Point> positions;
 	std::vector<SDL_Point> id_positions;
+	std::vector<SDL_Point> start_points;
+
 	std::vector<Text *> tags;
 	std::vector<Text *> tag_shadows;
 	std::vector<Text *> player_identifiers;
 	std::vector<Text *> player_names;
+
 	std::vector<std::string> tag_texts;
 	std::vector<std::string> id_texts;
-	std::vector<SDL_Point> start_points;
-	std::vector<std::vector<Knight *> > knights;
 	std::vector<std::string> level_paths;
 	std::vector<std::string> level_tilesets;
+
+	std::vector<std::vector<Knight *> > knights;
 	std::vector<Sprite *> level_sprites;
 	
-	std::vector<PlayerController *> playerControllers;
 	pugi::xml_parse_result knight_result, roster_result, level_result;
 	pugi::xml_document knight_document, roster_document, level_document;
 };

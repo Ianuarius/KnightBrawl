@@ -15,6 +15,7 @@
 #include "Font.h"
 #include "Level.h"
 #include "Input.h"
+#include "Music.h"
 #include "PlayerActor.h"
 #include "PlayerController.h"
 #include "SDL.h"
@@ -27,6 +28,7 @@ class GameState : public BaseState
 {
 public:
 	GameState(Window *window, Input *mainInput);
+	~GameState();
 	stateStatus update();
 	StateData *getStateData();
 	void load(StateData *data);
@@ -40,14 +42,15 @@ public:
 	};
 
 private:
-	Window *window;
-	Level *level;
-	Texture *background;
-	Font *font;
 	Camera *camera;
-	Timer timer;
+	Font *font;
 	Input *mainInput;
+	Level *level;
+	Music ost;
 	StateData *stateData;
+	Texture *background;
+	Timer timer;
+	Window *window;
 
 	void executeMoves(int knight, int move);
 	

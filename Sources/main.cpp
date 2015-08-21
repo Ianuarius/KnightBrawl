@@ -11,7 +11,7 @@
 int main(int argc, char* args[])
 {
 	SDL::init();
-	
+	SDL_ShowCursor(SDL_DISABLE);
 	Window window(SCREEN_WIDTH, SCREEN_HEIGHT, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
 	Input mainInput;
 	StateManager manager(&window, &mainInput);

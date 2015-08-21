@@ -20,7 +20,15 @@ PlayerController::PlayerController(bool multiplayer, int player, std::vector<SDL
 	menu_x(0 + player), menu_y(0)
 {	
 	parseMappedValues();
-	in_game = false;
+	in_game =			false;
+	gamepad_ready =		false;
+	controller_locked = true;
+	AButton =			false;
+	XButton =			false;
+	Up =				false;
+	Down =				false;
+	Left =				false;
+	Right =				false;
 }
 
 PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
@@ -51,6 +59,16 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	crouching =			false;
 	attacking =			false;
 	basic_attack =		false;
+	gamepad_ready =		false;
+	controller_locked = true;
+	AButton =			false;
+	XButton =			false;
+	Up =				false;
+	Down =				false;
+	Left =				false;
+	Right =				false;
+	has_attacked =		false;
+	has_jumped =		false;
 
 	for (int i = 0; i < SPECIAL_MOVES; ++i) {
 		combo_state.push_back(0);
@@ -58,6 +76,14 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	parseMappedValues();
 
 	moves_amount = knight->ANIMATION_MAX;
+}
+
+void PlayerController::setGamepad(SDL_GameController *NewControllerHandle)
+{
+	ControllerHandle = NewControllerHandle;
+	if (ControllerHandle) {
+		gamepad_ready =	true;
+	}
 }
 
 void PlayerController::setPlayers(int *active_players)
@@ -119,6 +145,22 @@ void PlayerController::parseMappedValues()
 
 void PlayerController::update()
 {
+	if (gamepad_ready) {
+		AButton =	SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_A);
+		XButton =	SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_X);
+		Up =		SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_DPAD_UP);
+		Down =		SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_DPAD_DOWN);
+		Left =		SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_DPAD_LEFT);
+		Right =		SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
+	
+		if (!AButton)	AButton_up =	true;
+		if (!XButton)	XButton_up =	true;
+		if (!Up)		Up_up =			true;
+		if (!Down)		Down_up =		true;
+		if (!Left)		Left_up =		true;
+		if (!Right)		Right_up =		true;
+	}
+
 	if (!in_menu) {
 		// NOTE(juha): Gravitational stuff
 		velocity_y += GRAVITY * (16.f / 1000);
@@ -139,13 +181,24 @@ void PlayerController::update()
 			jumping = false;
 		}
 	}
-
+	
+	if (in_menu) {
+		if (player == 3 && *players == 2) {
+			controller_locked = true;
+		} else {
+			controller_locked = false;
+		}
+	} else {
+		controller_locked = false;
+	}
+	
 	// NOTE(juha): Reading the inputs for single player and multiplayer.
 	int tmp_input = 9999;
-
+	
 	// MOVE LEFT
-	if (playerInput.keyState(key_left)) {
-		if (playerInput.isKeyPressed(key_left) && playerInput.isKeyDown(key_left)) {
+	if (playerInput.keyState(key_left) || (Left && !controller_locked)) {
+		if ((playerInput.isKeyPressed(key_left) && playerInput.isKeyDown(key_left)) || 
+			(Left_up && !controller_locked && gamepad_ready)) {
 			if (!in_menu) {
 				if (facing_direction == FACING_LEFT) {
 					tmp_input = knight->FORWARD;
@@ -156,11 +209,13 @@ void PlayerController::update()
 			menu_x -= 1;
 		}
 		left();
+		Left_up = false;
 	}
 		
 	// MOVE RIGHT
-	if (playerInput.keyState(key_right)) {
-		if (playerInput.isKeyPressed(key_right) && playerInput.isKeyDown(key_right)) {
+	if (playerInput.keyState(key_right) || (Right && !controller_locked)) {
+		if ((playerInput.isKeyPressed(key_right) && playerInput.isKeyDown(key_right)) || 
+			(Right_up && !controller_locked && gamepad_ready)) {
 			if (!in_menu) {
 				if (facing_direction == FACING_RIGHT) {
 					tmp_input = knight->FORWARD;
@@ -171,41 +226,55 @@ void PlayerController::update()
 			menu_x += 1;
 		}
 		right();
+		Right_up = false;
 	}
 		
 	// DOWN BUTTON
-	if (playerInput.keyState(key_down)) {
-		if (playerInput.isKeyPressed(key_down) && playerInput.isKeyDown(key_down)) {
+	if (playerInput.keyState(key_down) || (Down && !controller_locked)) {
+		if ((playerInput.isKeyPressed(key_down) && playerInput.isKeyDown(key_down)) || 
+			(Down_up && !controller_locked && gamepad_ready)) {
 			if (!in_menu) {
 				tmp_input = knight->DOWN;
 			}
 			menu_y += 1;
 		}
 		crouch();
+		Down_up = false;
 	}
 		
 	// UP BUTTON
-	if (playerInput.keyState(key_up)) {
-		if (playerInput.isKeyPressed(key_up) && playerInput.isKeyDown(key_up)) {
+	if (playerInput.keyState(key_up) || (Up && !controller_locked)) {
+		if ((playerInput.isKeyPressed(key_up) && playerInput.isKeyDown(key_up)) || 
+			(Up_up && !controller_locked && gamepad_ready)) {
 			if (!in_menu) {
 				tmp_input = knight->UP;
 			}
 			menu_y -= 1;
 		}
 		up();
+		Up_up = false;
 	}
 	
 	// JUMP BUTTON
-	if (playerInput.keyState(key_jump)) {
-		if (playerInput.isKeyPressed(key_jump) && playerInput.isKeyDown(key_jump) && !in_menu) {
+	if (playerInput.keyState(key_jump) || (AButton && !controller_locked)) {
+		if ((playerInput.isKeyPressed(key_jump) && playerInput.isKeyDown(key_jump) && !in_menu) || 
+			(AButton_up && !controller_locked && gamepad_ready)) {
 			tmp_input = knight->JUMP;
 		}
-		jump();
+		if (!has_jumped) {
+			jump();
+			AButton_up = false;
+			has_jumped = true;
+		}
+	}
+	if (playerInput.isKeyUp(key_jump)) {
+		has_jumped = false;
 	}
 		
 	// ACTION BUTTON
-	if (playerInput.keyState(key_action)) {
-		if (playerInput.isKeyPressed(key_action) && playerInput.isKeyDown(key_action)) {
+	if (playerInput.keyState(key_action) || (XButton && !controller_locked)) {
+		if ((playerInput.isKeyPressed(key_action) && playerInput.isKeyDown(key_action)) || 
+			(XButton_up && !controller_locked && gamepad_ready)) {
 			if (!in_menu) {
 				tmp_input = knight->ACTION;
 			} else {
@@ -215,10 +284,16 @@ void PlayerController::update()
 				}
 			}
 		}
-
-		basic_attack = true;
+		if (!has_attacked) {
+			basic_attack = true;
+			XButton_up = false;
+			has_attacked = true;
+		}
 	}
 		
+	if (playerInput.isKeyUp(key_action)) {
+		has_attacked = false;
+	}
 	// MENU BUTTON
 	if (playerInput.keyState(key_menu)) {
 	}
@@ -326,13 +401,14 @@ void PlayerController::update()
 						(*moves)[i].state = 0;
 					}
 
+					int combopower = 25;
 					if ((*moves)[i].keys.size() == (*moves)[i].state &&
 						continue_execution == true) {
-						if ((*moves)[i].disabled == false) {
+						if ((*moves)[i].disabled == false && knight->getSpecialPower() > combopower) {
 							(*moves)[i].executing = true;
 							executing_combo = true;
+							knight->executeCombo(combopower);
 							printf("executing\n");
-
 						}
 						(*moves)[i].state = 0;
 					}
@@ -378,6 +454,8 @@ void PlayerController::update()
 
 		targetVx = 0;
 	}
+	
+
 }
 
 void PlayerController::updateInput()
