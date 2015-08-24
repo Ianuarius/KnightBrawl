@@ -65,6 +65,7 @@ void PlayerActor::updateAnimation()
 		
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
 		 	playerController->attacking = false;
+			knight->getMoves()->at(knight->ATTACK).executing = false;
 			knight->hit = false;
 		 	currentAnimation->times_played = 0;
 		}

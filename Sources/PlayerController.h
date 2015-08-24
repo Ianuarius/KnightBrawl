@@ -7,6 +7,7 @@
 #define __PLAYERCONTROLLER_H_DEFINED__
 
 #include <string>
+#include "Effect.h"
 #include "Input.h"
 #include "Keymap.h"
 #include "Knight.h"
@@ -39,12 +40,14 @@ public:
 	void setPlayers(int *active_players);
 	void commitMovement();
 	void updateInput();
+	void move(int x, int y);
 	Knight *getKnight();
 	void setGamepad(SDL_GameController *NewControllerHandle);
 
 	int menu_x, menu_y;
 	bool executing_combo, in_game;
 	std::vector<SpecialCombo> *moves;
+	std::vector<Effect *> movements;
 	
 	bool in_air, jumping, crouching, attacking, gamepad_ready;
 	float velocity_x, velocity_y;

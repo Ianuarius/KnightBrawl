@@ -261,6 +261,16 @@ void GameState::executeMoves(int knight, int move)
 					projectiles.push_back(tmp_projectile);
 				}
 			}
+
+			// NOTE(juha): go through the effects
+			if (knights[knight]->getMoves()->at(move).effects.size() > 0) {
+				
+				if (knights[knight]->getMoves()->at(move).effects[0].type == 6) {
+					Effect *tmp_effect = &knights[knight]->getMoves()->at(move).effects[0];
+					tmp_effect->executing = true;
+					playerControllers[knight]->movements.push_back(tmp_effect);
+				}
+			}
 		}
 	}
 

@@ -453,9 +453,26 @@ void PlayerController::update()
 		attack_hb.y = desired.y + 8;
 
 		targetVx = 0;
-	}
-	
 
+		if (movements.size() > 0) {
+			if (movements.at(0)->executing &&
+				movements.at(0)->distance_travelled < movements.at(0)->range) {
+				
+				double new_x = movements.at(0)->speed * cos(movements.at(0)->angle * PI / 180);
+				double new_y = movements.at(0)->speed * sin(movements.at(0)->angle * PI / 180);
+	
+				if (facing_direction == 1) {
+					desired.x += new_x;
+				} else {
+					desired.x -= new_x;
+				}
+
+				desired.y -= new_y;
+				movements.at(0)->distance_travelled += movements.at(0)->speed;
+			} else {
+			}
+		}
+	}
 }
 
 void PlayerController::updateInput()
@@ -483,6 +500,12 @@ void PlayerController::commitMovement()
 Knight *PlayerController::getKnight()
 {
 	return knight;
+}
+
+void PlayerController::move(int x, int y)
+{
+	desired.x += x;
+	desired.y += y;
 }
 
 // NOTE(juha): Collects all the action methods into one
@@ -540,6 +563,7 @@ void PlayerController::basicAttack()
 {
 	if (!in_menu && !executing_combo) {
 		attacking = true;
+		knight->getMoves()->at(knight->ATTACK).executing = true;
 		basic_attack = false;
 	} else {
 

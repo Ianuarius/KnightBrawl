@@ -19,12 +19,11 @@ MenuState::MenuState(Window *window, Input *mainInput):
 	font(new Font("../Fonts/Coval.ttf", 9)),
 	version(new Text(font, Color("white"))),
 	version_number("v1.0")
-{		
+{
 }
 
 void MenuState::load(StateData *data)
 {
-	
 }
 
 stateStatus MenuState::update() 

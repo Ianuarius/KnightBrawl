@@ -52,6 +52,7 @@ public:
 	int time;
 	int type;
 	bool executing;
+	int distance_travelled;
 	std::vector<int> keys;
 	int tmp_input;
 
