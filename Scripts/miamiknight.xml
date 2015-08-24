@@ -96,14 +96,14 @@
     <sound type="landing" filename="../Sounds/landing1.wav" />
   </soundeffects>
 
-  <projectile name="bullet" type="linear" range="80" power="15" speed="5">
-    <animation filename="../Graphics/Knights/miamiknight/bullet.png" framecount="1" width="5" height="5" startframe="0" framerate="8" loops="1" yoffset="-13" />
+  <projectile name="bullet" type="linear" range="80" power="15" speed="15">
+    <animation filename="../Graphics/Knights/miamiknight/bullet.png" framecount="1" width="3" height="3" startframe="0" framerate="8" loops="1" yoffset="-16" />
     <collision collision="wall" collisiondestruct="true" />
     <hitbox x="0" y="0" width="3" height="3" />
   </projectile>
 
-  <projectile name="buckshot" type="linear" range="80" power="15" speed="3">
-    <animation filename="../Graphics/Knights/miamiknight/bullet.png" framecount="1" width="5" height="5" startframe="0" framerate="8" loops="1" yoffset="-13" />
+  <projectile name="buckshot" type="linear" range="80" power="15" speed="15">
+    <animation filename="../Graphics/Knights/miamiknight/bullet.png" framecount="1" width="3" height="3" startframe="0" framerate="8" loops="1" yoffset="-16" />
     <collision collision="wall" collisiondestruct="true" />
     <hitbox x="0" y="0" width="3" height="3" />
   </projectile>
