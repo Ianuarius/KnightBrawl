@@ -224,7 +224,7 @@
     </crouch>
 
     <death name="death">
-      <animation filename="../Graphics/Knights/skeletonknight/skeleton_knight_death.png" framecount="19" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/skeletonknight/skeleton_knight_death.png" framecount="18" width="50" height="50" startframe="0" framerate="8" loops="1" />
     </death>
 
     <dodge name="dodge">
