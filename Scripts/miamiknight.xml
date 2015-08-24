@@ -114,6 +114,7 @@
     <attack name="basic" format="ranged">
       <animation filename="../Graphics/Knights/miamiknight/miami_knight_attack.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <projectilespawner type="bullet" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
+      <damage value="10" />
       <control type="single">
         <key>action</key>
       </control>
