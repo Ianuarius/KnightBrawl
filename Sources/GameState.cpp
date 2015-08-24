@@ -179,7 +179,8 @@ stateStatus GameState::update()
 					knights[attacking_knight]->hit == false &&
 					knights[receiving_knight]->alive == true) {
 					knights[receiving_knight]->damage(
-						(int)(playerControllers[attacking_knight]->getKnight()->getMoves()->at(3).damage) * 2);
+						(int)(playerControllers[attacking_knight]->
+						getKnight()->getMoves()->at(3).damage) * 2);
 					knights[attacking_knight]->hit = true;
 					knights[attacking_knight]->powerup();
 
@@ -208,7 +209,8 @@ stateStatus GameState::update()
 				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
 					projectiles[a_projectile].hit == false &&
 					knights[receiving_knight]->alive == true) {
-					knights[receiving_knight]->damage((int)(projectiles[a_projectile].power) * 2);
+					knights[receiving_knight]->
+						damage((int)(projectiles[a_projectile].power) * 2);
 					projectiles[a_projectile].hit = true;
 
 					if (knights[receiving_knight]->getHitpoints() <= 0 &&
@@ -243,13 +245,16 @@ void GameState::executeMoves(int knight, int move)
 			// NOTE(juha): go through the projectile spawners
 			if (knights[knight]->getMoves()->at(move).projectile_spawners.size() > 0) {
 				
-				ProjectileSpawner tmp_pspawner = knights[knight]->getMoves()->at(move).projectile_spawners[0];
+				ProjectileSpawner tmp_pspawner = knights[knight]->
+					getMoves()->at(move).projectile_spawners[0];
 
 				for (int i = 0; i < tmp_pspawner.amount; i++) {
 					Projectile tmp_projectile = knights[knight]->getProjectiles()->at(0);
 					tmp_projectile.direction = playerControllers[knight]->getDirection();
-					tmp_projectile.x_coordinate = playerControllers[knight]->location.x + tmp_projectile.x_offset;
-					tmp_projectile.y_coordinate = playerControllers[knight]->location.y + tmp_projectile.y_offset;
+					tmp_projectile.x_coordinate = playerControllers[knight]->
+						location.x + tmp_projectile.x_offset;
+					tmp_projectile.y_coordinate = playerControllers[knight]->
+						location.y + tmp_projectile.y_offset;
 					tmp_projectile.angle = tmp_pspawner.angle + (tmp_pspawner.angle_interval * i);
 					tmp_projectile.player = knight;
 					tmp_projectile.animation->play(INFINITE_LOOP);
