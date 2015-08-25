@@ -106,7 +106,7 @@
 
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/rogueknight/rogue_knight_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitbox x="10" y="-10" width="10" height="20" frame="1"/>
       <damage value="7" />
       <control type="single">
         <key>action</key>
@@ -115,7 +115,7 @@
 
     <attack name="midair_basic" format="strike">
       <animation filename="../Graphics/Knights/rogueknight/rogue_knight_air_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitbox x="10" y="-10" width="10" height="20" frame="1"/>
       <damage value="7" />
       <control type="single">
         <key inair="true">action</key>
