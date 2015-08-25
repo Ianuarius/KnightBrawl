@@ -58,6 +58,8 @@ void GameState::load(StateData *data)
 		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i, knights[i]));
 	}
 	
+	// NOTE(juha): If there are gamepads connected to the PC,
+	// assign them to the 4th and 3rd player, respectively.
 	if (stateData->ControllerIndex == 2 && stateData->players == 4) {
 		playerControllers[2]->setGamepad(stateData->ControllerHandles[0]);
 		playerControllers[3]->setGamepad(stateData->ControllerHandles[1]);
@@ -160,67 +162,28 @@ stateStatus GameState::update()
 		}
 	}
 
-	SDL_Rect tmp_hb;
-	SDL_Rect wep_hb;
+	SDL_Rect attacking_hb;
 	
+	// NOTE(juha): Check basic hits
 	for (int attacking_knight = 0; 
 		attacking_knight < players; 
 		attacking_knight++) {
-		wep_hb = playerControllers[attacking_knight]->attack_hb;
-		
-		for (int receiving_knight = 0; 
-			receiving_knight < players; 
-			receiving_knight++) {
+		attacking_hb = playerControllers[attacking_knight]->attack_hb;
 
-			if (attacking_knight != receiving_knight) {
-				tmp_hb = playerControllers[receiving_knight]->hitbox;
-
-				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
-					knights[attacking_knight]->hit == false &&
-					knights[receiving_knight]->alive == true) {
-					knights[receiving_knight]->damage(
-						(int)(playerControllers[attacking_knight]->
-						getKnight()->getMoves()->at(3).damage) * 2);
-					knights[attacking_knight]->hit = true;
-					knights[attacking_knight]->powerup();
-
-					if (knights[receiving_knight]->getHitpoints() <= 0 &&
-						knights[receiving_knight]->alive == true) {
-						stateData->player_kills[attacking_knight]++;
-						knights[receiving_knight]->die();
-					}
-				}
-			}
-		}
+		checkHits(&attacking_hb, attacking_knight, 
+			playerControllers[attacking_knight]->getKnight()->getMoves()->at(3).damage,
+			playerControllers[attacking_knight]->getDirection());
 	}
 	
+	// NOTE(juha): Check projectile hits
 	for (int a_projectile = 0; 
 		a_projectile < projectiles.size(); 
 		a_projectile++) {
-		wep_hb = projectiles[a_projectile].hitbox;
+		attacking_hb = projectiles[a_projectile].hitbox;
 		
-		for (int receiving_knight = 0; 
-			receiving_knight < players; 
-			receiving_knight++) {
-
-			if (projectiles[a_projectile].player != receiving_knight) {
-				tmp_hb = playerControllers[receiving_knight]->hitbox;
-
-				if (SDL_HasIntersection(&tmp_hb, &wep_hb) &&
-					projectiles[a_projectile].hit == false &&
-					knights[receiving_knight]->alive == true) {
-					knights[receiving_knight]->
-						damage((int)(projectiles[a_projectile].power) * 2);
-					projectiles[a_projectile].hit = true;
-
-					if (knights[receiving_knight]->getHitpoints() <= 0 &&
-						knights[receiving_knight]->alive == true) {
-						stateData->player_kills[projectiles[a_projectile].player]++;
-						knights[receiving_knight]->die();
-					}
-				}
-			}
-		}
+		checkHits(&attacking_hb, projectiles[a_projectile].player,
+			projectiles[a_projectile].power,
+			projectiles[a_projectile].direction);
 	}
 	
 	for (int i = 0; i < players; i++) {
@@ -232,6 +195,39 @@ stateStatus GameState::update()
 	mainInput->update();
 	camera->update();
 	return status;
+}
+
+void GameState::checkHits(SDL_Rect *attacking_hb, int attacker, int damage, int direction)
+{
+	SDL_Rect receiving_hb;
+	int damage_multiplier = 2;
+
+	for (int receiver = 0; 
+		receiver < players; 
+		receiver++) {
+
+		if (attacker != receiver) {
+			receiving_hb = playerControllers[receiver]->hitbox;
+
+			if (SDL_HasIntersection(&receiving_hb, attacking_hb) &&
+				knights[attacker]->hit == false &&
+				knights[receiver]->alive == true) {
+				knights[receiver]->damage(damage * damage_multiplier);
+				knights[attacker]->hit = true;
+				knights[attacker]->powerup();
+
+				if (knights[receiver]->getHitpoints() <= 0 &&
+					knights[receiver]->alive == true) {
+					stateData->player_kills[attacker]++;
+					knights[receiver]->die();
+				} else {
+					playerControllers[receiver]->knockBack(direction,
+														   playerControllers[attacker]->pushback_angle,
+														   playerControllers[attacker]->pushback_power * 3);
+				}
+			}
+		}
+	}
 }
 
 void GameState::executeMoves(int knight, int move)
@@ -264,11 +260,30 @@ void GameState::executeMoves(int knight, int move)
 
 			// NOTE(juha): go through the effects
 			if (knights[knight]->getMoves()->at(move).effects.size() > 0) {
-				
-				if (knights[knight]->getMoves()->at(move).effects[0].type == 6) {
-					Effect *tmp_effect = &knights[knight]->getMoves()->at(move).effects[0];
+				for (int i = 0; i < knights[knight]->getMoves()->at(move).effects.size(); i++) {
+					
+					Effect *tmp_effect = &knights[knight]->getMoves()->at(move).effects[i];
 					tmp_effect->executing = true;
-					playerControllers[knight]->movements.push_back(tmp_effect);
+
+					switch (tmp_effect->type) {
+					case 0: // slow
+						break;
+					case 1: // stun
+						break;
+					case 2: // burn
+						break;
+					case 3: // pushback
+						playerControllers[knight]->pushback_angle = tmp_effect->angle;
+						playerControllers[knight]->pushback_power = tmp_effect->power;
+						break;
+					case 4: // buff
+						break;
+					case 5: // damage_return
+						break;
+					case 6: // movement
+						playerControllers[knight]->movements.push_back(tmp_effect);
+						break;
+					}
 				}
 			}
 		}

@@ -4,6 +4,14 @@
  */
 #include "Rectangle.h"
 
+Rectangle::Rectangle():
+	x(0),
+	y(0),
+	w(0),
+	h(0) {
+	// void
+}
+
 Rectangle::Rectangle(int x, int y, int w, int h):
 	x(x),
 	y(y),

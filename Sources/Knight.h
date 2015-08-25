@@ -99,6 +99,7 @@ private:
 	void parseEffects(pugi::xml_node *tmp_node);
 	Animation *parseAction(pugi::xml_node *tmp_node);
 	void parseActions(pugi::xml_node *tmp_node);
+	void parseEffect(pugi::xml_node_iterator action_it, SpecialCombo *tmp_combo);
 
 	std::vector<Animation*> animations;
 	std::string truename;

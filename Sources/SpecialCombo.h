@@ -27,9 +27,10 @@ public:
 	
 	SpecialCombo();
 	void defineAnimation(Animation *new_animation);
+	void setHitboxes();
 	void execute();
 	
-	Rectangle hitbox;
+	std::vector<Rectangle> hitboxes;
 	Animation *animation;
 	
 	bool disabled;
@@ -39,6 +40,8 @@ public:
 	int damage;
 	bool executing, start_execution;
 	int state;
+	int repeats;
+	int frames;
 	std::vector<Key> keys;
 	std::vector<Effect> effects;
 	std::vector<AreaEffect> area_effects;

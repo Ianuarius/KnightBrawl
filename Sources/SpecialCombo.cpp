@@ -10,15 +10,19 @@ SpecialCombo::SpecialCombo():
 	executing(false), start_execution(false),
 	state(0),
 	tmp_input(9999),
-	hitbox(0, 0, 0, 0),
-	disabled(false)
+	disabled(false),
+	frames(1)
 {
-
 }
 
 void SpecialCombo::defineAnimation(Animation *new_animation)
 {
 	animation = new_animation;
+}
+
+void SpecialCombo::setHitboxes()
+{
+	hitboxes.resize(frames);
 }
 
 void SpecialCombo::execute()

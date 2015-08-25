@@ -11,6 +11,7 @@
 class Rectangle
 {
 	public:
+		Rectangle();
 		Rectangle(int x, int y, int w, int h);
 		Rectangle(SDL_Rect rect);
 		~Rectangle();

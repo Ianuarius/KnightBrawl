@@ -13,8 +13,7 @@ PlayerActor::PlayerActor(Window *window,
 	window(window),
 	camera(camera),
 	knight(knight),
-	facing_direction(FACING_RIGHT),
-	special_combos(playerController->moves)
+	facing_direction(FACING_RIGHT)
 {
 	vector<Sound>::iterator soundIterator;
 
@@ -90,46 +89,53 @@ void PlayerActor::updateAnimation()
 	// HANGING
 	// MID_AIR_BASIC_ATTACK
 	// PUSHBACK
-
+	SpecialCombo *tmp_special;
 	// SPECIAL_I
-	if ((*special_combos)[knight->SPECIAL_I].executing == true) {
+	tmp_special = &(*moves).at(knight->SPECIAL_I);
+	if (tmp_special->executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_I);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	(*special_combos)[knight->SPECIAL_I].executing = false;
+		 	tmp_special->executing = false;
 		 	currentAnimation->times_played = 0;
 			playerController->executing_combo = false;
+			playerController->stopAttack();
+		}
+
+		if (currentAnimation->times_played < tmp_special->repeats) {
+			playerController->attack_hb.w = tmp_special->hitboxes[currentAnimation->getCurrentFrame()].w;
+			playerController->attack_hb.h = tmp_special->hitboxes[currentAnimation->getCurrentFrame()].h;
 		}
 	}
 
 	// SPECIAL_II
-	if ((*special_combos)[knight->SPECIAL_II].executing == true) {
+	if ((*moves)[knight->SPECIAL_II].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_II);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	(*special_combos)[knight->SPECIAL_II].executing = false;
+		 	(*moves)[knight->SPECIAL_II].executing = false;
 		 	currentAnimation->times_played = 0;
 			playerController->executing_combo = false;
 		}
 	}
 
 	// SPECIAL_III
-	if ((*special_combos)[knight->SPECIAL_III].executing == true) {
+	if ((*moves)[knight->SPECIAL_III].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_III);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	(*special_combos)[knight->SPECIAL_III].executing = false;
+		 	(*moves)[knight->SPECIAL_III].executing = false;
 		 	currentAnimation->times_played = 0;
 			playerController->executing_combo = false;
 		}
 	}
 
 	// SPECIAL_IV
-	if ((*special_combos)[knight->SPECIAL_IV].executing == true) {
+	if ((*moves)[knight->SPECIAL_IV].executing == true) {
 		currentAnimation = knight->getAnimations(knight->SPECIAL_IV);
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
-		 	(*special_combos)[knight->SPECIAL_IV].executing = false;
+		 	(*moves)[knight->SPECIAL_IV].executing = false;
 		 	currentAnimation->times_played = 0;
 			playerController->executing_combo = false;
 		}
@@ -174,7 +180,7 @@ void PlayerActor::render()
 	}
 
 	bool draw_boundbox =		false;
-	bool draw_attack_hitbox =	false;
+	bool draw_attack_hitbox =	true;
 
 	int camera_middle_x = camera->getFrame().w / 2;
 

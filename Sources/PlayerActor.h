@@ -23,7 +23,7 @@ public:
 	int facing_direction;
 	void updateAnimation();
 	void updateSound();
-	std::vector<SpecialCombo> *special_combos;
+	// std::vector<SpecialCombo> *special_combos;
 	
 private:
 	Window *window;

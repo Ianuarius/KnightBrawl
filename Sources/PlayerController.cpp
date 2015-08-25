@@ -51,7 +51,8 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	facing_direction(FACING_RIGHT),
 	speed(knight->getSpeed()),
 	moves(knight->getMoves()),
-	combo_one_state(0)
+	combo_one_state(0),
+	pushback_angle(0), pushback_power(10)
 {
 	// NOTE(juha): Initialization
 	in_air =			true;
@@ -395,13 +396,12 @@ void PlayerController::update()
 							continue_execution = true;
 						}
 					}
-					
 
 					if (continue_execution == false) {
 						(*moves)[i].state = 0;
 					}
 
-					int combopower = 25;
+					int combopower = 5;
 					if ((*moves)[i].keys.size() == (*moves)[i].state &&
 						continue_execution == true) {
 						if ((*moves)[i].disabled == false && knight->getSpecialPower() > combopower) {
@@ -470,6 +470,7 @@ void PlayerController::update()
 				desired.y -= new_y;
 				movements.at(0)->distance_travelled += movements.at(0)->speed;
 			} else {
+				movements.erase(movements.begin() + 0);
 			}
 		}
 	}
@@ -479,6 +480,32 @@ void PlayerController::updateInput()
 {
 	playerInput.update();
 
+}
+
+void PlayerController::stopAttack()
+{
+	pushback_angle = 0;
+	pushback_power = 10;
+	attack_hb.w = 0;
+	attack_hb.h = 0;
+}
+
+void PlayerController::knockBack(int attack_direction, int attack_angle, int attack_power)
+{
+	double new_x = attack_power * cos(attack_angle * PI / 180);
+	double new_y = attack_power * sin(attack_angle * PI / 180);
+	
+	if (attack_direction == FACING_RIGHT) {
+		desired.x += new_x;
+	} else {
+		desired.x -= new_x;
+	}
+	
+	desired.y -= new_y;
+
+	if (attack_direction != facing_direction) {
+		velocity_x = 0;
+	}
 }
 
 int PlayerController::getDirection()
@@ -510,6 +537,7 @@ void PlayerController::move(int x, int y)
 
 // NOTE(juha): Collects all the action methods into one
 // Changes the PlayerController STATE instead of it having many different bools
+/*
 void PlayerController::doAction(int action)
 {
 	switch (action)
@@ -518,6 +546,7 @@ void PlayerController::doAction(int action)
 		break;
 	}
 }
+*/
 
 void PlayerController::left()
 {

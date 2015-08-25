@@ -212,21 +212,9 @@ void Knight::parseEffects(pugi::xml_node *tmp_node)
 		}
 			
 		if (tmp_string.compare("areaeffect") == 0) {
-			
 		}
 			
 		if (tmp_string.compare("buffeffect") == 0) {
-			
-			/* TODO(juha): Multiple effects require a vector.
-			tmp_type_string = iterator->child("effect").attribute("type").value();
-			if (tmp_type_string.compare("pushback") == 0) {
-				tmp_buff_effect.effect_type = tmp_buff_effect.TYPE_PUSHBACK;
-			} else {
-				tmp_buff_effect.effect_type = tmp_buff_effect.TYPE_MISC;
-			}
-			
-			tmp_buff_effect.effect_power = atoi(iterator->child("effect").attribute("power").value());
-			*/
 		}
 			
 		if (tmp_string.compare("action") == 0) {
@@ -282,12 +270,34 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 				tmp_animation->running = false;
 			}
 			tmp_combo.defineAnimation(tmp_animation);
+			tmp_combo.repeats = atoi(action_it->child("animation").attribute("loops").value());
+			tmp_combo.frames = atoi(action_it->child("animation").attribute("framecount").value());
+			tmp_combo.setHitboxes();
 
 			if (tmp_string.compare("hitbox") == 0) {
-				tmp_combo.hitbox.x = atoi(action_it->child("hitbox").attribute("x").value());
-				tmp_combo.hitbox.y = atoi(action_it->child("hitbox").attribute("y").value());
-				tmp_combo.hitbox.w = atoi(action_it->child("hitbox").attribute("width").value());
-				tmp_combo.hitbox.h = atoi(action_it->child("hitbox").attribute("height").value());
+				int frame =          atoi(action_it->child("hitbox").attribute("frame").value());
+				Rectangle tmp_hitbox(atoi(action_it->child("hitbox").attribute("x").value()),
+									 atoi(action_it->child("hitbox").attribute("y").value()),
+									 atoi(action_it->child("hitbox").attribute("width").value()),
+									 atoi(action_it->child("hitbox").attribute("height").value()));
+
+				tmp_combo.hitboxes[frame] = tmp_hitbox;
+			}
+			
+			if (tmp_string.compare("hitboxes") == 0) {
+
+				for(pugi::xml_node_iterator hb_iterator =  action_it->child("hitboxes").begin();
+											hb_iterator != action_it->child("hitboxes").end();
+										  ++hb_iterator)
+				{
+					int frame =          atoi(hb_iterator->attribute("frame").value());
+					Rectangle tmp_hitbox(atoi(hb_iterator->attribute("x").value()),
+										 atoi(hb_iterator->attribute("y").value()),
+										 atoi(hb_iterator->attribute("width").value()),
+										 atoi(hb_iterator->attribute("height").value()));
+
+					tmp_combo.hitboxes[frame] = tmp_hitbox;
+				}
 			}
 			
 			if (tmp_string.compare("control") == 0) {
@@ -321,67 +331,17 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 			}
 			
 			if (tmp_string.compare("effect") == 0) {
-				Effect tmp_effect;
-				
-				std::string tmp_fxtype_string = action_it->child("effect").attribute("type").value();
-				if (tmp_fxtype_string.compare("slow") == 0) {
-					tmp_effect.type = tmp_effect.SLOW;
-				} else if (tmp_fxtype_string.compare("stun") == 0) {
-					tmp_effect.type = tmp_effect.STUN;
-					tmp_effect.duration = (float)atof(action_it->child("effect").attribute("duration").value());
-				} else if (tmp_fxtype_string.compare("burn") == 0) {
-					tmp_effect.type = tmp_effect.BURN;
-				} else if (tmp_fxtype_string.compare("pushback") == 0) {
-					tmp_effect.type = tmp_effect.PUSHBACK;
-					tmp_effect.power = atoi(action_it->child("effect").attribute("power").value());
-				} else if (tmp_fxtype_string.compare("buff") == 0) {
-					tmp_effect.type = tmp_effect.BUFF;
-					
-					std::string tmp_stat_string = action_it->child("effect").attribute("stat").value();
-					if (tmp_stat_string.compare("defense") == 0) {
-						tmp_effect.power = tmp_effect.DEFENSE;
-					} else if (tmp_stat_string.compare("attack") == 0) {
-						tmp_effect.power = tmp_effect.ATTACK;
-					} else if (tmp_stat_string.compare("speed") == 0) {
-						tmp_effect.power = tmp_effect.SPEED;
-					}
-					
-					tmp_effect.power = atoi(action_it->child("effect").attribute("power").value());
+				parseEffect(action_it->child("effect"), &tmp_combo);
+			}
 
-					std::string tmp_format_string = action_it->child("effect").attribute("format").value();
-					if (tmp_format_string.compare("duration") == 0) {
-						tmp_effect.power = tmp_effect.DURATION;
-					} else if (tmp_format_string.compare("count") == 0) {
-						tmp_effect.power = tmp_effect.COUNT;
-					} else if (tmp_format_string.compare("pressed") == 0) {
-						tmp_effect.power = tmp_effect.PRESSED;
-					}
-					
-					tmp_effect.time = atoi(action_it->child("effect").attribute("time").value());
-
-				} else if (tmp_fxtype_string.compare("damagereturn") == 0) {
-					tmp_effect.type = tmp_effect.DAMAGE_RETURN;
-					tmp_effect.power = atoi(action_it->child("effect").attribute("power").value());
-					
-					std::string tmp_format_string = action_it->child("effect").attribute("format").value();
-					if (tmp_format_string.compare("duration") == 0) {
-						tmp_effect.power = tmp_effect.DURATION;
-					} else if (tmp_format_string.compare("count") == 0) {
-						tmp_effect.power = tmp_effect.COUNT;
-					} else if (tmp_format_string.compare("pressed") == 0) {
-						tmp_effect.power = tmp_effect.PRESSED;
-					}
-					
-					tmp_effect.time = atoi(action_it->child("effect").attribute("time").value());
-
-				} else if (tmp_fxtype_string.compare("movement") == 0) {
-					tmp_effect.type = tmp_effect.MOVEMENT;
-					tmp_effect.speed = atoi(action_it->child("effect").attribute("speed").value());
-					tmp_effect.range = atoi(action_it->child("effect").attribute("range").value());
-					tmp_effect.angle = atoi(action_it->child("effect").attribute("angle").value());
+			if (tmp_string.compare("effects") == 0) {
+				for(pugi::xml_node_iterator effect_iterator =  action_it->child("effects").begin();
+											effect_iterator != action_it->child("effects").end();
+										  ++effect_iterator)
+				{
+					parseEffect(effect_iterator, &tmp_combo);
 				}
-			
-				tmp_combo.effects.push_back(tmp_effect);
+
 			}
 			// TODO(juha): buffeffect, projectile, projectilespawner, trapspawner,
 			//			   control parameters, hitbox frames, areaeffect.
@@ -509,6 +469,70 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 			moves[RUN] = tmp_combo;
 		}
 	}
+}
+
+void Knight::parseEffect(pugi::xml_node_iterator action_it, SpecialCombo *tmp_combo)
+{
+	Effect tmp_effect;
+	std::string tmp_fxtype_string = action_it->attribute("type").value();
+	if (tmp_fxtype_string.compare("slow") == 0) {
+		tmp_effect.type = tmp_effect.SLOW;
+	} else if (tmp_fxtype_string.compare("stun") == 0) {
+		tmp_effect.type = tmp_effect.STUN;
+		tmp_effect.duration = (float)atof(action_it->attribute("duration").value());
+	} else if (tmp_fxtype_string.compare("burn") == 0) {
+		tmp_effect.type = tmp_effect.BURN;
+	} else if (tmp_fxtype_string.compare("pushback") == 0) {
+		tmp_effect.type = tmp_effect.PUSHBACK;
+		tmp_effect.power = atoi(action_it->attribute("power").value());
+	} else if (tmp_fxtype_string.compare("buff") == 0) {
+		tmp_effect.type = tmp_effect.BUFF;
+					
+		std::string tmp_stat_string = action_it->attribute("stat").value();
+		if (tmp_stat_string.compare("defense") == 0) {
+			tmp_effect.power = tmp_effect.DEFENSE;
+		} else if (tmp_stat_string.compare("attack") == 0) {
+			tmp_effect.power = tmp_effect.ATTACK;
+		} else if (tmp_stat_string.compare("speed") == 0) {
+			tmp_effect.power = tmp_effect.SPEED;
+		}
+					
+		tmp_effect.power = atoi(action_it->attribute("power").value());
+
+		std::string tmp_format_string = action_it->attribute("format").value();
+		if (tmp_format_string.compare("duration") == 0) {
+			tmp_effect.power = tmp_effect.DURATION;
+		} else if (tmp_format_string.compare("count") == 0) {
+			tmp_effect.power = tmp_effect.COUNT;
+		} else if (tmp_format_string.compare("pressed") == 0) {
+			tmp_effect.power = tmp_effect.PRESSED;
+		}
+					
+		tmp_effect.time = atoi(action_it->attribute("time").value());
+
+	} else if (tmp_fxtype_string.compare("damagereturn") == 0) {
+		tmp_effect.type = tmp_effect.DAMAGE_RETURN;
+		tmp_effect.power = atoi(action_it->attribute("power").value());
+					
+		std::string tmp_format_string = action_it->attribute("format").value();
+		if (tmp_format_string.compare("duration") == 0) {
+			tmp_effect.power = tmp_effect.DURATION;
+		} else if (tmp_format_string.compare("count") == 0) {
+			tmp_effect.power = tmp_effect.COUNT;
+		} else if (tmp_format_string.compare("pressed") == 0) {
+			tmp_effect.power = tmp_effect.PRESSED;
+		}
+					
+		tmp_effect.time = atoi(action_it->attribute("time").value());
+
+	} else if (tmp_fxtype_string.compare("movement") == 0) {
+		tmp_effect.type = tmp_effect.MOVEMENT;
+		tmp_effect.speed = atoi(action_it->attribute("speed").value());
+		tmp_effect.range = atoi(action_it->attribute("range").value());
+		tmp_effect.angle = atoi(action_it->attribute("angle").value());
+	}
+
+	tmp_combo->effects.push_back(tmp_effect);
 }
 
 float Knight::getSpeed()

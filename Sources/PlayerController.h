@@ -40,6 +40,9 @@ public:
 	void setPlayers(int *active_players);
 	void commitMovement();
 	void updateInput();
+	void knockBack(int attack_direction, int attack_angle, int attack_power);
+	void stopAttack();
+	int pushback_power, pushback_angle;
 	void move(int x, int y);
 	Knight *getKnight();
 	void setGamepad(SDL_GameController *NewControllerHandle);

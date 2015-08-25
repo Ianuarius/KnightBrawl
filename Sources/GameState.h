@@ -53,6 +53,7 @@ private:
 	Window *window;
 
 	void executeMoves(int knight, int move);
+	void checkHits(SDL_Rect *attacking_hb, int attacker, int damage, int direction);
 	
 	int players;
 	int victory_counter;
