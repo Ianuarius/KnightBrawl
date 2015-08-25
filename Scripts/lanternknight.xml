@@ -1,85 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--  
-
-  TODO:
-  * Character moves while special attack is performed (movement)
-  * Projectile
-
-  ***** ATTACK *****
-  <attack name="insert name" format="insert format">
-  Attack formats: strike - Creates a quick hitbox that damages enemies it hits.
-                  throw - When in contact with enemy hitbox, it will movement it in the facing direction.
-                  uppercut - Creates a hitbox that launches targets in air when in contact.
-                  ranged - Fires a hitbox that flies through the air
-                  buff - Doesn't create a hitbox, rather gives the user an effect
-                  aoe - Creates a large hitbox that stays in place for a certain amount of time. Sometimes follows the user.
-                  
-         Attack class needs projectilespawner, effects, controls and other properties to work properly.
-                                    
-  ***** PROJECTILE ***** 
-
-  <projectile name="insert name" type="linear or arc" range="pixels" power="numeral" speed="pixels/second" delay="seconds">
-  <animation filename="../Graphics/Knights/exampleknight/exampleknight_animation.png"  />
-  <collision collision="player/wall/all" collisiondestruct="boolean" />
-  <effect type="insert effect type" +following parameters+ />
-  
-  Projectilespawner - Insert in attack class
-  <projectilespawner type="projectile name" 
-                     amount="how many projectiles" 
-                     angle="degree of first projectile" 
-                     angleinterval="added into every consecutive projectile's angle"
-                     delay="seconds"
-                     delayinterval="seconds added into every consecutive projectile's angle"/>
-  
-  Trapspawner - insert in attack class
-  <trapspawner type="trapeffect name" 
-               amount="how many traps" 
-               angle="degree of first projectile" 
-               angleinterval="added into every consecutive projectile's angle"
-               delay="seconds"
-               delayinterval="seconds added into every consecutive projectile's angle"/>
-
-
-   ***** EFFECT *****
-  <effect type="insert effect type" +following parameters+ /> 
-  Effect types:   slow - Debuff that slows targets. Requires duration="seconds" power="percentage"
-                  stun - Debuff that incapacitates targets. Requires duration="seconds"
-                  burn - Debuff that damages the target periodically. Requires duration="seconds" power="damage per tick" tickrate="seconds"
-                  pushback - Sends targets flying in a direction the effect is fired at. Requires power="pixels per second"
-                  buff - Ups the user's stats for a period of time. Requires stat="defense, attack or speed" format="duration, count or pressed" time="seconds if duration (0 infinite), 0 if pressed or how many attacks(1, 2, 3...)" power="percentage" 
-                  damagereturn - Returns the dealt damage back to attacker. Requires format="duration, pressed or count" time="seconds if duration (0 infinite) or how many attacks(1, 2, 3...)" power="percentage"
-                  movement - launches the player in a direction. Requires speed="pixels" range="pixel" angle="degree"
-                    
-  ***** CONTROL *****
-  <control type="insert type">
-  Control types:  single - requires only one key to be pushed
-                  combo - requires all keys to be pushed in top-down order within a short time
-                  
-  <key>insert key</key>
-  Additional parameters:  inair="true" - has to be performed mid-air
-                          pressed="true" - button has to be pressed dow
-                          
-  Keys:   action - attack button
-          up and action - block
-          down and backward - 
-          down - crouch
-          forward - left or right
-          jump - jump
-          
-  ***** TRAP EFFECT *****
-  
-  <trapeffect name="insert name"> 
-  Works similar to projectiles, but no need to determine projectile type (linear or arc) since a trap will always be arced
-  
-  ***** AREA EFFECT *****
-  
-  <areaeffect name="insert name">
-  Requires a hitbox. Add damage value and additional effects when needed
-  <areaeffect type="areaeffect name" /> in <attack> class requires duration="seconds"
-          
--->
-
 <knight>
   <stats>
     <truename>Solifer</truename>
@@ -102,9 +22,7 @@
     <hitbox x="11" y="10" width="9" height="8" />
   </projectile>
 
-
   <action>
-
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/lanternknight/lantern_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
@@ -262,8 +180,6 @@
         <key>forward</key>
       </control>
     </run>
-
-
   </action>
 
   <dialog>
@@ -271,5 +187,4 @@
     <comment id="2">Taste Cactusia's fury!</comment>
     <comment id="3">Got a spike in yer arse, mate?</comment>
   </dialog>
-
 </knight>
