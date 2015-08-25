@@ -180,7 +180,7 @@
 
     <attack name="throw" format="throw">
       <animation filename="../Graphics/Knights/lanternknight/lantern_knight_throw.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitbox x="10" y="-10" width="10" height="20" frame="1"/>
       <effect type="throw" power="10" angle="50" />
       <effect type="stun" duration="0.5"/>
       <damage value="7" />
