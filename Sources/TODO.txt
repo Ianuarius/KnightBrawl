@@ -1,12 +1,18 @@
 
 TODO(juha):
 
+[ ] Combos working
+[ ] SFX
 [ ] Midair Basic attack
 [ ] Downthrust attack
 [ ] Uppercut attack
-[ ] Camera update with more than 2 players
-[ ] Attack hitboxes from XML
-[ ] Respawning Knights
+[x] Special Bar working
+[x] Damage from the XML
+[x] No holding jump or attack
+[x] Music
+[x] Camera update with more than 2 players
+[x] Attack hitboxes from XML
+[x] Respawning Knights
 [x] Attack controls from XML
 [x] Character selection
 [x] Knights in a vector
@@ -23,5 +29,6 @@ TODO(juha):
 	- Push each control to a vector
 [x] Save key combos to vectors functionality
 
-21.7.
-1h
+
+26.8.
+12:00 start

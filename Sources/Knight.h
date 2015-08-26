@@ -46,6 +46,7 @@ public:
 	std::vector<SpecialCombo> *getMoves();
 	std::vector<Projectile> *getProjectiles();
 	std::vector<Sound> *getSounds();
+	int max_hitpoints;
 	
 	bool is_landed, is_jumping;
 	

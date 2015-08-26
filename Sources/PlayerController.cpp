@@ -33,10 +33,10 @@ PlayerController::PlayerController(bool multiplayer, int player, std::vector<SDL
 
 PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
 	multiplayer(multiplayer),
-	knight(knight),
-	in_menu(false),
-	executing_combo(false),
 	player(player),
+	knight(knight),
+	attack_w(knight->getMoves()->at(knight->ATTACK).hitboxes[0].w),
+	attack_h(knight->getMoves()->at(knight->ATTACK).hitboxes[0].h),
 	location(start_position),
 	boundbox(location.x - 25, location.y - 50, 50, 50),
 	hitbox(location.x + knight->hitbox.x, 
@@ -44,32 +44,36 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 		   knight->hitbox.w, 
 		   knight->hitbox.h),
 	desired(hitbox),
-	attack_hb(desired.x -25, desired.y + 40, 0, 0),
+	attack_hb(location.x - 25, location.y + 40, 0, 0),
+	pushback_angle(0), pushback_power(10),
 	acceleration(0.7f), stoppedThreshold(acceleration/7),
 	velocity_x(0), velocity_y(0),
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
 	speed(knight->getSpeed()),
 	moves(knight->getMoves()),
-	combo_one_state(0),
-	pushback_angle(0), pushback_power(10)
+	combo_one_state(0)
 {
 	// NOTE(juha): Initialization
-	in_air =			true;
-	jumping =			false;
-	crouching =			false;
 	attacking =			false;
 	basic_attack =		false;
-	gamepad_ready =		false;
 	controller_locked = true;
+	crouching =			false;
+	executing_combo =	false;
+	gamepad_ready =		false;
+	has_attacked =		false;
+	has_jumped =		false;
+	in_air =			true;
+	in_menu =			false;
+	jumping =			false;
+	
+	// NOTE(juha): Controller initialization
 	AButton =			false;
 	XButton =			false;
 	Up =				false;
 	Down =				false;
 	Left =				false;
 	Right =				false;
-	has_attacked =		false;
-	has_jumped =		false;
 
 	for (int i = 0; i < SPECIAL_MOVES; ++i) {
 		combo_state.push_back(0);
@@ -442,13 +446,7 @@ void PlayerController::update()
 			desired.x -= (int)ceilf(fabs(velocity_x));
 		}
 
-		int deduct = 23 - (36 / 2);
-
-		if (facing_direction == FACING_RIGHT) {
-			attack_hb.x = desired.x + deduct;
-		} else {
-			attack_hb.x = desired.x - 20 + deduct;
-		}
+		int deduct = 0;
 
 		attack_hb.y = desired.y + 8;
 

@@ -56,6 +56,7 @@ public:
 	float velocity_x, velocity_y;
 	SDL_Point location;
 	Rectangle boundbox, hitbox, desired, attack_hb;
+	int attack_w, attack_h;
 
 private:
 	void jump();

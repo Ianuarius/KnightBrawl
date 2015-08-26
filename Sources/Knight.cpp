@@ -95,7 +95,8 @@ void Knight::parseEffects(pugi::xml_node *tmp_node)
 							 iterator->child("decal").attribute("filename").value(),
 						atoi(iterator->child("decal").attribute("width").value()),
 						atoi(iterator->child("decal").attribute("height").value()));
-			hitpoints = atoi(iterator->child("hitpoints").child_value());
+			max_hitpoints = atoi(iterator->child("hitpoints").child_value());
+			hitpoints = max_hitpoints;
 			hitbox.x  = atoi(iterator->child("hitbox").attribute("x").value());
 			hitbox.y  = atoi(iterator->child("hitbox").attribute("y").value());
 			hitbox.w  = atoi(iterator->child("hitbox").attribute("width").value());
@@ -555,7 +556,7 @@ void Knight::respawn()
 	if (lives > 0) {
 		alive = true;
 		out_of_bounds = false;
-		hitpoints = 100;
+		hitpoints = max_hitpoints;
 		moves[DEATH].animation->times_played = 0;
 	}
 }

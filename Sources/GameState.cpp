@@ -366,7 +366,7 @@ void GameState::render()
 		
 			window->drawRect(left_margins[i] + 2,
 							 top_margin + 2,
-							 knights[i]->getHitpoints(),
+							 (float)(100.0f / knights[i]->max_hitpoints) * knights[i]->getHitpoints(),
 							 6,
 							 Color("red"));
 			
