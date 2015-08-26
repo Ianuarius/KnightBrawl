@@ -21,11 +21,11 @@
     <collision collision="none" collisiondestruct="false" />
     <hitbox x="10" y="15" width="40" height="35" />
   </projectile>
-
+  
   <action>
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/doomknight/doomknight_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="1"/>
+      <hitbox x="3" y="-19" width="21" height="12" frame="1"/>
       <damage value="7" />
       <control type="single">
         <key>action</key>
@@ -34,7 +34,7 @@
 
     <attack name="midair_basic" format="strike">
       <animation filename="../Graphics/Knights/doomknight/doomknight_air_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="1"/>
+      <hitbox x="3" y="-19" width="21" height="12" frame="1"/>
       <damage value="7" />
       <control type="single">
         <key inair="true">action</key>
