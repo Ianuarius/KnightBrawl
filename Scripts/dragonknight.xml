@@ -23,7 +23,6 @@
   </projectile>
 
   <action>
-
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/dragonknight/dragonknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitboxes>
