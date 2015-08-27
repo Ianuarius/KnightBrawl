@@ -17,7 +17,7 @@
   </soundeffects>
 
   <trapeffect name="spookyscaryskeletons">
-    <animation filename="../Graphics/Knights/skeletonknight/spooky_scary_skeleton.png" framecount="10" width="20" height="10" startframe="0" framerate="8" loops="1" />
+    <animation filename="../Graphics/Knights/skeletonknight/spooky_scary_skeleton.png" framecount="10" width="20" height="10" startframe="0" framerate="20" loops="1" />
     <collision collision="all" collisiondestruct="false" />
     <hitbox x="25" y="0" width="25" height="25" />
     <damage value="10" />
@@ -26,7 +26,7 @@
   
   <action>
     <attack name="basic" format="strike">
-      <animation filename="../Graphics/Knights/skeletonknight/skeleton_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/skeletonknight/skeleton_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="20" loops="1" />
       <hitboxes>
         <hitbox x="-5" y="-44" width="17" height="17" frame="1"/>
         <hitbox x="3" y="-31" width="22" height="31" frame="2"/>

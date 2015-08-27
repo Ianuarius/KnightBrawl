@@ -24,7 +24,7 @@
 
   <action>
     <attack name="basic" format="strike">
-      <animation filename="../Graphics/Knights/raptorknight/raptorknight_attack.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/raptorknight/raptorknight_attack.png" framecount="4" width="50" height="50" startframe="0" framerate="20" loops="1" />
       <hitboxes>
         <hitbox x="3" y="-21" width="19" height="11" frame="2"/>
         <hitbox x="6" y="-17" width="18" height="11" frame="3"/>
@@ -36,7 +36,7 @@
     </attack>
 
     <attack name="midair_basic" format="strike">
-      <animation filename="../Graphics/Knights/raptorknight/raptorknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/raptorknight/raptorknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="20" loops="1" />
       <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
       <damage value="7" />
       <control type="single">

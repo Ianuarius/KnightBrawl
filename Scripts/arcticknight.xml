@@ -24,7 +24,7 @@
 
   <action>
     <attack name="basic" format="strike">
-      <animation filename="../Graphics/Knights/arcticknight/arcticknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/arcticknight/arcticknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="20" loops="1" />
       <hitbox x="3" y="-19" width="21" height="12" frame="2"/>
       <damage value="7" />
       <control type="single">
@@ -33,7 +33,7 @@
     </attack>
 
     <attack name="midair_basic" format="strike">
-      <animation filename="../Graphics/Knights/arcticknight/arcticknight_air_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <animation filename="../Graphics/Knights/arcticknight/arcticknight_air_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="20" loops="1" />
       <hitbox x="3" y="-19" width="21" height="12" frame="1"/>
       <damage value="7" />
       <control type="single">
