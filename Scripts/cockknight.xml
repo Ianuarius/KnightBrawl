@@ -61,12 +61,14 @@
       <name>Grand Slam Jam</name>
       <animation filename="../Graphics/Knights/cockknight/cock_knight_special1.png" framecount="6" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitboxes>
-        <hitbox x="10" y="-10" width="10" height="20" frame="3"/>
-        <hitbox x="10" y="-10" width="10" height="20" frame="4"/>
-        <hitbox x="10" y="-10" width="10" height="20" frame="5"/>
+        <hitbox x="7" y="-23" width="19" height="13" frame="3"/>
+        <hitbox x="7" y="-23" width="19" height="13" frame="4"/>
+        <hitbox x="7" y="-23" width="19" height="13" frame="5"/>
       </hitboxes>
-      <effect type="movement" speed="7" range="80" angle="0"/>
-      <effect type="pushback" power="30" angle="170" />
+      <effects>
+        <effect type="movement" speed="7" range="80" angle="0"/>
+        <effect type="pushback" power="30" angle="170" />
+      </effects>
       <damage value="30" />
       <control type="combo">
         <key>forward</key>

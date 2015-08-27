@@ -49,12 +49,14 @@
       <name>Helm Buster</name>
       <animation filename="../Graphics/Knights/boxingknight/boxingknight_special1.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitboxes>
-        <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
-        <hitbox x="10" y="-10" width="10" height="20" frame="3"/>
-        <hitbox x="10" y="-10" width="10" height="20" frame="4"/>
+        <hitbox x="7" y="-19" width="17" height="10" frame="2"/>
+        <hitbox x="7" y="-19" width="17" height="10" frame="3"/>
+        <hitbox x="7" y="-19" width="17" height="10" frame="4"/>
       </hitboxes>
-      <effect type="movement" speed="30" range="60" angle="0"/>
-      <effect type="pushback" power="30" angle="170" />
+      <effects>
+        <effect type="movement" speed="30" range="60" angle="0"/>
+        <effect type="pushback" power="30" angle="170" />
+      </effects>
       <damage value="30" />
       <control type="combo">
         <key>forward</key>
