@@ -48,9 +48,11 @@
     <attack name="special1" format="strike">
       <name>Helm Buster</name>
       <animation filename="../Graphics/Knights/boxingknight/boxingknight_special1.png" framecount="5" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
-      <hitbox x="10" y="-10" width="10" height="20" frame="3"/>
-      <hitbox x="10" y="-10" width="10" height="20" frame="4"/>
+      <hitboxes>
+        <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+        <hitbox x="10" y="-10" width="10" height="20" frame="3"/>
+        <hitbox x="10" y="-10" width="10" height="20" frame="4"/>
+      </hitboxes>
       <effect type="movement" speed="30" range="60" angle="0"/>
       <effect type="pushback" power="30" angle="170" />
       <damage value="30" />
