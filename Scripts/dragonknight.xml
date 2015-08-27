@@ -26,7 +26,10 @@
 
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/dragonknight/dragonknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="-20" y="-45" width="16" height="19" frame="1"/>
+        <hitbox x="6" y="-29" width="19" height="29" frame="2"/>
+      </hitboxes>
       <damage value="7" />
       <control type="single">
         <key>action</key>
@@ -34,8 +37,8 @@
     </attack>
 
     <attack name="midair_basic" format="strike">
-      <animation filename="../Graphics/Knights/dragonknight/dragonknight_air_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="1"/>
+      <animation filename="../Graphics/Knights/dragonknight/dragonknight_air_attack.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />      
+        <hitbox x="-17" y="-18" width="36" height="18" frame="1"/>     
       <damage value="7" />
       <control type="single">
         <key inair="true">action</key>

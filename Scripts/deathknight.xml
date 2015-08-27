@@ -25,7 +25,10 @@
   <action>
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/deathknight/deathknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="-19" y="-14" width="26" height="14" frame="1"/>
+        <hitbox x="3" y="-18" width="22" height="18" frame="2"/>
+      </hitboxes>
       <damage value="7" />
       <control type="single">
         <key>action</key>
@@ -34,7 +37,10 @@
 
     <attack name="midair_basic" format="strike">
       <animation filename="../Graphics/Knights/deathknight/deathknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="-19" y="-14" width="26" height="14" frame="1"/>
+        <hitbox x="3" y="-18" width="22" height="18" frame="2"/>
+      </hitboxes>      
       <damage value="7" />
       <control type="single">
         <key inair="true">action</key>

@@ -19,7 +19,10 @@
   <action>
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/popeknight/popeknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="3" y="-11" width="15" height="10" frame="1"/>
+        <hitbox x="10" y="-12" width="14" height="12" frame="2"/>
+      </hitboxes>
       <damage value="7" />
       <control type="single">
         <key>action</key>
@@ -28,7 +31,10 @@
 
     <attack name="midair_basic" format="strike">
       <animation filename="../Graphics/Knights/popeknight/popeknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="3" y="-11" width="15" height="10" frame="1"/>
+        <hitbox x="10" y="-12" width="14" height="12" frame="2"/>
+      </hitboxes>
       <damage value="7" />
       <control type="single">
         <key inair="true">action</key>

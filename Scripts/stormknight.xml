@@ -96,22 +96,27 @@
     <sound type="landing" filename="../Sounds/landing1.wav" />
   </soundeffects>
 
+  <projectile name="bolt" type="linear" range="80" power="15" speed="15">
+    <animation filename="../Graphics/Knights/stormknight/bolt.png" framecount="2" width="10" height="4" startframe="0" framerate="8" loops="1" yoffset="-16" />
+    <collision collision="wall" collisiondestruct="true" />
+    <hitbox x="20" y="-32" width="10" height="4" />
+  </projectile>
+
 
   <action>
 
-    <attack name="basic" format="strike">
-      <animation filename="../Graphics/Knights/stormknight/storm_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
-      <damage value="7" />
+    <attack name="basic" format="ranged">
+      <animation filename="../Graphics/Knights/stormknight/storm_knight_attack.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="bolt" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
+      <damage value="10" />
       <control type="single">
         <key>action</key>
       </control>
     </attack>
 
     <attack name="midair_basic" format="strike">
-      <animation filename="../Graphics/Knights/stormknight/storm_knight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
-      <damage value="7" />
+      <animation filename="../Graphics/Knights/stormknight/storm_knight_air_attack.png" framecount="4" width="50" height="50" startframe="0" framerate="8" loops="1" />
+      <projectilespawner type="bolt" amount="1" angle="0" angleinterval="0" delay="0" delayinterval="0" />
       <control type="single">
         <key inair="true">action</key>
       </control>

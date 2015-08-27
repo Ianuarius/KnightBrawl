@@ -19,7 +19,7 @@
   <action>
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/boxingknight/boxingknight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitbox x="7" y="-19" width="17" height="10" frame="2"/>
       <damage value="7" />
       <control type="single">
         <key>action</key>
@@ -28,7 +28,7 @@
 
     <attack name="midair_basic" format="strike">
       <animation filename="../Graphics/Knights/boxingknight/boxingknight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitbox x="7" y="-19" width="17" height="10" frame="2"/>
       <damage value="7" />
       <control type="single">
         <key inair="true">action</key>

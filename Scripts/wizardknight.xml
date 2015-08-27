@@ -106,7 +106,10 @@
 
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/wizardknight/wizard_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="3" y="-33" width="16" height="16" frame="1"/>
+        <hitbox x="3" y="-17" width="17" height="17" frame="2"/>
+      </hitboxes>
       <damage value="7" />
       <control type="single">
         <key>action</key>
@@ -115,7 +118,10 @@
 
     <attack name="midair_basic" format="strike">
       <animation filename="../Graphics/Knights/wizardknight/wizard_knight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="3" y="-33" width="16" height="16" frame="1"/>
+        <hitbox x="3" y="-17" width="17" height="17" frame="2"/>
+      </hitboxes>
       <damage value="7" />
       <control type="single">
         <key inair="true">action</key>

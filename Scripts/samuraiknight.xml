@@ -19,7 +19,11 @@
   <action>
     <attack name="basic" format="strike">
       <animation filename="../Graphics/Knights/samuraiknight/samurai_knight_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="3" y="-46" width="11" height="23" frame="0"/>
+        <hitbox x="7" y="-32" width="16" height="18" frame="1"/>
+        <hitbox x="11" y="-18" width="15" height="17" frame="2"/>
+      </hitboxes>
       <damage value="7" />
       <control type="single">
         <key>action</key>
@@ -28,7 +32,11 @@
 
     <attack name="midair_basic" format="strike">
       <animation filename="../Graphics/Knights/samuraiknight/samurai_knight_air_attack.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="-10" width="10" height="20" frame="2"/>
+      <hitboxes>
+        <hitbox x="3" y="-46" width="11" height="23" frame="0"/>
+        <hitbox x="7" y="-32" width="16" height="18" frame="1"/>
+        <hitbox x="11" y="-18" width="15" height="17" frame="2"/>
+      </hitboxes>
       <damage value="7" />
       <control type="single">
         <key inair="true">action</key>
