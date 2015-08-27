@@ -38,6 +38,15 @@ void PlayerActor::updateSound()
 		if (knight->is_landed == true) {
 			sfx_land.play(1);
 			knight->falling = false;
+			knight->is_jumping = false;
+			knight->jumping = false;
+		}
+	}
+	
+	if (knight->jumping == true) {
+		if (knight->is_jumping == false) {
+			sfx_jump.play(1);
+			knight->is_jumping = true;
 		}
 	}
 }
@@ -87,6 +96,7 @@ void PlayerActor::updateAnimation()
 			playerController->attack_hb.y = tmp_hitbox.y + playerController->location.y;
 		}
 	}
+
 	// BLOCK
 
 	// CROUCH

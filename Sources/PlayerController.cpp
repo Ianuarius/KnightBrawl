@@ -172,7 +172,7 @@ void PlayerController::update()
 		desired.y += (int)velocity_y;
 		crouching = false;
 	
-		if (velocity_y >= 3) {
+		if (velocity_y >= 1) {
 			in_air = true;
 			knight->falling = true;
 			knight->is_landed = false;
