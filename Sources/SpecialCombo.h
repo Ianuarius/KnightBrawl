@@ -38,7 +38,7 @@ public:
 	std::string combo_name;
 	int format;
 	int damage;
-	bool executing, start_execution;
+	bool executing, start_execution, in_ground;
 	int state;
 	int repeats;
 	int frames;

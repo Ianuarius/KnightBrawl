@@ -33,13 +33,6 @@ public:
 	StateData *getStateData();
 	void load(StateData *data);
 	void render();
-	enum knights {
-		CACTUS_KNIGHT,
-		WIZARD_KNIGHT,
-		ROGUE_KNIGHT,
-		LANTERN_KNIGHT,
-		DRAGON_KNIGHT
-	};
 
 private:
 	Camera *camera;
@@ -53,7 +46,7 @@ private:
 	Window *window;
 
 	void executeMoves(int knight, int move);
-	void checkHits(SDL_Rect *attacking_hb, int attacker, int damage, int direction);
+	void checkHits(SDL_Rect *attacking_hb, int attacker, Entity *weapon, int damage, int direction);
 	
 	int players;
 	int victory_counter;

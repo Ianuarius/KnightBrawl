@@ -50,7 +50,7 @@ public:
 	int menu_x, menu_y;
 	bool executing_combo, in_game;
 	std::vector<SpecialCombo> *moves;
-	std::vector<Effect *> movements;
+	std::vector<Effect> movements;
 	
 	bool in_air, jumping, crouching, attacking, gamepad_ready;
 	float velocity_x, velocity_y;

@@ -72,12 +72,16 @@ void PlayerActor::updateAnimation()
 	tmp_special = &(*moves).at(knight->ATTACK);
 
 	if (playerController->attacking == true) {
-		currentAnimation = knight->getAnimations(knight->ATTACK);
+		if (!playerController->in_air) {
+			currentAnimation = knight->getAnimations(knight->ATTACK);
+		} else {
+			currentAnimation = knight->getAnimations(knight->MID_AIR_BASIC_ATTACK);
+		}
 		
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
 		 	playerController->attacking = false;
 			knight->getMoves()->at(knight->ATTACK).executing = false;
-			knight->hit = false;
+			knight->weapon.setHit(false);
 		 	currentAnimation->times_played = 0;
 			playerController->stopAttack();
 		}
@@ -106,8 +110,34 @@ void PlayerActor::updateAnimation()
 
 	// DODGE
 	// DOWN_THRUST
+	tmp_special = &(*moves).at(knight->DOWN_THRUST);
+	if (tmp_special->executing == true) {
+		currentAnimation = knight->getAnimations(knight->DOWN_THRUST);
+
+		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
+		 	tmp_special->executing = false;
+			knight->getMoves()->at(knight->DOWN_THRUST).executing = false;
+		 	currentAnimation->times_played = 0;
+			playerController->executing_combo = false;
+			playerController->stopAttack();
+		}
+
+		if (currentAnimation->times_played < tmp_special->repeats) {
+			Rectangle tmp_hitbox = tmp_special->hitboxes[currentAnimation->getCurrentFrame()];
+			playerController->attack_hb.w = tmp_hitbox.w;
+			playerController->attack_hb.h = tmp_hitbox.h;
+
+			if (facing_direction == FACING_RIGHT) {
+				playerController->attack_hb.x = playerController->location.x + tmp_hitbox.x;
+			} else {
+				playerController->attack_hb.x = playerController->location.x - tmp_hitbox.x - tmp_hitbox.w;
+			}
+				
+			playerController->attack_hb.y = tmp_hitbox.y + playerController->location.y;
+		}
+	}
+
 	// HANGING
-	// MID_AIR_BASIC_ATTACK
 	// PUSHBACK
 	// SPECIAL_I
 	tmp_special = &(*moves).at(knight->SPECIAL_I);
@@ -116,6 +146,7 @@ void PlayerActor::updateAnimation()
 
 		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
 		 	tmp_special->executing = false;
+			knight->getMoves()->at(knight->SPECIAL_I).executing = false;
 		 	currentAnimation->times_played = 0;
 			playerController->executing_combo = false;
 			playerController->stopAttack();
@@ -172,9 +203,33 @@ void PlayerActor::updateAnimation()
 	*/
 	// THROW
 	// UPPERCUT
+	tmp_special = &(*moves).at(knight->UPPERCUT);
 	if ((*moves)[knight->UPPERCUT].executing) {
+
 		currentAnimation = knight->getAnimations(knight->UPPERCUT);
+			
+		if (currentAnimation->getCurrentFrame() == 0 && currentAnimation->times_played > 0) {
+		 	playerController->attacking = false;
+			knight->getMoves()->at(knight->UPPERCUT).executing = false;
+			knight->weapon.setHit(false);
+		 	currentAnimation->times_played = 0;
 			playerController->executing_combo = false;
+			playerController->stopAttack();
+		}
+		
+		if (currentAnimation->times_played < tmp_special->repeats) {
+			Rectangle tmp_hitbox = tmp_special->hitboxes[currentAnimation->getCurrentFrame()];
+			playerController->attack_hb.w = tmp_hitbox.w;
+			playerController->attack_hb.h = tmp_hitbox.h;
+
+			if (facing_direction == FACING_RIGHT) {
+				playerController->attack_hb.x = playerController->location.x + tmp_hitbox.x;
+			} else {
+				playerController->attack_hb.x = playerController->location.x - tmp_hitbox.x - tmp_hitbox.w;
+			}
+				
+			playerController->attack_hb.y = tmp_hitbox.y + playerController->location.y;
+		}
 
 	}
 
@@ -207,7 +262,7 @@ void PlayerActor::render()
 	}
 
 	bool draw_boundbox =		false;
-	bool draw_attack_hitbox =	true;
+	bool draw_attack_hitbox =	false;
 
 	int camera_middle_x = camera->getFrame().w / 2;
 

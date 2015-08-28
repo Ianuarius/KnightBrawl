@@ -11,7 +11,8 @@ SpecialCombo::SpecialCombo():
 	state(0),
 	tmp_input(9999),
 	disabled(false),
-	frames(1)
+	frames(1),
+	in_ground(false)
 {
 }
 

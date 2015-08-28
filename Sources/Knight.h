@@ -21,6 +21,7 @@
 #include "SpecialCombo.h"
 #include "TrapEffect.h"
 #include "TrapSpawner.h"
+#include "Weapon.h"
 #include "Window.h"
 
 class Knight
@@ -47,6 +48,7 @@ public:
 	std::vector<Projectile> *getProjectiles();
 	std::vector<Sound> *getSounds();
 	int max_hitpoints;
+	Weapon weapon;
 	
 	bool is_landed, is_jumping;
 	

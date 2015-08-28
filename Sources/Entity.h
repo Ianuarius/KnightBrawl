@@ -12,9 +12,12 @@
 class Entity
 {
 public:
-	Entity() {};
+	Entity() {hit = false;};
 	~Entity() {};
 	virtual void defineAnimation(Animation *new_animation) = 0;
+	bool hit;
+	virtual void setHit(bool new_hit) {hit = new_hit;}
+	virtual bool getHit() {return hit;}
 
 private:
 };

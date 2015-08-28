@@ -399,12 +399,21 @@ void PlayerController::update()
 						} else {
 							continue_execution = true;
 						}
+						
+						if ((*moves)[i].keys[j].in_air && !in_air) {
+							continue_execution = false;
+						}
 					}
+					
+					if ((*moves)[i].in_ground && in_air) {
+						continue_execution = false;
+					}
+					
 
 					if (continue_execution == false) {
 						(*moves)[i].state = 0;
 					}
-
+					
 					int combopower = 5;
 					if ((*moves)[i].keys.size() == (*moves)[i].state &&
 						continue_execution == true) {
@@ -453,22 +462,24 @@ void PlayerController::update()
 		targetVx = 0;
 
 		if (movements.size() > 0) {
-			if (movements.at(0)->executing &&
-				movements.at(0)->distance_travelled < movements.at(0)->range) {
+			for (int i = 0; i < movements.size(); i++) {
+				if (movements.at(i).executing &&
+					movements.at(i).distance_travelled < movements.at(i).range) {
 				
-				double new_x = movements.at(0)->speed * cos(movements.at(0)->angle * PI / 180);
-				double new_y = movements.at(0)->speed * sin(movements.at(0)->angle * PI / 180);
+					double new_x = movements.at(0).speed * cos(movements.at(i).angle * PI / 180);
+					double new_y = movements.at(0).speed * sin(movements.at(i).angle * PI / 180);
 	
-				if (facing_direction == 1) {
-					desired.x += new_x;
-				} else {
-					desired.x -= new_x;
-				}
+					if (facing_direction == 1) {
+						desired.x += new_x;
+					} else {
+						desired.x -= new_x;
+					}
 
-				desired.y -= new_y;
-				movements.at(0)->distance_travelled += movements.at(0)->speed;
-			} else {
-				movements.erase(movements.begin() + 0);
+					desired.y -= new_y;
+					movements.at(i).distance_travelled += movements.at(i).speed;
+				} else {
+					movements.erase(movements.begin() + i);
+				}
 			}
 		}
 	}

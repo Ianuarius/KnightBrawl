@@ -65,6 +65,7 @@
       <animation filename="../Graphics/Knights/cactusknight/cactusknight_downthrust.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
       <hitbox x="-3" y="-10" width="10" height="20" frame="1"/>
       <damage value="10" />
+      <effect type="pushback" power="0" angle="270" />
       <control type="combo">
         <key pressed="true">down</key>
         <key inair="true">action</key>
@@ -144,9 +145,12 @@
 
     <attack name="uppercut" format="uppercut">
       <animation filename="../Graphics/Knights/cactusknight/cactusknight_uppercut.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="10" width="10" height="20" frame="1"/>
-      <effect type="uppercut" power="10" angle="0" />
-      <effect type="stun" duration="0.5" />
+      <hitbox x="4" y="-25" width="17" height="25" frame="1"/>
+      <effects>
+        <effect type="uppercut" power="10" angle="0" />
+        <effect type="stun" duration="0.5" />
+        <effect type="pushback" power="20" angle="80" />
+      </effects>
       <damage value="7" />
       <control type="combo">
         <key pressed="true">down</key>

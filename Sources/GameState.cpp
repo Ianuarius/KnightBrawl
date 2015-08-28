@@ -170,7 +170,8 @@ stateStatus GameState::update()
 		attacking_knight++) {
 		attacking_hb = playerControllers[attacking_knight]->attack_hb;
 
-		checkHits(&attacking_hb, attacking_knight, 
+		checkHits(&attacking_hb, attacking_knight,
+			&playerControllers[attacking_knight]->getKnight()->weapon,
 			playerControllers[attacking_knight]->getKnight()->getMoves()->at(3).damage,
 			playerControllers[attacking_knight]->getDirection());
 	}
@@ -182,6 +183,7 @@ stateStatus GameState::update()
 		attacking_hb = projectiles[a_projectile].hitbox;
 		
 		checkHits(&attacking_hb, projectiles[a_projectile].player,
+			&projectiles[a_projectile],
 			projectiles[a_projectile].power,
 			projectiles[a_projectile].direction);
 	}
@@ -197,11 +199,10 @@ stateStatus GameState::update()
 	return status;
 }
 
-void GameState::checkHits(SDL_Rect *attacking_hb, int attacker, int damage, int direction)
+void GameState::checkHits(SDL_Rect *attacking_hb, int attacker, Entity *weapon, int damage, int direction)
 {
 	SDL_Rect receiving_hb;
 	int damage_multiplier = 2;
-
 	for (int receiver = 0; 
 		receiver < players; 
 		receiver++) {
@@ -210,10 +211,10 @@ void GameState::checkHits(SDL_Rect *attacking_hb, int attacker, int damage, int 
 			receiving_hb = playerControllers[receiver]->hitbox;
 
 			if (SDL_HasIntersection(&receiving_hb, attacking_hb) &&
-				knights[attacker]->hit == false &&
+				weapon->getHit() == false &&
 				knights[receiver]->alive == true) {
 				knights[receiver]->damage(damage * damage_multiplier);
-				knights[attacker]->hit = true;
+				weapon->setHit(true);
 				knights[attacker]->powerup();
 
 				if (knights[receiver]->getHitpoints() <= 0 &&
@@ -256,16 +257,17 @@ void GameState::executeMoves(int knight, int move)
 					tmp_projectile.animation->play(INFINITE_LOOP);
 					projectiles.push_back(tmp_projectile);
 				}
+				knights[knight]->weapon.setHit(false);
 			}
 
 			// NOTE(juha): go through the effects
 			if (knights[knight]->getMoves()->at(move).effects.size() > 0) {
 				for (int i = 0; i < knights[knight]->getMoves()->at(move).effects.size(); i++) {
 					
-					Effect *tmp_effect = &knights[knight]->getMoves()->at(move).effects[i];
-					tmp_effect->executing = true;
+					Effect tmp_effect = knights[knight]->getMoves()->at(move).effects[i];
+					tmp_effect.executing = true;
 
-					switch (tmp_effect->type) {
+					switch (tmp_effect.type) {
 					case 0: // slow
 						break;
 					case 1: // stun
@@ -273,8 +275,8 @@ void GameState::executeMoves(int knight, int move)
 					case 2: // burn
 						break;
 					case 3: // pushback
-						playerControllers[knight]->pushback_angle = tmp_effect->angle;
-						playerControllers[knight]->pushback_power = tmp_effect->power;
+						playerControllers[knight]->pushback_angle = tmp_effect.angle;
+						playerControllers[knight]->pushback_power = tmp_effect.power;
 						break;
 					case 4: // buff
 						break;

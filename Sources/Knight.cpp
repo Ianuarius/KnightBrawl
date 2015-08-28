@@ -421,12 +421,14 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 			}
 		}
 		if (tmp_combo.name.compare("basic") == 0) {
+			weapon.power = tmp_combo.damage;
+			weapon.setHit(false);
 			moves[ATTACK] = tmp_combo;
 		} else if (tmp_combo.name.compare("midair_basic") == 0) {
 			tmp_combo.disabled = true;
 			moves[MID_AIR_BASIC_ATTACK] = tmp_combo;
 		} else if (tmp_combo.name.compare("midair_downthrust") == 0) {
-			tmp_combo.disabled = true;
+			tmp_combo.disabled = false;
 			moves[DOWN_THRUST] = tmp_combo;
 		} else if (tmp_combo.name.compare("special1") == 0) {
 			tmp_combo.disabled = false;
@@ -444,7 +446,8 @@ void Knight::parseActions(pugi::xml_node *tmp_node)
 			tmp_combo.disabled = true;
 			moves[THROW] = tmp_combo;
 		} else if (tmp_combo.name.compare("uppercut") == 0) {
-			tmp_combo.disabled = true;
+			tmp_combo.disabled = false;
+			tmp_combo.in_ground = true;
 			moves[UPPERCUT] = tmp_combo;
 		} else if (tmp_combo.name.compare("block") == 0) {
 			tmp_combo.disabled = true;
@@ -486,6 +489,7 @@ void Knight::parseEffect(pugi::xml_node_iterator action_it, SpecialCombo *tmp_co
 	} else if (tmp_fxtype_string.compare("pushback") == 0) {
 		tmp_effect.type = tmp_effect.PUSHBACK;
 		tmp_effect.power = atoi(action_it->attribute("power").value());
+		tmp_effect.angle = atoi(action_it->attribute("angle").value());
 	} else if (tmp_fxtype_string.compare("buff") == 0) {
 		tmp_effect.type = tmp_effect.BUFF;
 					
