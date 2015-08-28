@@ -22,6 +22,8 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	lives_total = 3;
 	stateData->selection.resize(active_players);
 	
+	sfx_select1.load("../Sounds/select1.wav");
+
 	for (int i = 0; i < max_players; i++) {
 		tags.push_back(new Text(player_tag, Color("white")));
 		tag_shadows.push_back(new Text(player_tag, Color("black")));
@@ -166,6 +168,7 @@ stateStatus CharacterSelectState::update()
 				playerControllers[0]->menu_x = 0;
 				playerControllers[0]->menu_y = 0;
 			} else if (level_select) {
+				sfx_select1.play(1);
 				status.status = STATE_GAME;
 			}
 		}	

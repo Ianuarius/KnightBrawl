@@ -29,6 +29,7 @@ PlayerController::PlayerController(bool multiplayer, int player, std::vector<SDL
 	Down =				false;
 	Left =				false;
 	Right =				false;
+	sfx_select2.load("../Sounds/select2.wav");
 }
 
 PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
@@ -212,6 +213,9 @@ void PlayerController::update()
 				}
 			}
 			menu_x -= 1;
+			if (in_menu) {
+				sfx_select2.play(1);
+			}
 		}
 		left();
 		Left_up = false;
@@ -229,6 +233,9 @@ void PlayerController::update()
 				}
 			}
 			menu_x += 1;
+			if (in_menu) {
+				sfx_select2.play(1);
+			}
 		}
 		right();
 		Right_up = false;
@@ -242,6 +249,9 @@ void PlayerController::update()
 				tmp_input = knight->DOWN;
 			}
 			menu_y += 1;
+			if (in_menu) {
+				sfx_select2.play(1);
+			}
 		}
 		crouch();
 		Down_up = false;
@@ -255,6 +265,9 @@ void PlayerController::update()
 				tmp_input = knight->UP;
 			}
 			menu_y -= 1;
+			if (in_menu) {
+				sfx_select2.play(1);
+			}
 		}
 		up();
 		Up_up = false;

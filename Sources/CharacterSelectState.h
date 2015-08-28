@@ -17,6 +17,7 @@
 #include "Text.h"
 #include "Sprite.h"
 #include "SDL.h"
+#include "SFX.h"
 
 #define MARGIN_TOP	100
 #define MARGIN_LEFT	200
@@ -68,6 +69,7 @@ private:
 	std::vector<std::vector<Knight *> > knights;
 	std::vector<Sprite *> level_sprites;
 	
+	SFX sfx_select1;
 	pugi::xml_parse_result knight_result, roster_result, level_result;
 	pugi::xml_document knight_document, roster_document, level_document;
 };

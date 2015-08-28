@@ -14,6 +14,7 @@
 #include "PugiXML.h"
 #include "Rectangle.h"
 #include "SDL.h"
+#include "SFX.h"
 
 #define GRAVITY 13
 #define SPECIAL_MOVES 4
@@ -96,6 +97,7 @@ private:
 	float acceleration;
 	float targetVx;
 	float stoppedThreshold;
+	SFX sfx_select2;
 };
 
 #endif //__PLAYERCONTROLLER_H_DEFINED__

@@ -20,6 +20,8 @@ MenuState::MenuState(Window *window, Input *mainInput):
 	version(new Text(font, Color("white"))),
 	version_number("v1.0")
 {
+	sfx_select1.load("../Sounds/select1.wav");
+	sfx_select2.load("../Sounds/select2.wav");
 }
 
 void MenuState::load(StateData *data)
@@ -38,6 +40,7 @@ stateStatus MenuState::update()
 		} else {
 			switch (state) {
 			case START:
+				sfx_select1.play(1);
 				status.status = STATE_C_SELECT;
 				break;
 			case OPTIONS:
@@ -54,12 +57,14 @@ stateStatus MenuState::update()
 	if(mainInput->keyPressed(SDL_SCANCODE_LEFT)) {
 		if (state > 0) {
 			state--;
+			sfx_select2.play(1);
 		}
 	}
 		
 	if(mainInput->keyPressed(SDL_SCANCODE_RIGHT)) {
 		if (state < 2) {
 			state++;
+			sfx_select2.play(1);
 		}
 	}
 

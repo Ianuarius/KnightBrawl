@@ -12,6 +12,7 @@
 #include "Font.h"
 #include "GameState.h"
 #include "Input.h"
+#include "SFX.h"
 #include "Music.h"
 #include "Text.h"
 #include "Texture.h"
@@ -44,6 +45,7 @@ private:
 	bool start;
 	bool gameover;
 	bool splash;
+	SFX sfx_select1, sfx_select2;
 };
 
 #endif // __MENUSTATE_H_DEFINED__
