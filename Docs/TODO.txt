@@ -1,0 +1,27 @@
+
+TODO(juha):
+
+[ ] Midair Basic attack
+[ ] Downthrust attack
+[ ] Uppercut attack
+[ ] Camera update with more than 2 players
+[ ] Attack hitboxes from XML
+[ ] Respawning Knights
+[x] Attack controls from XML
+[x] Character selection
+[x] Knights in a vector
+[x] Make hitboxes for attack functionality
+[x] Have players take damage from colliding with attacks functionality
+[x] Make all the attacks work
+[x] Read all the combos
+[x] Check for all combos in Player_C
+[x] Animate all combos
+[x] Read key commands from xml functionality
+[x] Read key combos from xml functionality
+	- Get a temp vector pointer
+	- Go through the controls with an iterator
+	- Push each control to a vector
+[x] Save key combos to vectors functionality
+
+21.7.
+1h
