@@ -43,7 +43,7 @@ private:
 	// If a player makes a move executeMoves activates all its functionality.
 	void executeMoves(int knight, int move);
 
-	// Checks if players were hit by anything.
+	// Checks if anyone was hit by the given weapon.
 	void checkHits(SDL_Rect *attacking_hb, int attacker, 
 				   Entity *weapon, int damage, int direction);
 

@@ -47,6 +47,7 @@ void GameState::load(StateData *data)
 	SDL_Point start_point_4 = {(stateData->start_x + 18) * 16, 
 								stateData->start_y * 16};
 
+	// NOTE(juha): Push the previously selected knights into a vector.
 	for (int i = 0; i < players; i++) {
 		knights.push_back(stateData->selection[i]);
 	}
@@ -56,6 +57,8 @@ void GameState::load(StateData *data)
 	startPoints.push_back(start_point_3);
 	startPoints.push_back(start_point_4);
 	
+	// NOTE(juha): Create player controllers for the players with a different
+	// constructor that initializes the essential data for gameplay.
 	for (int i = 0; i < players; i++) {
 		playerControllers.push_back(new PlayerController(startPoints[i], 
 														 multiplayer, i, 
@@ -96,8 +99,9 @@ stateStatus GameState::update()
 	status.status = STATE_CONTINUE;
 	status.prepend = false;
 	
+	// NOTE(juha): Keep checking if there are enough knights alive to
+	// continue the match.
 	int alive_knights = 0;
-
 	for (int i = 0; i < players; i++) {
 		if (knights[i]->getLives() > 0) {
 			alive_knights++;
@@ -110,10 +114,6 @@ stateStatus GameState::update()
 		if (victory_counter > 120) {
 			ost.stop();
 			status.status = STATE_VICTORY;
-		}
-
-		for (int i = 0; i < players; i++) {
-
 		}
 	}
 
@@ -134,6 +134,7 @@ stateStatus GameState::update()
 		level->collides(playerControllers[i]);
 	}
 	
+	// NOTE(juha): Kill the knight if they go over the level boundaries.
 	for (int i = 0; i < players; i++) {
 		if (playerControllers[i]->boundbox.x < 0 ||
 			playerControllers[i]->boundbox.x > level->getWidth() ||
@@ -151,9 +152,12 @@ stateStatus GameState::update()
 		playerActors[i]->updateSound();
 	}
 	
-	for (int i = 0; i < players; i++) {
-		for (unsigned int j = 0; j < knights[i]->getMoves()->size(); j++) {
-			executeMoves(i, j);
+	// NOTE(juha): If any player made a special move, execute it.
+	for (int player = 0; player < players; player++) {
+		for (unsigned int move = 0; 
+						  move < knights[player]->getMoves()->size(); 
+						  move++) {
+			executeMoves(player, move);
 		}
 	}
 
@@ -194,6 +198,8 @@ stateStatus GameState::update()
 			projectiles[a_projectile].direction);
 	}
 	
+	// NOTE(juha): When all the player positions have been calculated, it's
+	// time to commit to them.
 	for (int i = 0; i < players; i++) {
 		if (knights[i]->alive == true) {
 			playerControllers[i]->commitMovement();
@@ -208,6 +214,7 @@ stateStatus GameState::update()
 void GameState::checkHits(SDL_Rect *attacking_hb, int attacker, 
 						  Entity *weapon, int damage, int direction)
 {
+	// NOTE(juha): See if you can figure this out. (Cheeky wink.)
 	SDL_Rect receiving_hb;
 	int damage_multiplier = 2;
 	for (int receiver = 0; 
@@ -230,8 +237,8 @@ void GameState::checkHits(SDL_Rect *attacking_hb, int attacker,
 					knights[receiver]->die();
 				} else {
 					playerControllers[receiver]->knockBack(direction,
-														   playerControllers[attacker]->pushback_angle,
-														   playerControllers[attacker]->pushback_power * 3);
+						playerControllers[attacker]->pushback_angle,
+						playerControllers[attacker]->pushback_power * 3);
 				}
 			}
 		}
@@ -242,11 +249,12 @@ void GameState::executeMoves(int knight, int move)
 {
 	if (knights[knight]->getMoves()->at(move).executing) {
 
+		// NOTE(juha): If move has started to execute then we don't need to
+		// start it again.
 		if (knights[knight]->getMoves()->at(move).start_execution == false) {
-
 			knights[knight]->getMoves()->at(move).start_execution = true;
 
-			// NOTE(juha): go through the projectile spawners
+			// NOTE(juha): Go through the projectile spawners.
 			if (knights[knight]->getMoves()->at(move).projectile_spawners.size() > 0) {
 				
 				ProjectileSpawner tmp_pspawner = knights[knight]->
@@ -270,7 +278,7 @@ void GameState::executeMoves(int knight, int move)
 				knights[knight]->weapon.setHit(false);
 			}
 
-			// NOTE(juha): go through the effects
+			// NOTE(juha): Go through the effects.
 			if (knights[knight]->getMoves()->at(move).effects.size() > 0) {
 				for (unsigned int i = 0; i < knights[knight]->getMoves()->at(move).effects.size(); i++) {
 					
@@ -278,6 +286,7 @@ void GameState::executeMoves(int knight, int move)
 						knights[knight]->getMoves()->at(move).effects[i];
 					tmp_effect.executing = true;
 
+					// NOTE(juha): Not all of these are yet implemented.
 					switch (tmp_effect.type) {
 					case 0: // slow
 						break;
@@ -304,6 +313,7 @@ void GameState::executeMoves(int knight, int move)
 		}
 	}
 
+	// NOTE(juha): When the move finishes, initialize it.
 	if (knights[knight]->getMoves()->at(move).executing == false &&
 		knights[knight]->getMoves()->at(move).start_execution == true) {
 		knights[knight]->getMoves()->at(move).start_execution = false;
@@ -333,8 +343,10 @@ void GameState::render()
 				projectiles[i].animation->flip = false;
 			}
 
-			projectiles[i].animation->render(projectiles[i].location.x - camera->getFrame().x,
-											 projectiles[i].location.y - camera->getFrame().y);
+			projectiles[i].animation->render(projectiles[i].location.x - 
+											 camera->getFrame().x,
+											 projectiles[i].location.y - 
+											 camera->getFrame().y);
 		}
 	}
 
@@ -344,6 +356,8 @@ void GameState::render()
 
 	std::vector<int> left_margins;
 
+	// NOTE(juha): A different layout is required for 
+	// a different amount of players.
 	switch (players)
 	{
 	case 1:
@@ -381,7 +395,8 @@ void GameState::render()
 		
 			window->drawRect(left_margins[i] + 2,
 							 top_margin + 2,
-							 (float)(100.0f / knights[i]->max_hitpoints) * knights[i]->getHitpoints(),
+							 (float)(100.0f / knights[i]->max_hitpoints) * 
+								knights[i]->getHitpoints(),
 							 6,
 							 Color("red"));
 			
@@ -404,13 +419,15 @@ void GameState::render()
 							top_margin + 16);
 			}
 
-			playernames[i]->print(window, knights[i]->getTruename(), left_margins[i] + 4, top_margin - 12);
+			playernames[i]->print(window, knights[i]->getTruename(), 
+								  left_margins[i] + 4, top_margin - 12);
 		}
 	}
 }
 
 StateData *GameState::getStateData()
 {	
+	// NOTE(juha): Data required in the VictoryState.
 	for (int i = 0; i < players; i++) {
 		stateData->player_deaths[i] = knights[i]->getDeaths();
 	}
