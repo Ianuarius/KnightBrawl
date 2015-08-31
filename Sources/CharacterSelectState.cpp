@@ -45,7 +45,7 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	id_texts.push_back("Player 3");
 	id_texts.push_back("Player 4");
 	
-	// NOTE(juha): Initializing the text positions.
+	// NOTE(juha): Initializing the player / knight text positions.
 	SDL_Point tmp_point;
 
 	tmp_point.x = 80;
