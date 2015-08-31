@@ -1,45 +1,60 @@
 /**
  * Animation.h
- *
+ * 
+ * Handles the definition and playback of frame-based animations.
+ * 
  */
 
-#ifndef __ANIMATION_H_INCLUDED__
-#define __ANIMATION_H_INCLUDED__
+#ifndef ANIMATION_H_INCLUDED
+#define ANIMATION_H_INCLUDED
 
 #include <vector>
 #include "SDL.h"
 #include "Sprite.h"
 
-#define INFINITE_LOOP -1
+static const int INFINITE_LOOP = -1;
 
 class Animation : public Sprite
 {
-	public:
-		Animation(Window *window, std::string filename, int width, int height,
-				  int start_frame, int frame_count, int framerate);
-		virtual ~Animation();
+public:
+	// Parameters:
+		// window		Pointer to the Window object created in main.cpp.
+		// filename		The path and filename to the image file.
+		// width		The width of a single frame of the animation.
+		// height		The height of a single frame of the animation.
+		// start_frame	The point where the animation should start.
+		// frame_count	The number of frames in the animation.
+		// framerate	The amount of frames displayed during one second.
+	Animation(Window *window, std::string filename, int width, int height,
+				int start_frame, int frame_count, int framerate);
+	virtual ~Animation();
 
-		void addFrame(int frame_index);
-		void setFramerate(int framerate);
+	// Sets the framerate of the animation to the given framerate.
+	void setFramerate(int framerate);
 
-		int getFramecount();
-		void setCurrentFrame(int i);
-		int getCurrentFrame();
+	// Switches the current frame of the animation to be i.
+	void setCurrentFrame(int i);
 
-		void play(int times);
-		void pause();
-		void nextFrame();
-		void render(int x, int y);
-		bool done();
+	int getCurrentFrame();
+	int getFramecount();
 
-		bool running;
-		int times_played;
+	void play(int times);
+	void pause();
+	void nextFrame();
 
-	private:
-		Window *window;
+	void render(int x, int y);
 
-		std::vector<int> frames;
-		int play_count, frametime, current_frame, current_frametime;
+	// Checks if the animation has done running through.
+	bool done();
+
+	bool running;
+	int times_played;
+
+private:
+	Window *window;
+
+	std::vector<int> frames;
+	int play_count, frametime, current_frame, current_frametime;
 };
 
-#endif // __ANIMATION_H_INCLUDED__
+#endif // ANIMATION_H_INCLUDED

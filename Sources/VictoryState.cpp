@@ -28,10 +28,9 @@ void VictoryState::load(StateData *data)
 {
 	stateData = data;
 	
+	// NOTE(juha): Sorting functionality.
 	for (int i = 0; i < stateData->players; i++) {
-
 		for (int j = 0; j < stateData->players; j++) {
-
 			if (i != j) {
 				if (stateData->player_kills[i] < stateData->player_kills[j]) {
 					player_rank[i]++;
@@ -43,8 +42,6 @@ void VictoryState::load(StateData *data)
 		}
 	}
 	
-
-	// NOTE(juha): Sorting functionality.
 	for (int i = 0; i < stateData->players; i++) {
 		bool not_ok = false;
 
@@ -71,10 +68,12 @@ void VictoryState::load(StateData *data)
 		}
 	}
 
+	// NOTE(juha): With value 9999 there's no defined winner.
 	winner = 9999;
 
 	for (int i = 0; i < stateData->players; i++) {
-
+		// NOTE(juha): If the match ended with a player who didn't lose all of
+		// their lives, then that player is the winner of the round.
 		if (stateData->player_deaths[i] < stateData->lives) {
 			names.push_back(new Text(values, Color(0x48B748)));
 			kills.push_back(new Text(values, Color(0x48B748)));
@@ -98,7 +97,8 @@ stateStatus VictoryState::update()
 	status.prepend = false;
 	
 	if (mainInput->keyPressed(SDL_SCANCODE_RETURN) || 
-		mainInput->keyPressed(SDL_SCANCODE_ESCAPE))	{
+		mainInput->keyPressed(SDL_SCANCODE_ESCAPE) || 
+		mainInput->keyPressed(SDL_SCANCODE_SPACE))	{
 		status.status = STATE_MENU;
 		return status;
 	}
@@ -123,9 +123,7 @@ void VictoryState::render()
 	deaths_text->print(window, "Deaths", 280, 120);
 
 	for (int i = 0; i < stateData->players; i++) {
-		
 		for (int j = 0; j < stateData->players; j++) {
-
 			if (player_rank[j] == i) {
 				names[j]->print(window, 
 					stateData->selection[j]->getTruename(), 

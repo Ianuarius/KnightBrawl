@@ -99,7 +99,7 @@ void PlayerController::setPlayers(int *active_players)
 
 void PlayerController::parseMappedValues()
 {
-	std::string filename = "Controls.xml";
+	std::string filename = "../Scripts/Controls.xml";
 	result = controlsDocument.load_file(filename.c_str());
 	SinglePlayerMappings = 
 		controlsDocument.child("profile").
@@ -112,8 +112,6 @@ void PlayerController::parseMappedValues()
 		printf("Failed to load controls file: %s.\n", filename.c_str());
 		return;
 	}
-	
-
 
 	// NOTE(juha): Parsing the inputs from the mapped values.
 	if (!multiplayer) {
@@ -312,13 +310,12 @@ void PlayerController::update()
 	if (playerInput.isKeyUp(key_action)) {
 		has_attacked = false;
 	}
+
 	// MENU BUTTON
 	if (playerInput.keyState(key_menu)) {
 	}
 	
-	
 	if (!in_menu) {
-
 		// NOTE(juha): respawn timer
 		if (knight->alive == false) {
 			if (deathTimer.isStarted() == false) {
@@ -360,7 +357,7 @@ void PlayerController::update()
 					}
 				
 
-					for (int j = 0; j < (*moves)[i].keys.size(); j++) {
+					for (unsigned int j = 0; j < (*moves)[i].keys.size(); j++) {
 						if ((*moves)[i].keys[j].pressed == true) {
 
 							if ((*moves)[i].keys[j].keycode == knight->FORWARD &&
@@ -475,7 +472,7 @@ void PlayerController::update()
 		targetVx = 0;
 
 		if (movements.size() > 0) {
-			for (int i = 0; i < movements.size(); i++) {
+			for (unsigned int i = 0; i < movements.size(); i++) {
 				if (movements.at(i).executing &&
 					movements.at(i).distance_travelled < movements.at(i).range) {
 				
@@ -483,12 +480,12 @@ void PlayerController::update()
 					double new_y = movements.at(0).speed * sin(movements.at(i).angle * PI / 180);
 	
 					if (facing_direction == 1) {
-						desired.x += new_x;
+						desired.x += (int)new_x;
 					} else {
-						desired.x -= new_x;
+						desired.x -= (int)new_x;
 					}
 
-					desired.y -= new_y;
+					desired.y -= (int)new_y;
 					movements.at(i).distance_travelled += movements.at(i).speed;
 				} else {
 					movements.erase(movements.begin() + i);
@@ -518,12 +515,12 @@ void PlayerController::knockBack(int attack_direction, int attack_angle, int att
 	double new_y = attack_power * sin(attack_angle * PI / 180);
 	
 	if (attack_direction == FACING_RIGHT) {
-		desired.x += new_x;
+		desired.x += (int)new_x;
 	} else {
-		desired.x -= new_x;
+		desired.x -= (int)new_x;
 	}
 	
-	desired.y -= new_y;
+	desired.y -= (int)new_y;
 
 	if (attack_direction != facing_direction) {
 		velocity_x = 0;
@@ -557,19 +554,6 @@ void PlayerController::move(int x, int y)
 	desired.y += y;
 }
 
-// NOTE(juha): Collects all the action methods into one
-// Changes the PlayerController STATE instead of it having many different bools
-/*
-void PlayerController::doAction(int action)
-{
-	switch (action)
-	{
-	default:
-		break;
-	}
-}
-*/
-
 void PlayerController::left()
 {
 	if (!in_menu) {
@@ -599,7 +583,7 @@ void PlayerController::jump()
 {
 	if (!in_menu) {
 		if (in_air == false) {
-			velocity_y -= knight->getJump() + 0.4;
+			velocity_y -= knight->getJump() + 0.4f;
 			in_air = true;
 			jumping = true;
 			knight->jumping = true;
@@ -632,14 +616,3 @@ void PlayerController::crouch()
 	} else {
 	}
 }
-
-// BLOCK
-// DEATH
-// DODGE
-// DOWN_THRUST
-// HANGING
-// MID_AIR_BASIC_ATTACK
-// PUSHBACK
-
-// THROW
-// UPPERCUT

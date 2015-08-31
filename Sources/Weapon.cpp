@@ -38,8 +38,8 @@ void Weapon::update()
 
 	y_coordinate -= new_y;
 
-	location.x = x_coordinate;
-	location.y = y_coordinate;
+	location.x = (int)x_coordinate;
+	location.y = (int)y_coordinate;
 
 	hitbox.x = location.x;
 	hitbox.y = location.y;

@@ -14,16 +14,20 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	header(new Text(font, Color("white")))
 {
 	stateData = new StateData();
-	bool multiplayer = true;
-	character_select = true;
-	level_select = false;
-	active_players = 2;
-	max_players = 4;
-	lives_total = 3;
+
+	// NOTE(juha): Initialization:
+	bool multiplayer =	true;		// multiple players on same machine
+	character_select =	true;		// are we in character select?
+	level_select =		false;		// are we in level select?
+	active_players =	2;			// how many of the max players are active
+	max_players =		4;			// max amount of possible players
+	lives_total =		3;			// the amount of lives in the match
+
 	stateData->selection.resize(active_players);
 	
 	sfx_select1.load("../Sounds/select1.wav");
 
+	// NOTE(juha): Initializing the menu texts.
 	for (int i = 0; i < max_players; i++) {
 		tags.push_back(new Text(player_tag, Color("white")));
 		tag_shadows.push_back(new Text(player_tag, Color("black")));
@@ -41,65 +45,57 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	id_texts.push_back("Player 3");
 	id_texts.push_back("Player 4");
 	
+	// NOTE(juha): Initializing the text positions.
 	SDL_Point tmp_point;
+
 	tmp_point.x = 80;
 	tmp_point.y = 100;
 	id_positions.push_back(tmp_point);
+
 	tmp_point.x = 420;
 	tmp_point.y = 100;
 	id_positions.push_back(tmp_point);
+
 	tmp_point.x = 80;
 	tmp_point.y = 150;
 	id_positions.push_back(tmp_point);
+
 	tmp_point.x = 420;
 	tmp_point.y = 150;
 	id_positions.push_back(tmp_point);
 	
+	// NOTE(juha): Initializing possible gamepads.
 	SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER);
 
 	int MaxJoysticks = SDL_NumJoysticks();
-	ControllerIndex = 0;
-	for(int JoystickIndex=0; JoystickIndex < MaxJoysticks; ++JoystickIndex) {
-		if (!SDL_IsGameController(JoystickIndex)) {
+	controller_index = 0;
+
+	for (int joystick_index = 0; 
+			 joystick_index < MaxJoysticks; 
+		   ++joystick_index) {
+		if (!SDL_IsGameController(joystick_index)) {
 			continue;
 		}
-		if (ControllerIndex >= MAX_CONTROLLERS) {
+		if (controller_index >= MAX_CONTROLLERS) {
 			break;
 		}
-		ControllerHandles[ControllerIndex] = SDL_GameControllerOpen(JoystickIndex);
-		ControllerIndex++;
+		ControllerHandles[controller_index] = 
+			SDL_GameControllerOpen(joystick_index);
+		controller_index++;
 	}
-
-	roster_result = roster_document.load_file("../Scripts/roster.xml");
-	level_result = level_document.load_file("../Scripts/levels.xml");
-
 	
-	for(pugi::xml_node_iterator iterator = level_document.child("levels").begin();
-			iterator != level_document.child("levels").end();
-			++iterator)
-	{
-		Sprite *tmp_sprite;
-		SDL_Point tmp_point;
-		level_paths.push_back(iterator->attribute("script").value());
-		level_tilesets.push_back(iterator->attribute("tileset").value());
-		tmp_point.x = atoi(iterator->attribute("start_x").value());
-		tmp_point.y = atoi(iterator->attribute("start_y").value());
-		start_points.push_back(tmp_point);
-
-		tmp_sprite = new Sprite(window, iterator->attribute("preview").value(), 80, 45);
-
-		level_sprites.push_back(tmp_sprite);
-	}
+	// NOTE(juha): Go through the roster.xml and parse the data.
+	roster_result = roster_doc.load_file("../Scripts/roster.xml");
 
 	roster_row_length = 5;
 	roster_row_count = 0;
 	int roster_col_count = 0;
 	std::vector<Knight *> roster_tmp_row;
 
-	for(pugi::xml_node_iterator iterator = roster_document.child("roster").begin();
-			iterator != roster_document.child("roster").end();
-			++iterator)
-	{
+
+	for(pugi::xml_node_iterator iterator = roster_doc.child("roster").begin();
+								iterator != roster_doc.child("roster").end();
+							  ++iterator) {
 		roster_col_count++;
 		roster_tmp_row.push_back(new Knight(window, 
 			atoi(iterator->attribute("id").value()), lives_total));
@@ -112,11 +108,55 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 		}
 	}
 	
+	// NOTE(juha): If the last row couldn't be filled completely:
 	if (roster_col_count > 0) {
 		knights.push_back(roster_tmp_row);
 		roster_row_count++;
 	}
+	
+	// NOTE(juha): Go through the levels.xml and parse the data.
+	level_result = level_doc.load_file("../Scripts/levels.xml");
 
+	for(pugi::xml_node_iterator iterator = level_doc.child("levels").begin();
+								iterator != level_doc.child("levels").end();
+							  ++iterator) {
+		Sprite *tmp_sprite;
+		SDL_Point tmp_point;
+		level_paths.push_back(iterator->attribute("script").value());
+		level_tilesets.push_back(iterator->attribute("tileset").value());
+		tmp_point.x = atoi(iterator->attribute("start_x").value());
+		tmp_point.y = atoi(iterator->attribute("start_y").value());
+		start_points.push_back(tmp_point);
+
+		tmp_sprite = new Sprite(window, 
+			iterator->attribute("preview").value(), 80, 45);
+
+		level_sprites.push_back(tmp_sprite);
+	}
+
+	// NOTE(juha): Create the player controllers.
+	for (int i = 0; i < max_players; i++) {
+		playerControllers.push_back(new PlayerController(multiplayer, 
+														 i, 
+														 &positions));
+	}
+	
+	for (int i = 0; i < active_players; i++) {
+		playerControllers[i]->in_game = true;
+	}
+
+	// NOTE(juha): If there are gamepads connected to the PC,
+	// assign them to the 4th and 3rd player, respectively.
+	if (controller_index == 2) {
+		playerControllers[2]->setGamepad(ControllerHandles[0]);
+		playerControllers[3]->setGamepad(ControllerHandles[1]);
+	} else if (controller_index == 1) {
+		playerControllers[3]->setGamepad(ControllerHandles[0]);
+	} else if (controller_index == 0) {
+		// nobody gamepads rip
+	}
+	
+	// NOTE(juha): Initialize the menu positions.
 	for (int i = 0; i < max_players; i++) {
 		SDL_Point tmp;
 		tmp.x = 0;
@@ -125,35 +165,13 @@ CharacterSelectState::CharacterSelectState(Window *window, Input *mainInput):
 	}
 
 	for (int i = 0; i < max_players; i++) {
-		playerControllers.push_back(new PlayerController(multiplayer, 
-														 i, 
-														 &positions));
-	}
-	
-	if (ControllerIndex == 2) {
-		playerControllers[2]->setGamepad(ControllerHandles[0]);
-		playerControllers[3]->setGamepad(ControllerHandles[1]);
-	} else if (ControllerIndex == 1) {
-		playerControllers[3]->setGamepad(ControllerHandles[0]);
-	} else if (ControllerIndex == 0) {
-		// nobody gamepads rip
-	}
-
-	for (int i = 0; i < max_players; i++) {
 		positions[i].x = playerControllers[i]->menu_x;
 		positions[i].y = playerControllers[i]->menu_y;
 		playerControllers[i]->setPlayers(&active_players);
 	}
-	
-	for (int i = 0; i < active_players; i++) {
-		playerControllers[i]->in_game = true;
-	}
 }
 
-void CharacterSelectState::load(StateData *data)
-{
-	
-}
+void CharacterSelectState::load(StateData *data) {}
 
 stateStatus CharacterSelectState::update() 
 {
@@ -163,6 +181,8 @@ stateStatus CharacterSelectState::update()
 
 		if (mainInput->keyPressed(SDL_SCANCODE_RETURN))	{
 			if (character_select) {
+				// NOTE(juha): Move into level select where only the first
+				// player can control the selection.
 				character_select = false;
 				level_select = true;
 				playerControllers[0]->menu_x = 0;
@@ -181,19 +201,24 @@ stateStatus CharacterSelectState::update()
 		playerControllers[i]->update();
 	}
 	
+	// NOTE(juha): If a player joins the game, resize the active players.
 	stateData->selection.resize(active_players);
 	
+	// NOTE(juha): For checking if the selections of the players collide.
 	bool intruder = false;
 
+	// NOTE(juha): Checks if the active players already in the game are in the
+	// positions of the grid where a new player would spawn if they joined the
+	// game.
 	for (int i = 0; i < max_players; i++) {
-		
 		if (playerControllers[i]->in_game == false) {
-
 			for (int j = 0; j < max_players; j++) {
-
 				if (playerControllers[i]->menu_x == positions[j].x &&
 					playerControllers[i]->menu_y == positions[j].y &&
 					i != j) {
+						// NOTE(juha): If they are in the same position, then 
+						// go through the first four spots in the grid and
+						// switch to a free spot.
 						for (int k = 0; k < 4; k ++) {
 							bool filled = false;
 							for (int l = 0; l < max_players; l++) {
@@ -215,6 +240,7 @@ stateStatus CharacterSelectState::update()
 	
 	menuMovement();
 
+	// NOTE(juha): Commit the movements of the players.
 	for (int i = 0; i < active_players; i++) {
 		positions[i].x = playerControllers[i]->menu_x;
 		positions[i].y = playerControllers[i]->menu_y;
@@ -225,12 +251,16 @@ stateStatus CharacterSelectState::update()
 void CharacterSelectState::menuMovement()
 {
 	if (character_select) {
+		// NOTE(juha): For checking if the selections of the players collide.
 		bool intruder = false;
 		for (int i = 0; i < active_players; i++) {
-		
+			int loop_guard = 0;
 			do {
 				for (int j = 0; j < (int)positions.size(); j++) {
 
+					// NOTE(juha): Check if a player overlaps with another 
+					// player and keep moving them to the selected direction as
+					// long as necessary.
 					if (playerControllers[i]->menu_x == positions[j].x &&
 						playerControllers[i]->menu_y == positions[j].y &&
 						playerControllers[i]->in_game == true &&
@@ -252,9 +282,23 @@ void CharacterSelectState::menuMovement()
 						intruder = false;
 					}
 				}
+				loop_guard++;
+
+				// NOTE(juha): Failsafe for a situation where the players move
+				// to the same spot at exactly the same time so that the game
+				// won't freeze.
+				if (loop_guard >= 120) {
+					for (int j = 0; j < max_players; ++j) {
+						playerControllers[i]->menu_x = i;
+					}
+					break;
+				}
+
 			} while (intruder == true);
 		}
 
+		// NOTE(juha): If a player tries to move outside the grid, nullify the
+		// move attempt.
 		for (int i = 0; i < active_players; i++) {
 			if (playerControllers[i]->menu_x >= 0 &&
 				playerControllers[i]->menu_x < (int)knights[0].size() &&
@@ -275,7 +319,6 @@ void CharacterSelectState::menuMovement()
 			}
 		}
 	} else if (level_select) {
-		bool intruder = false;
 		int level_rows = 1;
 
 		if (playerControllers[0]->menu_x >= 0 &&
@@ -296,6 +339,7 @@ void CharacterSelectState::menuMovement()
 			playerControllers[0]->menu_y = positions[0].y;
 		}
 
+		// NOTE(juha): Save selected data.
 		selected_level = level_paths[positions[0].x];
 		selected_tileset = level_tilesets[positions[0].x];
 		selected_start = start_points[positions[0].x];
@@ -305,8 +349,11 @@ void CharacterSelectState::menuMovement()
 void CharacterSelectState::render() 
 {
 	if (character_select) {
-		header->print(window, "Choose your destiny", 170, (int)(MARGIN_TOP / 2));
-	
+		header->print(window, "Choose your destiny",
+					  170, (int)(MARGIN_TOP / 2));
+
+		// NOTE(juha): Go through the roster and render deselected and selected
+		// versions of the knight decals based on the players' selection.
 		for (int i = 0; i < roster_row_count; i++) {
 			for (int j = 0; j < (int)knights[i].size(); ++j) {	
 				if (knights[i][j]) {
@@ -327,6 +374,7 @@ void CharacterSelectState::render()
 			}
 		}
 	
+		// NOTE(juha): Render player numbers over the selected decals.
 		for (int i = 0; i < active_players; i++)
 		{
 			tag_shadows[i]->print(window, tag_texts[i], 
@@ -338,6 +386,9 @@ void CharacterSelectState::render()
 				MARGIN_TOP  + 2  + positions[i].y * 30);
 		}
 		
+		// NOTE(juha): Render the names of the knights next to the respective
+		// player. If some players are not active "PRESS ACTION" will be 
+		// printed instead of the knight name.
 		for (int i = 0; i < max_players; i++)
 		{
 			player_identifiers[i]->print(window, id_texts[i],
@@ -345,9 +396,10 @@ void CharacterSelectState::render()
 				id_positions[i].y);
 
 			if (playerControllers[i]->in_game == true) {
-				player_names[i]->print(window, stateData->selection[i]->getTruename(),
-					id_positions[i].x,
-					id_positions[i].y + 15);
+				player_names[i]->print(window, 
+									   stateData->selection[i]->getTruename(),
+									   id_positions[i].x,
+									   id_positions[i].y + 15);
 			} else {
 				player_names[i]->print(window, "PRESS ACTION",
 					id_positions[i].x,
@@ -357,7 +409,8 @@ void CharacterSelectState::render()
 	} else if (level_select) {
 		header->print(window, "Choose your might", 170, (int)(MARGIN_TOP / 2));
 	
-		for (int k = 0; k < level_paths.size(); k++) {
+		// NOTE(juha): Render the level thumbnails.
+		for (unsigned int k = 0; k < level_paths.size(); k++) {
 			if (k == positions[0].x && 0 == positions[0].y) {
 				level_sprites[k]->setIndex(0);
 			} else {
@@ -373,10 +426,10 @@ void CharacterSelectState::render()
 StateData *CharacterSelectState::getStateData()
 {
 	stateData->players = active_players;
-	for (int i = 0; i < ControllerIndex; ++i) {
+	for (int i = 0; i < controller_index; ++i) {
 		stateData->ControllerHandles[i] = ControllerHandles[i];
 	}
-	stateData->ControllerIndex = ControllerIndex;
+	stateData->controller_index = controller_index;
 	stateData->lives = lives_total;
 	stateData->level_path.assign(selected_level);
 	stateData->level_tileset.assign(selected_tileset);

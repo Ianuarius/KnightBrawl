@@ -14,6 +14,11 @@ Texture::Texture(Window *window, std::string filename):
 	SDL_QueryTexture(texture, NULL, NULL, &width, &height);
 }
 
+void Texture::free()
+{
+	SDL_DestroyTexture(texture);
+}
+
 SDL_Texture *Texture::loadImage(std::string path)
 {
 	SDL_Surface* surface = IMG_Load(path.c_str());
@@ -32,10 +37,29 @@ SDL_Texture *Texture::loadImage(std::string path)
 	return newTexture;
 }
 
+void Texture::crop(SDL_Rect rect)
+{
+	clipRect.x = rect.x;
+	clipRect.y = rect.y;
+	clipRect.w = rect.w;
+	clipRect.h = rect.h;
+}
+
+int Texture::getWidth()
+{
+	return width;
+}
+
+int Texture::getHeight()
+{
+	return height;
+}
+
 void Texture::render(int x, int y)
 {	
-	if (clipRect.w <= 0 && clipRect.h <= 0)
-	{
+	// NOTE(juha): If the clipRect hasn't been set in crop
+	// then render the whole texture.
+	if (clipRect.w <= 0 && clipRect.h <= 0) {
 		int width, height;
 		SDL_QueryTexture(texture, NULL, NULL, &width, &height);
 
@@ -51,30 +75,4 @@ void Texture::render(int x, int y)
 	}
 
 	SDL_RenderCopyEx(renderer, texture, &clipRect, &destination, 0, NULL, flag);
-
-}
-
-void Texture::free()
-{
-	SDL_DestroyTexture(texture);
-}
-
-void Texture::crop(SDL_Rect rect)
-{
-	clipRect.x = rect.x;
-	clipRect.y = rect.y;
-	clipRect.w = rect.w;
-	clipRect.h = rect.h;
-
-
-}
-
-int Texture::getWidth()
-{
-	return width;
-}
-
-int Texture::getHeight()
-{
-	return height;
 }

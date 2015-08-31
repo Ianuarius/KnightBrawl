@@ -17,54 +17,57 @@ Animation::Animation(Window *window, std::string filename,
 					 frametime(0),
 					 current_frame(0),
 					 current_frametime(0)
-
 {
 	setFramerate(framerate);
 
-	for (int frame = 0; frame < frame_count; ++frame)
-	{
+	for (int frame = 0; frame < frame_count; ++frame) {
 		frames.push_back(frame);
 	}
 }
 
-Animation::~Animation() {
+Animation::~Animation() {}
 
-}
-
-int Animation::getCurrentFrame() {
-	return current_frame;
-}
-
-void Animation::setCurrentFrame(int i) {
-	current_frame = i;
-}
-
-void Animation::nextFrame() {
-	current_frame++;
-}
-
-int Animation::getFramecount() {
-	return frames.size();
-}
-
-void Animation::setFramerate(int framerate) {
+void Animation::setFramerate(int framerate)
+{
 	frametime = (1000 / framerate);
 }
 
-void Animation::play(int times) {
+void Animation::setCurrentFrame(int i)
+{
+	current_frame = i;
+}
+
+int Animation::getCurrentFrame()
+{
+	return current_frame;
+}
+
+int Animation::getFramecount()
+{
+	return frames.size();
+}
+
+void Animation::play(int times)
+{
 	running = true;
 	play_count = times; 
 }
 
-void Animation::pause() {
+void Animation::pause()
+{
 	running = false;
 }
 
-void Animation::render(int x, int y) {
+void Animation::nextFrame()
+{
+	current_frame++;
+}
+
+void Animation::render(int x, int y)
+{
 	current_frametime += window->getDelta();
 
-	if (running && play_count != 0)
-	{
+	if (running && play_count != 0) {
 		if (current_frametime > frametime) {
 			if (current_frame >= (int)frames.size() - 1) {
 				play_count--;
@@ -90,7 +93,8 @@ void Animation::render(int x, int y) {
 	}
 }
 
-bool Animation::done() {
+bool Animation::done()
+{
 	if (running && current_frame == frames.size() - 1) {
 		return true;
 	}

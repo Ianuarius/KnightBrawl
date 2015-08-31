@@ -13,7 +13,7 @@ Music::Music(std::string filepath):
 	music = Mix_LoadMUS(this->filepath.c_str());
 
 	if (!music) {
-		printf("Audio error! Here it is: %s", Mix_GetError());
+		printf("Audio error: %s", Mix_GetError());
 		SDL_Delay(5000);
 	}
 }

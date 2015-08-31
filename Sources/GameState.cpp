@@ -17,12 +17,9 @@ GameState::GameState(Window *window, Input *mainInput):
 	coin(window, "../Graphics/GUI/coin2.png")
 {
 	timer.start();
-
 }
 
-GameState::~GameState()
-{
-}
+GameState::~GameState() {}
 
 void GameState::load(StateData *data)
 {
@@ -40,10 +37,15 @@ void GameState::load(StateData *data)
 	if (players <= 1) {
 		multiplayer = false;
 	}
-	SDL_Point start_point_1 = {(stateData->start_x + 0) * 16, stateData->start_y * 16};
-	SDL_Point start_point_2 = {(stateData->start_x + 6) * 16, stateData->start_y * 16};
-	SDL_Point start_point_3 = {(stateData->start_x + 12) * 16, stateData->start_y * 16};
-	SDL_Point start_point_4 = {(stateData->start_x + 18) * 16, stateData->start_y * 16};
+
+	SDL_Point start_point_1 = {(stateData->start_x + 0) * 16, 
+								stateData->start_y * 16};
+	SDL_Point start_point_2 = {(stateData->start_x + 6) * 16, 
+								stateData->start_y * 16};
+	SDL_Point start_point_3 = {(stateData->start_x + 12) * 16, 
+								stateData->start_y * 16};
+	SDL_Point start_point_4 = {(stateData->start_x + 18) * 16, 
+								stateData->start_y * 16};
 
 	for (int i = 0; i < players; i++) {
 		knights.push_back(stateData->selection[i]);
@@ -55,24 +57,29 @@ void GameState::load(StateData *data)
 	startPoints.push_back(start_point_4);
 	
 	for (int i = 0; i < players; i++) {
-		playerControllers.push_back(new PlayerController(startPoints[i], multiplayer, i, knights[i]));
+		playerControllers.push_back(new PlayerController(startPoints[i], 
+														 multiplayer, i, 
+														 knights[i]));
 	}
 	
 	// NOTE(juha): If there are gamepads connected to the PC,
 	// assign them to the 4th and 3rd player, respectively.
-	if (stateData->ControllerIndex == 2 && stateData->players == 4) {
+	if (stateData->controller_index == 2 && stateData->players == 4) {
 		playerControllers[2]->setGamepad(stateData->ControllerHandles[0]);
 		playerControllers[3]->setGamepad(stateData->ControllerHandles[1]);
-	} else if (stateData->ControllerIndex == 1 && stateData->players == 3) {
+	} else if (stateData->controller_index == 1 && stateData->players == 3) {
 		playerControllers[3]->setGamepad(stateData->ControllerHandles[0]);
-	} else if (stateData->ControllerIndex == 0) {
+	} else if (stateData->controller_index == 0) {
 		// nobody gamepads rip
 	}
 
-	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT, &playerControllers, players);
+	camera = new Camera(RESOLUTION_WIDTH, RESOLUTION_HEIGHT,
+						&playerControllers, players);
 
 	for (int i = 0; i < players; i++) {
-		playerActors.push_back(new PlayerActor(window, camera, playerControllers[i], knights[i]));
+		playerActors.push_back(new PlayerActor(window, camera, 
+											   playerControllers[i], 
+											   knights[i]));
 	}
 	
 	level = new Level(window, camera);
@@ -145,18 +152,17 @@ stateStatus GameState::update()
 	}
 	
 	for (int i = 0; i < players; i++) {
-		for (int j = 0; j < knights[i]->getMoves()->size(); j++) {
+		for (unsigned int j = 0; j < knights[i]->getMoves()->size(); j++) {
 			executeMoves(i, j);
 		}
 	}
 
-	for (int i = 0; i < projectiles.size(); i++) {
+	for (unsigned int i = 0; i < projectiles.size(); i++) {
 		projectiles[i].update();
 		level->collides(&projectiles[i]);
 	}
 	
-	for (int i = 0; i < projectiles.size(); i++) {
-		
+	for (unsigned int i = 0; i < projectiles.size(); i++) {
 		if (projectiles[i].collision == true) {
 			projectiles.erase(projectiles.begin() + i);
 		}
@@ -177,7 +183,7 @@ stateStatus GameState::update()
 	}
 	
 	// NOTE(juha): Check projectile hits
-	for (int a_projectile = 0; 
+	for (unsigned int a_projectile = 0; 
 		a_projectile < projectiles.size(); 
 		a_projectile++) {
 		attacking_hb = projectiles[a_projectile].hitbox;
@@ -199,7 +205,8 @@ stateStatus GameState::update()
 	return status;
 }
 
-void GameState::checkHits(SDL_Rect *attacking_hb, int attacker, Entity *weapon, int damage, int direction)
+void GameState::checkHits(SDL_Rect *attacking_hb, int attacker, 
+						  Entity *weapon, int damage, int direction)
 {
 	SDL_Rect receiving_hb;
 	int damage_multiplier = 2;
@@ -246,13 +253,16 @@ void GameState::executeMoves(int knight, int move)
 					getMoves()->at(move).projectile_spawners[0];
 
 				for (int i = 0; i < tmp_pspawner.amount; i++) {
-					Projectile tmp_projectile = knights[knight]->getProjectiles()->at(0);
-					tmp_projectile.direction = playerControllers[knight]->getDirection();
+					Projectile tmp_projectile = 
+						knights[knight]->getProjectiles()->at(0);
+					tmp_projectile.direction = 
+						playerControllers[knight]->getDirection();
 					tmp_projectile.x_coordinate = playerControllers[knight]->
 						location.x + tmp_projectile.x_offset;
 					tmp_projectile.y_coordinate = playerControllers[knight]->
 						location.y + tmp_projectile.y_offset;
-					tmp_projectile.angle = tmp_pspawner.angle + (tmp_pspawner.angle_interval * i);
+					tmp_projectile.angle = 
+						tmp_pspawner.angle + (tmp_pspawner.angle_interval * i);
 					tmp_projectile.player = knight;
 					tmp_projectile.animation->play(INFINITE_LOOP);
 					projectiles.push_back(tmp_projectile);
@@ -262,9 +272,10 @@ void GameState::executeMoves(int knight, int move)
 
 			// NOTE(juha): go through the effects
 			if (knights[knight]->getMoves()->at(move).effects.size() > 0) {
-				for (int i = 0; i < knights[knight]->getMoves()->at(move).effects.size(); i++) {
+				for (unsigned int i = 0; i < knights[knight]->getMoves()->at(move).effects.size(); i++) {
 					
-					Effect tmp_effect = knights[knight]->getMoves()->at(move).effects[i];
+					Effect tmp_effect = 
+						knights[knight]->getMoves()->at(move).effects[i];
 					tmp_effect.executing = true;
 
 					switch (tmp_effect.type) {
@@ -275,8 +286,10 @@ void GameState::executeMoves(int knight, int move)
 					case 2: // burn
 						break;
 					case 3: // pushback
-						playerControllers[knight]->pushback_angle = tmp_effect.angle;
-						playerControllers[knight]->pushback_power = tmp_effect.power;
+						playerControllers[knight]->pushback_angle = 
+							tmp_effect.angle;
+						playerControllers[knight]->pushback_power = 
+							tmp_effect.power;
 						break;
 					case 4: // buff
 						break;
@@ -312,7 +325,7 @@ void GameState::render()
 	}
 	
 	if (projectiles.size() > 0) {
-		for (int i = 0; i < projectiles.size(); i++) {
+		for (unsigned int i = 0; i < projectiles.size(); i++) {
 
 			if (projectiles[i].direction == 2) {
 				projectiles[i].animation->flip = true;

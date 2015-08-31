@@ -1,10 +1,12 @@
 /**
  * StateData.h
  *
+ * Class for data that needs to be transported between states.
+ *
  */
 
-#ifndef __STATEDATA_H_DEFINED__
-#define __STATEDATA_H_DEFINED__
+#ifndef STATEDATA_H_DEFINED
+#define STATEDATA_H_DEFINED
 
 #include "Knight.h"
 
@@ -14,21 +16,24 @@ class StateData
 {
 public:
 	StateData();
+	
+	SDL_GameController *ControllerHandles[MAX_CONTROLLERS];
 
-	// NOTE(juha): Filled but not really used at the moment.
-	std::vector<std::vector<Knight *> > *knights;
-
-	std::vector<Knight *> selection;
-	int players;
 	std::string level_path;
 	std::string level_tileset;
-	int start_x, start_y;
+
+	std::vector<Knight *> selection;
 	std::vector<int> player_kills;
 	std::vector<int> player_deaths;
-	int lives, ControllerIndex;
-	SDL_GameController *ControllerHandles[MAX_CONTROLLERS];
+	
+	// TODO(juha): Filled but not really used at the moment.
+	std::vector<std::vector<Knight *> > *knights;
+	
+	int players;
+	int start_x, start_y;
+	int lives, controller_index;
 
 private:
 };
 
-#endif // __STATEDATA_H_DEFINED__
+#endif // STATEDATA_H_DEFINED

@@ -1,8 +1,8 @@
 /**
  * StateManager.cpp
  * 
- *
  */
+
 #include "StateManager.h"
 
 StateManager::StateManager(Window *window, Input *mainInput):
