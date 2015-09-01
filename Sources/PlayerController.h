@@ -3,8 +3,8 @@
  *
  */
 
-#ifndef __PLAYERCONTROLLER_H_DEFINED__
-#define __PLAYERCONTROLLER_H_DEFINED__
+#ifndef PLAYERCONTROLLER_H_DEFINED
+#define PLAYERCONTROLLER_H_DEFINED
 
 #include <string>
 #include "Effect.h"
@@ -17,47 +17,62 @@
 #include "SFX.h"
 
 #define GRAVITY 13
-#define SPECIAL_MOVES 4
 
+// In milliseconds how long it takes for a player to respawn.
 #define RESPAWN_TIME 3000
 
 #define FACING_RIGHT 1
 #define FACING_LEFT 2
 
-const int JOYSTICK_DEAD_ZONE = 8000;
-
 class PlayerController
 {
 public:
 	// NOTE(juha): Constructor for in-menu controls.
-	PlayerController(bool multiplayer, int player, std::vector<SDL_Point> *positions);
+	// Parameters:
+		// multiplayer	Tells if there are multiple players on the same PC.
+		// player		Player index.
+		// positions	(DEPRECATED) Player positions in the menu grid.
+	PlayerController(bool multiplayer,
+					 int player,
+					 std::vector<SDL_Point> *positions);
 	
 	// NOTE(juha): Constructor for in-game controls.
+	// Parameters:
+		// start_position	Location where the knight will spawn.
+		// multiplayer		Tells if there are multiple players on the same PC.
+		// player			Player index.
+		// knight			Which knight the player is playing.
 	PlayerController(SDL_Point start_position, 
-		bool multiplayer, int player, Knight *knight);
+					 bool multiplayer,
+					 int player,
+					 Knight *knight);
 
-	int getDirection();
 	void update();
-	void setPlayers(int *active_players);
 	void commitMovement();
 	void updateInput();
 	void knockBack(int attack_direction, int attack_angle, int attack_power);
 	void stopAttack();
-	int pushback_power, pushback_angle;
 	void move(int x, int y);
-	Knight *getKnight();
+	void setPlayers(int *active_players);
 	void setGamepad(SDL_GameController *NewControllerHandle);
+	Knight *getKnight();
+	int getDirection();
+	
+	SDL_Point location;		// Bottom center of the knight sprite.
+	Rectangle boundbox,		// Size and location of the knight sprite.
+			  hitbox,		// Size and loc of the hitbox of the knight.
+			  desired,		// Uncommitted hitbox size and loc of the knight.
+			  attack_hb;	// Size and loc of the hitbox of the attack.
 
-	int menu_x, menu_y;
-	bool executing_combo, in_game;
 	std::vector<SpecialCombo> *moves;
 	std::vector<Effect> movements;
 	
+	int menu_x, menu_y;
+	int attack_w, attack_h;
+	int pushback_power, pushback_angle;
+	bool executing_combo, in_game;
 	bool in_air, jumping, crouching, attacking, gamepad_ready;
 	float velocity_x, velocity_y;
-	SDL_Point location;
-	Rectangle boundbox, hitbox, desired, attack_hb;
-	int attack_w, attack_h;
 
 private:
 	void jump();
@@ -69,35 +84,37 @@ private:
 	void parseMappedValues();
 	void doAction(int action);
 
-	bool controller_locked, controller_in_use;
-	bool has_attacked, has_jumped;
-	Knight *knight;
-	SDL_GameController *ControllerHandle;
+	Knight						*knight;
+	SDL_GameController			*ControllerHandle;
+	EnumParser<SDL_Scancode>	fieldTypeParser;
+	Timer						deathTimer;
+	Input						playerInput;
+	SFX							sfx_select2;
+	
 	std::vector<SDL_Point> *positions;
-	EnumParser<SDL_Scancode> fieldTypeParser;
+	std::vector<int> combo_state;
+	// std::vector<std::vector<int> > *special_combos;
+
 	pugi::xml_document controlsDocument;
 	pugi::xml_parse_result result;
 	pugi::xml_node SinglePlayerMappings;
 	pugi::xml_node MultiPlayerMappings;
 
-	std::vector<int> combo_state;
-	// std::vector<std::vector<int> > *special_combos;
-	Timer deathTimer;
-	Input playerInput;
 	int moves_amount;
 	int *players;
 	int key_action, key_down, key_jump, key_left, key_menu, key_right, key_up;
-	bool AButton_up, XButton_up, Up_up, Down_up, Left_up, Right_up;
-	bool AButton, XButton, Up, Down, Left, Right;
-	bool basic_attack;
 	int combo_one_state, player;
-	bool multiplayer, in_menu;
 	int facing_direction;
 	float speed;
 	float acceleration;
 	float targetVx;
 	float stoppedThreshold;
-	SFX sfx_select2;
+	bool multiplayer, in_menu;
+	bool AButton_up, XButton_up, Up_up, Down_up, Left_up, Right_up;
+	bool AButton, XButton, Up, Down, Left, Right;
+	bool basic_attack;
+	bool controller_locked, controller_in_use;
+	bool has_attacked, has_jumped;
 };
 
-#endif //__PLAYERCONTROLLER_H_DEFINED__
+#endif //PLAYERCONTROLLER_H_DEFINED

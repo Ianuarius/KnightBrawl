@@ -3,8 +3,8 @@
  *
  */
 
-#ifndef __PLAYERACTOR_H_DEFINED__
-#define __PLAYERACTOR_H_DEFINED__
+#ifndef PLAYERACTOR_H_DEFINED
+#define PLAYERACTOR_H_DEFINED
 
 #include "Camera.h"
 #include "PlayerController.h"
@@ -35,4 +35,4 @@ private:
 	SFX sfx_jump, sfx_land;
 };
 
-#endif //__PLAYERACTOR_H_DEFINED__
+#endif //PLAYERACTOR_H_DEFINED

@@ -32,7 +32,10 @@ PlayerController::PlayerController(bool multiplayer, int player, std::vector<SDL
 	sfx_select2.load("../Sounds/select2.wav");
 }
 
-PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, int player, Knight *knight):
+PlayerController::PlayerController(SDL_Point start_position, 
+								   bool multiplayer, 
+								   int player, 
+								   Knight *knight):
 	multiplayer(multiplayer),
 	player(player),
 	knight(knight),
@@ -76,9 +79,6 @@ PlayerController::PlayerController(SDL_Point start_position, bool multiplayer, i
 	Left =				false;
 	Right =				false;
 
-	for (int i = 0; i < SPECIAL_MOVES; ++i) {
-		combo_state.push_back(0);
-	}
 	parseMappedValues();
 
 	moves_amount = knight->ANIMATION_MAX;
