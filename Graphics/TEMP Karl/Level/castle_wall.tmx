@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="castle_tileset" tilewidth="16" tileheight="16">
+  <image source="../Grafiikka/Tilesets/castle_tileset.png" trans="ff00ff" width="512" height="512"/>
+  <terraintypes>
+   <terrain name="Floor Stone" tile="-1"/>
+   <terrain name="Floor Potato" tile="-1"/>
+   <terrain name="Wall Red" tile="-1"/>
+   <terrain name="Wall Blue" tile="-1"/>
+   <terrain name="Wall Grey" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain="0,0,0,0"/>
+  <tile id="1" terrain=",,,0"/>
+  <tile id="2" terrain=",,0,"/>
+  <tile id="3" terrain="1,1,1,1"/>
+  <tile id="4" terrain=",,,1"/>
+  <tile id="5" terrain=",,1,"/>
+  <tile id="6" terrain="2,2,2,2"/>
+  <tile id="7" terrain=",,,2"/>
+  <tile id="8" terrain=",,2,"/>
+  <tile id="9" terrain="3,3,3,3"/>
+  <tile id="10" terrain=",,,3"/>
+  <tile id="11" terrain=",,3,"/>
+  <tile id="12" terrain="4,4,4,4"/>
+  <tile id="13" terrain=",,,4"/>
+  <tile id="14" terrain=",,4,"/>
+  <tile id="32" terrain=",,0,0"/>
+  <tile id="33" terrain=",0,0,0"/>
+  <tile id="34" terrain="0,,0,0"/>
+  <tile id="35" terrain=",,1,1"/>
+  <tile id="36" terrain=",1,1,1"/>
+  <tile id="37" terrain="1,,1,1"/>
+  <tile id="38" terrain=",,2,2"/>
+  <tile id="39" terrain=",2,2,2"/>
+  <tile id="40" terrain="2,,2,2"/>
+  <tile id="41" terrain=",,3,3"/>
+  <tile id="42" terrain=",3,3,3"/>
+  <tile id="43" terrain="3,,3,3"/>
+  <tile id="44" terrain=",,4,4"/>
+  <tile id="45" terrain=",4,4,4"/>
+  <tile id="46" terrain="4,,4,4"/>
+  <tile id="64" terrain="0,0,,"/>
+  <tile id="65" terrain="0,0,,0"/>
+  <tile id="66" terrain="0,0,0,"/>
+  <tile id="67" terrain="1,1,,"/>
+  <tile id="68" terrain="1,1,,1"/>
+  <tile id="69" terrain="1,1,1,"/>
+  <tile id="70" terrain="2,2,,"/>
+  <tile id="71" terrain="2,2,,2"/>
+  <tile id="72" terrain="2,2,2,"/>
+  <tile id="73" terrain="3,3,,"/>
+  <tile id="74" terrain="3,3,,3"/>
+  <tile id="75" terrain="3,3,3,"/>
+  <tile id="76" terrain="4,4,,"/>
+  <tile id="77" terrain="4,4,,4"/>
+  <tile id="78" terrain="4,4,4,"/>
+  <tile id="97" terrain=",0,,0"/>
+  <tile id="98" terrain="0,,0,"/>
+  <tile id="100" terrain=",1,,1"/>
+  <tile id="101" terrain="1,,1,"/>
+  <tile id="103" terrain=",2,,2"/>
+  <tile id="104" terrain="2,,2,"/>
+  <tile id="106" terrain=",3,,3"/>
+  <tile id="107" terrain="3,,3,"/>
+  <tile id="109" terrain=",4,,4"/>
+  <tile id="110" terrain="4,,4,"/>
+  <tile id="129" terrain=",0,,"/>
+  <tile id="130" terrain="0,,,"/>
+  <tile id="132" terrain=",1,,"/>
+  <tile id="133" terrain="1,,,"/>
+  <tile id="135" terrain=",2,,"/>
+  <tile id="136" terrain="2,,,"/>
+  <tile id="138" terrain=",3,,"/>
+  <tile id="139" terrain="3,,,"/>
+  <tile id="141" terrain=",4,,"/>
+  <tile id="142" terrain="4,,,"/>
+ </tileset>
+ <layer name="Background 1" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmcttAjEQQJcCAofUEagkSSchNEKSjmMfLC2W1981/sx70mgPK0vYjxnPwLIAAAAAAAAAwIh8q7gFniMSs68e9/ur4i/wHJGYfc20XwAYn6OKt0Ccmn06eXypeAnEtdmnk4PJi/Myp4/cPrGk7yx5xuTFqD5K+sSSvrPkeVfxvoqP5dHB5+rdT8HZQB52voyWE71h90mpPRE+HonpO31h38uXzPWmTkmvUSn3a82QnhcGfDwfX41v7UNandIuXDXeOGntQ1JeaLbO+xp4j486hHykzGc1QkqdMujzts/Y971kHqiPK0fw0Q6Xj/WdvsbOp9T5rjQk/OcRukNstmoc9/s+pPrwrcFHOTk+TN/17DzBR95afOThms/tvb8ettfjY1985xmzd3terB2zz4elPmBf8NEX+OiLLR/6d8LZa3WPuHzgoh2u/ggXctGzjW++gTYYL3ZAX+Cof3DTL3jpE5zMyz80+55R
+  </data>
+ </layer>
+ <layer name="Background 2" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAAAAAAAAAAAAAAAAAAAAAAAAeDBOIAAB
+  </data>
+ </layer>
+ <layer name="Background 4" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAAAAAAAAAAAAAAAAAAAAAAAAeDBOIAAB
+  </data>
+ </layer>
+ <layer name="Background 3" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAAAAAAAAAAAAAAAAAAAAAAAAeDBOIAAB
+  </data>
+ </layer>
+ <layer name="GameLayer" width="100" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmltOwzAQRc2r+6CwEWhXAqILAdF1M/6wZEVxMrbrzB1yj3TVn9LM+BDXdhMCIYQQQgghhBBCCCH/i3vJ80Ie7ErrYq0v1H4/JHcL+bQrrYvY10nypsx7wOhX4+NJ8io5GNXYQuyrZmzTOHjw8SV5lFyMamzhW/JT8X5PPn4lZ8l149q2vC89+YjjcsheR5Ouk9+Xo6/tyUe8P67Z62jy653DNtf24uMl9K0TW9edt4ymtmPw4UObUh+1684RKX2vT3s/Lbx3K1JNLWOW1uxrPqz/50pMfSDU2TNv5v148pHmqTRHIfqI3xO1ZwVefZTmaIQ6NWPa87f0UceefJTmKfqwwcPZKX1g+mhZe2t9TPeUVnvH0jyF6GPkelfbdzyTrd0D9STfP9GHPXvdD059pPkL7bfRvfpA6Z8+sPqnD6x5iz6w7hP6oI81EHxof4O8ddDP23v66fGBEiQfo3qhjzrogz5Qg+Bj7QxveuYWM/fsQ+lseO7z5z7TKnkv1s+WaJgbz966Nee4tc5anyny4ACB2rN3jishhBBCRvAHz+uNiQ==
+  </data>
+ </layer>
+</map>
