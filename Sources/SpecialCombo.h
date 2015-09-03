@@ -2,10 +2,11 @@
  * SpecialCombo.h
  *
  * All actions
+ *
  */
 
-#ifndef __SPECIALCOMBO_H_DEFINED__
-#define __SPECIALCOMBO_H_DEFINED__
+#ifndef SPECIALCOMBO_H_DEFINED
+#define SPECIALCOMBO_H_DEFINED
 
 #include <vector>
 #include "AreaEffect.h"
@@ -52,4 +53,4 @@ public:
 private:
 };
 
-#endif //__SPECIALCOMBO_H_DEFINED__
+#endif //SPECIALCOMBO_H_DEFINED

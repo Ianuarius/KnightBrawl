@@ -1,6 +1,8 @@
 /**
  * PlayerController.h
  *
+ * Controls the player character movements and actions.
+ *
  */
 
 #ifndef PLAYERCONTROLLER_H_DEFINED
@@ -48,11 +50,17 @@ public:
 					 Knight *knight);
 
 	void update();
+
+	// Sets the player location to be the desired location.
 	void commitMovement();
 	void updateInput();
+
+	// Knocks the knight back to the given angle.
 	void knockBack(int attack_direction, int attack_angle, int attack_power);
+
+	// Sets character's values back to idle when a move ends.
 	void stopAttack();
-	void move(int x, int y);
+
 	void setPlayers(int *active_players);
 	void setGamepad(SDL_GameController *NewControllerHandle);
 	Knight *getKnight();
@@ -61,7 +69,7 @@ public:
 	SDL_Point location;		// Bottom center of the knight sprite.
 	Rectangle boundbox,		// Size and location of the knight sprite.
 			  hitbox,		// Size and loc of the hitbox of the knight.
-			  desired,		// Uncommitted hitbox size and loc of the knight.
+			  desired,		// Uncommitted hitbox size and loc of the knight.  
 			  attack_hb;	// Size and loc of the hitbox of the attack.
 
 	std::vector<SpecialCombo> *moves;
@@ -81,12 +89,16 @@ private:
 	void crouch();
 	void up();
 	void basicAttack();
+
+	// Goes throught Controls.xml and parses controls from there to the game.
 	void parseMappedValues();
+
+
 	void doAction(int action);
 
 	Knight						*knight;
 	SDL_GameController			*ControllerHandle;
-	EnumParser<SDL_Scancode>	fieldTypeParser;
+	EnumParser<SDL_Scancode>	fieldTypeParser;	// For parsing inputs.
 	Timer						deathTimer;
 	Input						playerInput;
 	SFX							sfx_select2;
@@ -100,21 +112,23 @@ private:
 	pugi::xml_node SinglePlayerMappings;
 	pugi::xml_node MultiPlayerMappings;
 
-	int moves_amount;
 	int *players;
+
+	// Parsed values for inputs.
 	int key_action, key_down, key_jump, key_left, key_menu, key_right, key_up;
-	int combo_one_state, player;
-	int facing_direction;
-	float speed;
-	float acceleration;
-	float targetVx;
-	float stoppedThreshold;
-	bool multiplayer, in_menu;
-	bool AButton_up, XButton_up, Up_up, Down_up, Left_up, Right_up;
-	bool AButton, XButton, Up, Down, Left, Right;
-	bool basic_attack;
-	bool controller_locked, controller_in_use;
-	bool has_attacked, has_jumped;
+
+	int		player;
+	int		facing_direction;
+	float	speed;
+	float	acceleration;
+	float	targetVx;
+	float	stoppedThreshold;
+	bool	multiplayer, in_menu;
+	bool	AButton_up, XButton_up, Up_up, Down_up, Left_up, Right_up;
+	bool	AButton,    XButton,    Up,    Down,    Left,    Right;
+	bool	basic_attack;
+	bool	controller_locked, controller_in_use;
+	bool	has_attacked, has_jumped;
 };
 
 #endif //PLAYERCONTROLLER_H_DEFINED

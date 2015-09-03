@@ -55,21 +55,20 @@ PlayerController::PlayerController(SDL_Point start_position,
 	targetVx(0),
 	facing_direction(FACING_RIGHT),
 	speed(knight->getSpeed()),
-	moves(knight->getMoves()),
-	combo_one_state(0)
+	moves(knight->getMoves())
 {
 	// NOTE(juha): Initialization
-	attacking =			false;
+	attacking =			false;	// Is the player currently attacking.
 	basic_attack =		false;
 	controller_locked = true;
 	crouching =			false;
 	executing_combo =	false;
 	gamepad_ready =		false;
-	has_attacked =		false;
-	has_jumped =		false;
-	in_air =			true;
-	in_menu =			false;
-	jumping =			false;
+	has_attacked =		false;	// For forcing button up between attacks.
+	has_jumped =		false;	// For forcing button up between jumps.
+	in_air =			true;	// Is the knight in air?
+	in_menu =			false;	// Is the game currently in a menu?
+	jumping =			false;	
 	
 	// NOTE(juha): Controller initialization
 	AButton =			false;
@@ -80,8 +79,6 @@ PlayerController::PlayerController(SDL_Point start_position,
 	Right =				false;
 
 	parseMappedValues();
-
-	moves_amount = knight->ANIMATION_MAX;
 }
 
 void PlayerController::setGamepad(SDL_GameController *NewControllerHandle)
@@ -149,6 +146,7 @@ void PlayerController::parseMappedValues()
 
 void PlayerController::update()
 {
+	// NOTE(juha): Get game controller button states.
 	if (gamepad_ready) {
 		AButton =	SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_A);
 		XButton =	SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_X);
@@ -157,6 +155,7 @@ void PlayerController::update()
 		Left =		SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_DPAD_LEFT);
 		Right =		SDL_GameControllerGetButton(ControllerHandle, SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
 	
+		// NOTE(juha): Get button up/down states.
 		if (!AButton)	AButton_up =	true;
 		if (!XButton)	XButton_up =	true;
 		if (!Up)		Up_up =			true;
@@ -186,6 +185,8 @@ void PlayerController::update()
 		}
 	}
 	
+	// NOTE(juha): If there are only two players in the game and the current
+	// player controller is for the fourth player, then lock the controller.
 	if (in_menu) {
 		if (player == 3 && *players == 2) {
 			controller_locked = true;
@@ -197,8 +198,14 @@ void PlayerController::update()
 	}
 	
 	// NOTE(juha): Reading the inputs for single player and multiplayer.
+	
+	// NOTE(juha): If no input is given, tmp_imput is 9999.
 	int tmp_input = 9999;
 	
+	// TODO(juha): NEEDS REWRITE!
+	// Too many conditions, all parts too similar to eachother,
+	// input reading from both controller and keyboard too convoluted.
+
 	// MOVE LEFT
 	if (playerInput.keyState(key_left) || (Left && !controller_locked)) {
 		if ((playerInput.isKeyPressed(key_left) && playerInput.isKeyDown(key_left)) || 
@@ -210,15 +217,15 @@ void PlayerController::update()
 					tmp_input = knight->BACKWARD;
 				}
 			}
-			menu_x -= 1;
 			if (in_menu) {
+				menu_x -= 1;
 				sfx_select2.play(1);
 			}
 		}
 		left();
 		Left_up = false;
 	}
-		
+	
 	// MOVE RIGHT
 	if (playerInput.keyState(key_right) || (Right && !controller_locked)) {
 		if ((playerInput.isKeyPressed(key_right) && playerInput.isKeyDown(key_right)) || 
@@ -283,6 +290,7 @@ void PlayerController::update()
 			has_jumped = true;
 		}
 	}
+	// NOTE(juha): Prevent players from holding the jump key down.
 	if (playerInput.isKeyUp(key_jump)) {
 		has_jumped = false;
 	}
@@ -301,12 +309,13 @@ void PlayerController::update()
 			}
 		}
 		if (!has_attacked) {
-			basic_attack = true;
+			basicAttack();
 			XButton_up = false;
 			has_attacked = true;
 		}
 	}
-		
+	
+	// NOTE(juha): Prevent players from holding the attack key down.
 	if (playerInput.isKeyUp(key_action)) {
 		has_attacked = false;
 	}
@@ -328,7 +337,7 @@ void PlayerController::update()
 		}
 
 		// NOTE(juha): Goes through all the special combos.
-		for (int i = 0; i < moves_amount; ++i) {
+		for (int i = 0; i < (*moves).size(); ++i) {
 			(*moves)[i].tmp_input = tmp_input;
 			
 			bool continue_execution = false;
@@ -356,7 +365,9 @@ void PlayerController::update()
 						(*moves)[i].state = 0;
 					}
 				
-
+					// NOTE(juha): For combos that require that the player
+					// holds a key down, this loop checks if the key is
+					// pressed down as the combo is executed.
 					for (unsigned int j = 0; j < (*moves)[i].keys.size(); j++) {
 						if ((*moves)[i].keys[j].pressed == true) {
 
@@ -410,24 +421,30 @@ void PlayerController::update()
 							continue_execution = true;
 						}
 						
+						// NOTE(juha): For combos that require that the knight
+						// is in air, checks if the knight is in air.
 						if ((*moves)[i].keys[j].in_air && !in_air) {
 							continue_execution = false;
 						}
 					}
 					
+					// NOTE(juha): For combos that require that the knight
+					// is on ground, checks if the knight is on ground.
 					if ((*moves)[i].in_ground && in_air) {
 						continue_execution = false;
 					}
 					
-
 					if (continue_execution == false) {
 						(*moves)[i].state = 0;
 					}
 					
+					// NOTE(juha): How much power do the combos require for
+					// execution.
 					int combopower = 5;
 					if ((*moves)[i].keys.size() == (*moves)[i].state &&
 						continue_execution == true) {
-						if ((*moves)[i].disabled == false && knight->getSpecialPower() > combopower) {
+						if ((*moves)[i].disabled == false && 
+							knight->getSpecialPower() > combopower) {
 							(*moves)[i].executing = true;
 							executing_combo = true;
 							knight->executeCombo(combopower);
@@ -439,11 +456,6 @@ void PlayerController::update()
 			}
 		}
 
-		if (basic_attack) {
-			basicAttack();
-			basic_attack = false;
-		}
-	
 		if (jumping) {
 			jump();
 		}
@@ -466,11 +478,10 @@ void PlayerController::update()
 		}
 
 		int deduct = 0;
-
 		attack_hb.y = desired.y + 8;
-
 		targetVx = 0;
 
+		// NOTE(juha): Movements are effects that move the character.
 		if (movements.size() > 0) {
 			for (unsigned int i = 0; i < movements.size(); i++) {
 				if (movements.at(i).executing &&
@@ -498,15 +509,14 @@ void PlayerController::update()
 void PlayerController::updateInput()
 {
 	playerInput.update();
-
 }
 
 void PlayerController::stopAttack()
 {
-	pushback_angle = 0;
-	pushback_power = 10;
-	attack_hb.w = 0;
-	attack_hb.h = 0;
+	pushback_angle =	0;
+	pushback_power =	10;
+	attack_hb.w =		0;
+	attack_hb.h =		0;
 }
 
 void PlayerController::knockBack(int attack_direction, int attack_angle, int attack_power)
@@ -548,12 +558,6 @@ Knight *PlayerController::getKnight()
 	return knight;
 }
 
-void PlayerController::move(int x, int y)
-{
-	desired.x += x;
-	desired.y += y;
-}
-
 void PlayerController::left()
 {
 	if (!in_menu) {
@@ -587,7 +591,6 @@ void PlayerController::jump()
 			in_air = true;
 			jumping = true;
 			knight->jumping = true;
-			knight->landing = false;
 		}
 	} else {
 

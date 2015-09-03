@@ -1,6 +1,8 @@
 /**
  * PlayerActor.h
  *
+ * Controls the knight animations and sounds.
+ *
  */
 
 #ifndef PLAYERACTOR_H_DEFINED
@@ -15,24 +17,34 @@
 class PlayerActor
 {
 public:
+	// Parameters:
+		// window			Pointer to the Window object created in main.cpp.
+		// camera			Pointer to the Camera object created in GameState.
+		// playerController	Pointer to the controller linked to the actor.
+		// knight			Pointer to the knight the player is playing.
 	PlayerActor(Window *window,
 			    Camera *camera,
 				PlayerController *playerController,
 				Knight *knight);
 	void render();
-	int facing_direction;
-	void updateAnimation();
+
+	// Updates the sound effects that need playing.
 	void updateSound();
-	// std::vector<SpecialCombo> *special_combos;
 	
+	// Updates the current animation that is playing.
+	void updateAnimation();
+
+	int facing_direction;
+
 private:
-	Window *window;
-	PlayerController *playerController;
-	std::vector<SpecialCombo> *moves;
+	Animation *currentAnimation;
 	Camera *camera;
 	Knight *knight;
-	Animation *currentAnimation;
+	PlayerController *playerController;
 	SFX sfx_jump, sfx_land;
+	Window *window;
+
+	std::vector<SpecialCombo> *moves;
 };
 
 #endif //PLAYERACTOR_H_DEFINED
