@@ -117,7 +117,7 @@
 
     <attack name="uppercut" format="uppercut">
       <animation filename="../Graphics/Knights/wizardknight/wizard_knight_uppercut.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="4" y="-25" width="17" height="25" frame="0"/>
+      <hitbox x="5" y="-32" width="12" height="24" frame="0"/>
       <effects>
         <effect type="uppercut" power="10" angle="0" />
         <effect type="stun" duration="0.5" />

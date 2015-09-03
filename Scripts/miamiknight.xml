@@ -128,9 +128,14 @@
 
     <attack name="uppercut" format="uppercut">
       <animation filename="../Graphics/Knights/miamiknight/miami_knight_uppercut.png" framecount="3" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="10" width="10" height="20" frame="2"/>
-      <effect type="uppercut" power="10" angle="0" />
-      <effect type="stun" duration="0.5" />
+      <hitboxes>
+        <hitbox x="4" y="-22" width="10" height="8" frame="1"/>
+        <hitbox x="4" y="-32" width="16" height="17" frame="2"/>
+      </hitboxes>
+      <effects>
+        <effect type="uppercut" power="10" angle="0" />
+        <effect type="stun" duration="0.5" />
+      </effects>
       <damage value="7" />
       <control type="combo">
         <key pressed="true">down</key>

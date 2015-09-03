@@ -111,9 +111,11 @@
 
     <attack name="uppercut" format="uppercut">
       <animation filename="../Graphics/Knights/bardknight/bard_knight_uppercut.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="10" y="10" width="10" height="20" frame="1"/>
-      <effect type="uppercut" power="10" angle="0" />
-      <effect type="stun" duration="0.5" />
+      <hitbox x="9" y="-26" width="11" height="18" frame="1"/>
+      <effect>
+        <effect type="uppercut" power="10" angle="0" />
+        <effect type="stun" duration="0.5" />
+      </effect>
       <damage value="7" />
       <control type="combo">
         <key pressed="true">down</key>
