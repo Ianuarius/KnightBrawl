@@ -44,7 +44,7 @@
 
     <attack name="midair_downthrust" format="strike">
       <animation filename="../Graphics/Knights/bardknight/bard_knight_downthrust.png" framecount="1" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="-3" y="-10" width="10" height="20" frame="0"/>
+      <hitbox x="-8" y="-25" width="20" height="25" frame="0"/>
       <damage value="10" />
       <control type="combo">
         <key pressed="true">down</key>

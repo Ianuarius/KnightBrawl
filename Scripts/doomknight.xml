@@ -43,7 +43,7 @@
 
     <attack name="midair_downthrust" format="strike">
       <animation filename="../Graphics/Knights/doomknight/doomknight_downthrust.png" framecount="2" width="50" height="50" startframe="0" framerate="8" loops="1" />
-      <hitbox x="-3" y="-10" width="10" height="20" frame="1"/>
+      <hitbox x="-8" y="-25" width="20" height="25" frame="1"/>
       <damage value="10" />
       <control type="combo">
         <key pressed="true">down</key>
